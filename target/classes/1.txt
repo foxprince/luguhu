@@ -1,0 +1,3 @@
+set CLASSPATH=%CLASSPATH%;d:tmp\jooq-3.7.2.jar;d:tmp\jooq-meta-3.7.2.jar;d:tmp\jooq-codegen-3.7.2.jar;d:tmp\mysql-connector-java-5.1.38-bin.jar
+java org.jooq.util.GenerationTool d:tmp\jooq.xml
+java -classpath jooq-3.7.2.jar;jooq-meta-3.7.2.jar;jooq-codegen-3.7.2.jar;mysql-connector-java-5.1.38.jar org.jooq.util.GenerationTool jooq.xml
