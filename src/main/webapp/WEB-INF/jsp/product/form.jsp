@@ -19,7 +19,7 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>${product.actionDesc}单品</h1>
+        <h1>产品-${product.actionDesc}单品</h1>
         <ol class="breadcrumb">
           <li><a href="/"><i class="fa fa-dashboard"></i> 主页</a></li>
           <li class="active"><a href="/product/list">单品列表</a></li>
@@ -67,11 +67,11 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <%@ include file="../include/footer.jspf"%>
+    <%@ include file="../include/script.jspf"%>
+  	<%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <%@ include file="../include/script.jspf"%>
   <script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
   <script>

@@ -11,6 +11,6 @@ import org.springframework.data.repository.NoRepositoryBean;
 import com.querydsl.core.types.EntityPath;
 
 @NoRepositoryBean
-public interface BaseRepository<T, QT extends EntityPath<T>,ID extends Serializable> extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>,
-	QueryDslPredicateExecutor<T>, QuerydslBinderCustomizer<QT> {
+public interface BaseRepository<T, QT extends EntityPath<T>, ID extends Serializable>
+		extends JpaRepository<T, ID>, JpaSpecificationExecutor<T>, QueryDslPredicateExecutor<T>, QuerydslBinderCustomizer<QT> {
 }

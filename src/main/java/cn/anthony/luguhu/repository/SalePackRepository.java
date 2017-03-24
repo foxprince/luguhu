@@ -7,11 +7,10 @@ import com.querydsl.core.types.dsl.StringPath;
 import cn.anthony.luguhu.domain.QSalePack;
 import cn.anthony.luguhu.domain.SalePack;
 
-public interface SalePackRepository
-	extends BaseRepository<SalePack,QSalePack,Long>{
+public interface SalePackRepository extends BaseRepository<SalePack, QSalePack, Long> {
 
-    @Override
-    default public void customize(QuerydslBindings bindings, QSalePack p) {
-	bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
-    }
+	@Override
+	default public void customize(QuerydslBindings bindings, QSalePack p) {
+		bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
+	}
 }

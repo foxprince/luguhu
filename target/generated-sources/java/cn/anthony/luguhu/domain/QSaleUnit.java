@@ -24,8 +24,6 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
 
     public final QGenericEntity _super = new QGenericEntity(this);
 
-    public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
-
     //inherited
     public final DateTimePath<java.sql.Timestamp> ctime = _super.ctime;
 
@@ -45,6 +43,8 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
     public final BooleanPath saleable = createBoolean("saleable");
 
     public final StringPath title = createString("title");
+
+    public final NumberPath<Integer> total = createNumber("total", Integer.class);
 
     public final StringPath unit = createString("unit");
 

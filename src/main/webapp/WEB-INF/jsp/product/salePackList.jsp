@@ -49,6 +49,7 @@
                       <th>编号</th>
                       <th>销售包名称</th>
                       <th>价格</th>
+                      <th>起售斤数</th>
                       <th>库存总数</th>
                       <th>开始销售日期</th>
                       <th>截止销售日期</th>
@@ -64,12 +65,13 @@
                         <td>${item.id}</td>
                         <td>${item.title}</td>
                         <td>${item.price}</td>
+                        <td>${item.minBatch}</td>
                         <td>${item.amount}</td>
                         <td>${item.formatSaleBegin}</td>
                         <td>${item.formatSaleEnd}</td>
                         <td>${item.formatCtime}</td>
                         <td><div class="btn-group-vertical">
-                        <c:forEach var="saleUnit" items="${item.packUnits}">
+                        <c:forEach var="saleUnit" items="${item.saleUnits}">
                         <button class="btn btn-warning">${saleUnit.title}</button>
                         </c:forEach></div>
                         </td>
@@ -80,7 +82,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
-                      <th colspan="7"></th>
+                      <th colspan="8"></th>
                     </tr>
                   </tfoot>
                 </table>
@@ -99,27 +101,10 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+    <%@ include file="../include/script.jspf"%>
     <%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <!-- jQuery 2.1.4 -->
-  <script src="../resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <!-- Bootstrap 3.3.5 -->
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="../resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="../resources/plugins/fastclick/fastclick.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../resources/dist/js/app.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../resources/dist/js/demo.js"></script>
-  <script>
-  $(document).ready(function(){
-
-  });
-  </script>
 </body>
 </html>

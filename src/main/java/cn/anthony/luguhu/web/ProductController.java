@@ -22,48 +22,49 @@ import lombok.Data;
 
 @Controller
 @RequestMapping(value = "/product")
-public class ProductController extends GenericController<Product,Long> {
+public class ProductController extends GenericController<Product, Long> {
 
-    
-    @Resource
-    ProductService service;
-    @Resource
-    UserService userService;
+	@Resource
+	ProductService service;
+	@Resource
+	UserService userService;
 
-    @Override
-    ProductService getService() {
-	return this.service;
-    }
-    @Override
-    public Product init(Model m, Object... relateId) {
-	m.addAttribute("producerList", userService.findByLevel(Constant.USER_LEVEL_PPRODUCER));
-	return new Product();
-    }
+	@Override
+	ProductService getService() {
+		return this.service;
+	}
 
-    @Override
-    protected String getListView() {
-	return "/product/list";
-    }
+	@Override
+	public Product init(Model m, Object... relateId) {
+		m.addAttribute("producerList", userService.findByLevel(Constant.USER_LEVEL_PPRODUCER));
+		return new Product();
+	}
 
-    @Override
-    protected String getIndexView() {
-	return "/product/list";
-    }
+	@Override
+	protected String getListView() {
+		return "/product/list";
+	}
 
-    @Override
-    protected String getFormView() {
-	return "/product/form";
-    }
+	@Override
+	protected String getIndexView() {
+		return "/product/list";
+	}
 
-    @RequestMapping(value = { "list", "listPage" })
-    public String list(@ModelAttribute("search") ProductSearch us,
-	    @QuerydslPredicate(root = Product.class) Predicate predicate,
-	    @PageableDefault(value = 10, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model m) {
-	ControllerUtil.setPageVariables(m, getService().getRepository().findAll(predicate, pageable));
-	return getListView();
-    }
+	@Override
+	protected String getFormView() {
+		return "/product/form";
+	}
+
+	@RequestMapping(value = { "list", "listPage" })
+	public String list(@ModelAttribute("search") ProductSearch us, @QuerydslPredicate(root = Product.class) Predicate predicate,
+			@PageableDefault(value = 10, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model m) {
+		ControllerUtil.setPageVariables(m, getService().getRepository().findAll(predicate, pageable));
+		return getListView();
+	}
 }
-@Data  class ProductSearch{
-    private String title;
-    private String description;
+
+@Data
+class ProductSearch {
+	private String title;
+	private String description;
 }

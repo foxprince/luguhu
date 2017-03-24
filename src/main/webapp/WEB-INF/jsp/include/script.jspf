@@ -7,6 +7,8 @@
     <script>
       $.widget.bridge('uibutton', $.ui.button);
     </script>
+    <script src="../resources/plugins/layer/layer.js"></script>
+    
     <!-- Bootstrap 3.3.5 -->
     <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
     <!-- Morris.js charts -->

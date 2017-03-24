@@ -34,8 +34,8 @@
               <!-- small box -->
               <div class="small-box bg-aqua">
                 <div class="inner">
-                  <h3>${homeVO.totalPatients}</h3>
-                  <p>病人纪录数</p>
+                  <h3>${TOTAL_USER}</h3>
+                  <p>会员总数</p>
                 </div>
                 <div class="icon">
                   <i class="ion ion-person-add"></i>

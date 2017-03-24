@@ -47,8 +47,8 @@
                   <thead>
                     <tr>
                       <th>编号</th>
-                      <th>单品</th>
                       <th>规格</th>
+                      <th>所属单品</th>
                       <th>单位</th>
                       <th>单价</th>
                       <th>可单独销售</th>
@@ -64,13 +64,13 @@
                     <c:forEach var="item" items="${itemList}">
                       <tr>
                         <td>${item.id}</td>
-                        <td>${item.product.title}</td>
                         <td>${item.title}</td>
+                        <td>${item.product.title}</td>
                         <td>${item.unit}</td>
                         <td>${item.price}</td>
                         <td>${item.saleableDesc}</td>
                         <td>${item.minBatch}</td>
-                        <td>${item.amount}</td>
+                        <td>${item.total}</td>
                         <td>${item.formatCtime}</td>
                         <td>${item.description}</td>
                         <td><a href="./edit?id=${item.id}" class="btn btn-info">修改</a></td>
@@ -99,23 +99,10 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+    <%@ include file="../include/script.jspf"%>
     <%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
-  <!-- ./wrapper -->
-  <!-- jQuery 2.1.4 -->
-  <script src="../resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <!-- Bootstrap 3.3.5 -->
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="../resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="../resources/plugins/fastclick/fastclick.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../resources/dist/js/app.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../resources/dist/js/demo.js"></script>
   <script>
   $(document).ready(function(){
 

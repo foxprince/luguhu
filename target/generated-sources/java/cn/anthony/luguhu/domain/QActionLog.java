@@ -33,7 +33,7 @@ public class QActionLog extends EntityPathBase<ActionLog> {
 
     public final NumberPath<Long> operatorId = createNumber("operatorId", Long.class);
 
-    public final NumberPath<Long> relateId = createNumber("relateId", Long.class);
+    public final StringPath relateId = createString("relateId");
 
     public final StringPath relateObject = createString("relateObject");
 

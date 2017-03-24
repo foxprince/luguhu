@@ -19,10 +19,10 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>${item.actionDesc.concat(item.selfIntro)}</h1>
+        <h1>${item.actionDesc.concat(product.title).concat(item.selfIntro)}</h1>
         <ol class="breadcrumb">
           <li><a href="/"><i class="fa fa-dashboard"></i> 主页</a></li>
-          <li class="active"><a href="/saleUnit/list?relateId=${product.id }">${product.title}产品规格列表</a></li>
+          <li class="active"><a href="/saleUnit/list?relateId=${product.id}">${product.title}产品规格列表</a></li>
         </ol>
       </section>
       <!-- Main content -->
@@ -30,7 +30,15 @@
         <div class="box box-info">
           <div class="box-body">
             <form:form class="form-horizontal well" modelAttribute="item"  id="addOrEditForm" action="./${item.action}ByRelate">
-              <html:inputField name="title" label="产品规格" /> *
+              <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 所属产品 </label>
+                <div class="col-sm-9 ">
+                <form:select path="product" class="form-control ">
+                    <form:options class="span4 col-xs-10 col-sm-5" items="${productList}" itemLabel="title" itemValue="id"/>
+              	</form:select>
+              	</div>
+              </div>
+              <html:inputField name="title" label="产品规格" />
               
               <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 计量单位 </label>
@@ -51,7 +59,7 @@
                 </div>
               </div>
               <html:inputField name="minBatch" label="最低起售数" />
-              <html:inputField name="amount" label="库存总数" />
+              <html:inputField name="total" label="库存总数" />
               <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-tags">详细说明</label>
                 <div class="col-sm-9">
@@ -60,7 +68,6 @@
               </div>
               <div class="clearfix form-actions">
                 <div class="col-md-offset-3 col-md-9">
-                  <form:hidden path="product" value="${product.id}"/>
                   <form:hidden path="id" />
                   <button class="btn btn-lg btn-info" type="submit"> <i class="glyphicon glyphicon-ok bigger-110"></i> 提交 </button>
                   &nbsp; &nbsp; &nbsp;
@@ -80,11 +87,11 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    <%@ include file="../include/footer.jspf"%>
+    <%@ include file="../include/script.jspf"%>
+  	<%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <%@ include file="../include/script.jspf"%>
   <script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
   <script>

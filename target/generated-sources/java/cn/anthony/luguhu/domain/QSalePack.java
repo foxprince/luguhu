@@ -34,15 +34,19 @@ public class QSalePack extends EntityPathBase<SalePack> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final QUser operator;
+    public final StringPath img = createString("img");
 
-    public final ListPath<SaleUnit, QSaleUnit> packUnits = this.<SaleUnit, QSaleUnit>createList("packUnits", SaleUnit.class, QSaleUnit.class, PathInits.DIRECT2);
+    public final NumberPath<Short> minBatch = createNumber("minBatch", Short.class);
+
+    public final QUser operator;
 
     public final NumberPath<Float> price = createNumber("price", Float.class);
 
-    public final DateTimePath<java.sql.Timestamp> saleBegin = createDateTime("saleBegin", java.sql.Timestamp.class);
+    public final DateTimePath<java.util.Date> saleBegin = createDateTime("saleBegin", java.util.Date.class);
 
-    public final DateTimePath<java.sql.Timestamp> saleEnd = createDateTime("saleEnd", java.sql.Timestamp.class);
+    public final DateTimePath<java.util.Date> saleEnd = createDateTime("saleEnd", java.util.Date.class);
+
+    public final ListPath<SaleUnit, QSaleUnit> saleUnits = this.<SaleUnit, QSaleUnit>createList("saleUnits", SaleUnit.class, QSaleUnit.class, PathInits.DIRECT2);
 
     public final StringPath title = createString("title");
 

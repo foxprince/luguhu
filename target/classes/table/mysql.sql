@@ -62,11 +62,18 @@ alter table user_deposit comment '用户充值纪录表';
 create table user_purchase (
 	id bigint not null primary key auto_increment,
 	user_id bigint not null,
-	order_id bigint not null comment '订单id',
-	amount float not null comment '消费金额',
+	pack_id bigint not null comment '产品销售包id',
+	price float not null comment '消费金额',
+	order_time timestamp not null,
+	express_time timestamp not null,
 	status	int(1) default 0 comment '消费状态，0：成功',
 	ctime timestamp not null
 );
+create table purchase_unit (
+	purchase_id bigint not null,
+	unit_id bigint not null,
+	amount short not null
+); 
 alter table user_purchase comment '用户消费纪录表';
 /*单品信息*/
 drop table single_product; 
@@ -97,6 +104,7 @@ create table sale_pack (
 	title varchar(50) not null comment '产品标题',
 	price float not null comment '价格',
 	amount integer null comment '库存总数',
+	min_batch integer null comment '最小起售数量',
 	sale_begin timestamp not null comment '开始销售日期',
 	sale_end timestamp null comment '截止销售日期',
 	description text null,
@@ -105,12 +113,10 @@ create table sale_pack (
 );
 /*产品销售包与产品规格的关联关系*/
 create table sale_pack_unit (
-	`id` bigint NOT NULL primary key AUTO_INCREMENT,
 	pack_id bigint NOT NULL comment '产品销售包id',
 	unit_id bigint NOT NULL comment '产品规格id',
-	operator_id bigint default 0  null,/*操作员*/ 
-	ctime timestamp not null
 );
+
 /*单品文章*/
 CREATE TABLE product_article (
  id  bigint   primary key not null AUTO_INCREMENT,

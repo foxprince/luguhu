@@ -9,13 +9,13 @@ import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.ProductRepository;
 
 @Service
-public class ProductService extends GenericService<Product,Long> {
+public class ProductService extends GenericService<Product, Long> {
 
-    @Resource
-    ProductRepository repsitory;
+	@Resource
+	ProductRepository repsitory;
 
-    @Override
-    public BaseRepository getRepository() {
-	return this.repsitory;
-    }
+	@Override
+	public BaseRepository getRepository() {
+		return this.repsitory;
+	}
 }

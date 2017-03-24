@@ -11,29 +11,29 @@ import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.UserRepository;
 
 @Service
-public class UserService extends GenericService<User,Long> {
+public class UserService extends GenericService<User, Long> {
 
-    @Resource
-    UserRepository repsitory;
+	@Resource
+	UserRepository repsitory;
 
-    @Override
-    public BaseRepository getRepository() {
-	return this.repsitory;
-    }
+	@Override
+	public BaseRepository getRepository() {
+		return this.repsitory;
+	}
 
-    public User findByEmail(String email) {
-	return repsitory.findByEmail(email);
-    }
+	public User findByEmail(String email) {
+		return repsitory.findByEmail(email);
+	}
 
-    public boolean emailExists(String email) {
-	User u = repsitory.findByEmail(email);
-	if (u != null)
-	    return true;
-	return false;
-    }
+	public boolean emailExists(String email) {
+		User u = repsitory.findByEmail(email);
+		if (u != null)
+			return true;
+		return false;
+	}
 
-    public List<User> findByLevel(byte level) {
-	return repsitory.findByLevel(level);
-    }
+	public List<User> findByLevel(byte level) {
+		return repsitory.findByLevel(level);
+	}
 
 }

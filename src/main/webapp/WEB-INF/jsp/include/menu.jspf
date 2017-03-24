@@ -17,7 +17,7 @@
           <!-- search form -->
           <form action="/patient/listPage" method="get" class="sidebar-form">
             <div class="input-group">
-              <input type="text" name="name" class="form-control" placeholder="病人...">
+              <input type="text" name="name" class="form-control" placeholder="关键词...">
               <span class="input-group-btn">
                 <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
               </span>
@@ -32,12 +32,12 @@
                 <i class="fa fa-angle-left pull-right"></i> 
               </a>
               <ul class="treeview-menu">
+                <li><a href="/user/add"><i class="fa fa-user-plus"></i> 添加用户</a></li>
                 <li><a href="/user/list?level=0"><i class="fa fa-user"></i> 散户</a></li>
                 <li><a href="/user/list?level=1"><i class="fa fa-user"></i> 份额用户</a></li>
                 <li><a href="/user/list?level=2"><i class="fa fa-user-secret"></i> 股东用户</a></li>
                 <li><a href="/user/list?level=3"><i class="fa fa-user-md"></i> 生产者</a></li>
                 <li><a href="/user/list?level=4"><i class="fa fa-user-times"></i> 黑名单用户</a></li>
-                <li><a href="/user/add"><i class="fa fa-user-plus"></i> 添加用户</a></li>
                 
               </ul>
             </li>
@@ -48,8 +48,8 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/product/list"><i class="fa fa-user-secret"></i> 单品列表</a></li>
-                <li><a href="/saleUnit/list"><i class="fa fa-user-plus"></i> 产品规格</a></li>
-                <li><a href="/salePack/list"><i class="fa fa-user"></i> 产品包</a></li>
+                <li><a href="/productSaleUnit/list"><i class="fa fa-user-plus"></i> 产品规格</a></li>
+                <li><a href="/productSalePack/list"><i class="fa fa-user"></i> 产品包</a></li>
                 <li><a href="#"><i class="fa fa-user-times"></i> 黑名单用户</a></li>
               </ul>
             </li>

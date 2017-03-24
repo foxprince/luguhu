@@ -9,17 +9,17 @@ import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.SaleUnitRepository;
 
 @Service
-public class SaleUnitService extends GenericService<SaleUnit,Long> {
+public class SaleUnitService extends GenericService<SaleUnit, Long> {
 
-    @Resource
-    SaleUnitRepository repsitory;
+	@Resource
+	SaleUnitRepository repsitory;
 
-    @Override
-    public BaseRepository getRepository() {
-	return this.repsitory;
-    }
+	@Override
+	public BaseRepository getRepository() {
+		return this.repsitory;
+	}
 
-    public Object findByProduct(Long productId) {
-	return repsitory.findByProductId(productId);
-    }
+	public Object findByProduct(Long productId) {
+		return repsitory.findByProductId(productId);
+	}
 }

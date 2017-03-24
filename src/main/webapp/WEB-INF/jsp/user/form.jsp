@@ -84,11 +84,11 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <%@ include file="../include/script.jspf"%>
     <%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <%@ include file="../include/script.jspf"%>
   <script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
   <script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
   <script>

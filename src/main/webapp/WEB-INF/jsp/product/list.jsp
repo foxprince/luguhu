@@ -66,7 +66,7 @@
                         <td>${item.place}</td>
                         <td>${item.formatCtime}</td>
                         <td>${item.description}</td>
-                        <td><a href="/saleUnit/listAll?relateId=${item.id}">${fn:length(item.saleUnits)}</a></td>
+                        <td><a href="/productSaleUnit/listAll?relateId=${item.id}">${fn:length(item.saleUnits)}</a></td>
                         <td><a href="./edit?id=${item.id}" class="btn btn-info">修改</a></td>
                         <td><a href="./delete?id=${item.id}" class="btn btn-danger" onclick='return confirm("您确认删除吗？");'>删除</a><br /> </td>
                       </tr>
@@ -94,27 +94,10 @@
       <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
-    
+    <%@ include file="../include/script.jspf"%>
     <%@ include file="../include/footer.jspf"%>
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <!-- jQuery 2.1.4 -->
-  <script src="../resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <!-- Bootstrap 3.3.5 -->
-  <script src="../resources/bootstrap/js/bootstrap.min.js"></script>
-  <!-- SlimScroll -->
-  <script src="../resources/plugins/slimScroll/jquery.slimscroll.min.js"></script>
-  <!-- FastClick -->
-  <script src="../resources/plugins/fastclick/fastclick.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="../resources/dist/js/app.min.js"></script>
-  <!-- AdminLTE for demo purposes -->
-  <script src="../resources/dist/js/demo.js"></script>
-  <script>
-  $(document).ready(function(){
-
-  });
-  </script>
 </body>
 </html>
