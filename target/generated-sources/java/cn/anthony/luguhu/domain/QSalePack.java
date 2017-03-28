@@ -26,6 +26,8 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public final NumberPath<Integer> amount = createNumber("amount", Integer.class);
 
+    public final QAsset asset;
+
     //inherited
     public final DateTimePath<java.sql.Timestamp> ctime = _super.ctime;
 
@@ -68,6 +70,7 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public QSalePack(Class<? extends SalePack> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.asset = inits.isInitialized("asset") ? new QAsset(forProperty("asset"), inits.get("asset")) : null;
         this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator")) : null;
     }
 

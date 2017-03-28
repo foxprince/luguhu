@@ -23,7 +23,7 @@ import lombok.ToString;
 @ToString(exclude = "product,operator,saleUnits")
 @QueryEntity
 @Entity
-public class SalePack extends GenericEntity {
+public class SalePack extends GenericEntity implements Saleable {
 	private static final long serialVersionUID = -934407005154746958L;
 
 	/*
@@ -42,6 +42,9 @@ public class SalePack extends GenericEntity {
 	private Short minBatch;// 最小起售数量
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:SS")
 	private Date saleBegin, saleEnd;
+	@ManyToOne
+	@JoinColumn(name = "asset_id")
+	private Asset asset;
 	@ManyToOne
 	@JoinColumn(name = "operator_id")
 	private User operator;
@@ -62,6 +65,11 @@ public class SalePack extends GenericEntity {
 
 	public String getFormatSaleEnd() {
 		return DateFormatUtils.format(getSaleEnd(), "yyyy-MM-dd HH:mm:ss");
+	}
+
+	@Override
+	public Boolean isPack() {
+		return true;
 	}
 
 }

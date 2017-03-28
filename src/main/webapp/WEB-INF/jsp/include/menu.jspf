@@ -50,7 +50,6 @@
                 <li><a href="/product/list"><i class="fa fa-user-secret"></i> 单品列表</a></li>
                 <li><a href="/productSaleUnit/list"><i class="fa fa-user-plus"></i> 产品规格</a></li>
                 <li><a href="/productSalePack/list"><i class="fa fa-user"></i> 产品包</a></li>
-                <li><a href="#"><i class="fa fa-user-times"></i> 黑名单用户</a></li>
               </ul>
             </li>
             <li class="treeview">
@@ -73,8 +72,6 @@
               <ul class="treeview-menu">
                 <li><a href="/total/initTotal?fields=frontRecords.age"><i class="fa fa-circle-o"></i> 年龄</a></li>
                 <li><a href="/total/initTotal?fields=frontRecords.nativeplace"><i class="fa fa-circle-o"></i> 籍贯</a></li>
-                <li><a href="/total/initTotal?fields=frontRecords.mainDiag"><i class="fa fa-circle-o"></i> 主要诊断</a></li>
-                <li><a href="/total/initTotal?fields=frontRecords.ZY_DOCTOR_NAME"><i class="fa fa-circle-o"></i> 住院医师</a></li>
                 <li><a href="/total/initFullTotal"><i class="fa fa-circle-o"></i> 高级统计</a></li>
               </ul>
             </li>
@@ -85,6 +82,7 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
+                <li><a href="/asset/list"><i class="fa fa-circle-o"></i> 素材管理</a></li>
                 <li><a href="/customeOption/list"><i class="fa fa-circle-o"></i> 导出选项</a></li>
                 <li><a href="/resources/index2.html"><i class="fa fa-circle-o"></i> Index2</a></li>
                 <li><a href="/resources/pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>

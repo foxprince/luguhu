@@ -29,7 +29,7 @@ public class ControllerExceptionHanler {
 	@ExceptionHandler(value = SQLException.class)
 	@ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
-	public ResponseEntity handleSQLException(Exception exception, HttpServletRequest request) {
+	public ResponseEntity<String> handleSQLException(Exception exception, HttpServletRequest request) {
 		logger.error("数据库错误!", exception);
 		return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}

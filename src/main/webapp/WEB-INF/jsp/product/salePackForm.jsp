@@ -11,6 +11,28 @@
 </c:import>
 
 <body class="hold-transition skin-green-light sidebar-mini">
+	<div class="modal fade" id="assetModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title">素材库</h4>
+				</div>
+				<div class="modal-body">
+					<div id="assetList" class="box-body"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
 	<div class="wrapper">
 		<!-- topbar -->
 		<%@ include file="../include/topbar.jspf"%>
@@ -33,9 +55,15 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 产品图片 *: </label>
 								<div class="col-sm-9 ">
-									<input type="file" id="file" name="file"  onchange="imgUpload(this)" style="width:380px;padding:0px;" />
-									<div id="previewImg"><img src="/productSalePack/preview?fileName=${item.img} "/></div>
+									<input type="file" id="file" name="file" onchange="imgUpload(this)" style="width: 380px; padding: 0px;" />
+									<div id="previewImg">
+										<img class="preview" src="/asset/preview?fileName=${item.asset.location} " />
+									</div>
 								</div>
+								<div class="col-sm-4">
+									<a class="btn btn-success" data-toggle="modal" data-target="#assetModal">从素材库选择 </a>
+								</div>
+
 							</div>
 						</form:form>
 						<form:form class="form-horizontal well" modelAttribute="item" id="addOrEditForm" action="./${item.action}">
@@ -90,7 +118,8 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">销售起止时间</label>
 								<div class="col-sm-9">
-									<form:input class="input-lg col-xs-10 col-sm-5" path="saleBegin" label="销售开始时间" id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii" />
+									<form:input class="input-lg col-xs-10 col-sm-5" path="saleBegin" label="销售开始时间" id="datetimepicker"
+										data-date-format="yyyy-mm-dd hh:ii" />
 									-
 									<form:input class="input-lg col-xs-10 col-sm-5" path="saleEnd" label="销售结束时间" data-date-format="yyyy-mm-dd hh:ii" />
 								</div>
@@ -135,31 +164,61 @@
 	<script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
 	<script>
 		$(document).ready(function() {
-			$('#datetimepicker').daterangepicker({
-				startDate : moment(),
-				maxDate : '2020-12-31 23:59:59',
-				showDropdowns : true,
-				showWeekNumbers : false, //是否显示第几周
-				timePicker : true, //是否显示小时和分钟
-				timePickerIncrement : 60, //时间的增量，单位为分钟
-				timePicker12Hour : false, //是否使用12小时制来显示时间
-				format : 'YYYY-MM-DD HH:mm:ss', //控件中from和to 显示的日期格式
-				separator : ' - ',
-				locale : {
-					applyLabel : '确定',
-					cancelLabel : '取消',
-					fromLabel : '起始时间',
-					toLabel : '结束时间',
-					customRangeLabel : '自定义',
-					daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
-					monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
-					firstDay : 1
-				}
-			}, function(start, end, label) {//格式化日期显示框
-				$('input[name=saleBegin]').val(start.format('YYYY-MM-DD HH:mm:ss'));
-				$('input[name=saleEnd]').val(end.format('YYYY-MM-DD HH:mm:ss'));
-			});
 		});
+		$('#assetModal').on(
+				'show.bs.modal',
+				function(event) {
+					var modal = $(this);
+					$.get("/asset/list.json", function(json) {
+						if (json.code == 0) {
+							for (var i = 0; i < json.data.numberOfElements; i++) {
+								var j = json.data.content[i];
+								var item = '<div class="col-sm-6 col-md-3">';
+								item += '	<div class="thumbnail">';
+								item += '	<div>';
+								item += '		<a href="#" onclick="selectAsset(\'' + j.id + '\',\'' + j.location
+										+ '\')"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=' + j.location + '" /></a>';
+								item += '	</div>';
+								item += '	<div class="caption">';
+								item += '		<h6 id="imgTitle-${item.id}">' + j.title + '</h6>';
+								item += '	</div></div>';
+								item += '</div>';
+								$("#assetList").append(item);
+							}
+						} else
+							alert('载入素材库失败。');
+					});
+				});
+		$('#datetimepicker').daterangepicker({
+			startDate : moment(),
+			maxDate : '2020-12-31 23:59:59',
+			showDropdowns : true,
+			showWeekNumbers : false, //是否显示第几周
+			timePicker : true, //是否显示小时和分钟
+			timePickerIncrement : 60, //时间的增量，单位为分钟
+			timePicker12Hour : false, //是否使用12小时制来显示时间
+			format : 'YYYY-MM-DD HH:mm:ss', //控件中from和to 显示的日期格式
+			separator : ' - ',
+			locale : {
+				applyLabel : '确定',
+				cancelLabel : '取消',
+				fromLabel : '起始时间',
+				toLabel : '结束时间',
+				customRangeLabel : '自定义',
+				daysOfWeek : [ '日', '一', '二', '三', '四', '五', '六' ],
+				monthNames : [ '一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月' ],
+				firstDay : 1
+			}
+		}, function(start, end, label) {//格式化日期显示框
+			$('input[name=saleBegin]').val(start.format('YYYY-MM-DD HH:mm:ss'));
+			$('input[name=saleEnd]').val(end.format('YYYY-MM-DD HH:mm:ss'));
+		});
+		function selectAsset(id, location) {
+			$("#assetList").html(" ");
+			$('#assetModal').modal('hide');
+			$("#previewImg").html('<img class="preview" src="/asset/preview?fileName=' + location + '"/>');
+			$("#addOrEditForm").append('<input type="hidden" name="asset"  value="'+id+'"name="img"/>');
+		}
 		function imgUpload(sender) {
 			var uploadLayer = layer.msg('文件上传中...', {
 				icon : 16,
@@ -169,10 +228,10 @@
 			var fd = new FormData(document.getElementById("uploadForm"));
 			$.ajax({
 				type : 'post',
-				url : "/productSalePack/upload",
-				data: fd,
-	            processData: false,  // tell jQuery not to process the data
-	            contentType: false,   // tell jQuery not to set contentType
+				url : "/asset/upload",
+				data : fd,
+				processData : false, // tell jQuery not to process the data
+				contentType : false, // tell jQuery not to set contentType
 				beforeSerialize : function() {
 				},
 				complete : function() {
@@ -181,7 +240,7 @@
 				success : function(json) {
 					if (json.code == 0) {
 						alert('文件上传成功。');
-						$("#previewImg").html('<img src="/productSalePack/preview?fileName='+json.data+'"/>');
+						$("#previewImg").html('<img class="preview" src="/asset/preview?fileName=' + json.data.location + '"/>');
 						$("#addOrEditForm").append('<input type="hidden" id="packImg" value="'+json.data+'"name="img"/>');
 					} else
 						alert('文件上传失败。');

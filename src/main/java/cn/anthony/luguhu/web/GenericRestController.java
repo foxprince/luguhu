@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,19 +34,19 @@ public abstract class GenericRestController<T extends GenericEntity, ID extends 
 
 	@Resource
 	ActionLogService actionLogService;
-	
-	private GenericService<T, ID> service;
-	
+
+	protected GenericService<T, ID> service;
+
 	public GenericRestController(GenericService<T, ID> service) {
-        this.service = service;
-    }
-	
-	@RequestMapping
-	public JsonResponse listAll() {
-		return new JsonResponse(this.service.findAll(1, 10000));
-		// return new JsonResponse(Lists.newArrayList(all));
+		this.service = service;
 	}
 
+	@RequestMapping
+	public JsonResponse listAll(@PageableDefault(value = 100, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		return new JsonResponse(this.service.getRepository().findAll(pageable));
+	}
+
+	@Deprecated
 	@RequestMapping(value = { "/listPage" })
 	public JsonResponse list(@ModelAttribute("pageRequest") WebPageRequest pageRequest, Model m) {
 		return new JsonResponse(this.service.findAll(pageRequest.getPageNumber(), pageRequest.getPageSize()));

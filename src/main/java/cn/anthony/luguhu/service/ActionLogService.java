@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import cn.anthony.luguhu.domain.ActionLog;
 import cn.anthony.luguhu.domain.GenericEntity;
+import cn.anthony.luguhu.domain.QActionLog;
 import cn.anthony.luguhu.repository.ActionLogRepository;
 import cn.anthony.luguhu.repository.BaseRepository;
 
@@ -18,7 +19,7 @@ public class ActionLogService extends GenericService<ActionLog, Long> {
 	ActionLogRepository repsitory;
 
 	@Override
-	public BaseRepository getRepository() {
+	public BaseRepository<ActionLog, QActionLog, Long> getRepository() {
 		return this.repsitory;
 	}
 
@@ -28,8 +29,8 @@ public class ActionLogService extends GenericService<ActionLog, Long> {
 	}
 
 	public ActionLog add(GenericEntity t, String action, String title, String description, Long operatorId) {
-		ActionLog entity = new ActionLog(t.getId().toString(), t.getClass().getName(), action + "_" + t.getClass().getSimpleName(), title,
-				description, operatorId);
+		ActionLog entity = new ActionLog(t.getId().toString(), t.getClass().getName(), action + "_" + t.getClass().getSimpleName(),
+				title, description, operatorId);
 		return repsitory.save(entity);
 	}
 

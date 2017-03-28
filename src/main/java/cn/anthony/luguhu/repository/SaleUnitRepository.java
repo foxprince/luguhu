@@ -17,4 +17,6 @@ public interface SaleUnitRepository extends BaseRepository<SaleUnit, QSaleUnit, 
 	}
 
 	public List<SaleUnit> findByProductId(Long productId);
+
+	public List<SaleUnit> findBySaleable(Boolean saleable);
 }

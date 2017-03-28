@@ -105,75 +105,88 @@
 				$menu._hide();
 		});
 	});
-	// 以下方法为自定义方法
-	window.ApiDomian = '/api';
-	$(function() {
-		loadTitle();
-		loadProducts();
-		// 读取网站标题
-		function loadTitle() {
-			$.get(window.ApiDomian + "/getSiteTitle", function(data) {
-				$('#siteTitle').text(data);
-			});
-			// var jqxhr = $.ajax(window.ApiDomian +
-			// "/getSiteTitle").done(function (data) {
-			// ajaxLog('成功, 收到的数据: ' + JSON.stringify(data));
-			// }).fail(function (xhr, status) {
-			// ajaxLog('失败: ' + xhr.status + ', 原因: ' + status);
-			// }).always(function () {
-			// ajaxLog('请求完成: 无论成功或失败都会调用');
-			// });
-		}
-		;
-		// 读取产品列表
-		function loadProducts() {
-			$.ajax({
-				type : "get",
-				url : window.ApiDomian + "/productSalePack",
-				complete : function() {
-					// layer.close(page_layer);
-				},
-				success : function(json) {
-					// $("#productWrapper").html('');
-					for (var i = 0; i < json.data.numberOfElements; i++) {
-						var j = json.data.content[i];
-						var item = ' <section id="' + j.id + '" class="wrapper ';
-						if (i % 2 != 0)
-							item += 'alt';
-						item += ' spotlight style' + (i + 1) % 6 + '">';
-						item += ' 	<div class="inner">';
-						item += ' 		<a href="#" class="image"><img src="/productSalePack/preview?fileName=' + j.img + '" alt="" /></a>';
-						item += ' 		<div class="content">';
-						item += ' 			<h2 class="major">' + j.title + '</h2>';
-						item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.description + '</p>';
-						item += ' 			<span style="float:left;"><a href="#" class="special" >Learn more</a></span>';
-						item += ' 			<span class="price" style="float:right;">' + j.price + '</span></div>';
-						item += ' 		</div>';
-						// if(i==json.data.numberOfElements-1){
-						// item += ' <ul class="actions">';
-						// item += ' <li><a href="#"
-						// class="button">全部产品</a></li>';
-						// item += ' </ul>';}
-						item += ' 	</div>';
-						item += ' </section>';
-						$("#productWrapper").prepend(item);
-					}
-				},
-				error : function() {
-					alert('载入数据失败！');
-				}
-			});
-		}
-		function ajaxLog(s) {
-			alert(s);
-		}
-		function getParams(key) {
-			var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
-			var r = window.location.search.substr(1).match(reg);
-			if (r != null) {
-				return unescape(r[2]);
+	
+})(jQuery);
+//以下方法为自定义方法
+$(function() {
+	loadTitle();
+});
+window.ApiDomian = '/api';
+//读取产品列表
+function loadProducts() {
+	$.ajax({
+		type : "get",
+		url : window.ApiDomian + "/product/list",
+		complete : function() {
+			// layer.close(page_layer);
+		},
+		success : function(json) {
+			for (var i = 0; i < json.data.numberOfElements; i++) {
+				var j = json.data.content[i];
+				var type = (j.pack)?'pack':'unit';
+				var item = ' <section id="' + j.id + '" class="wrapper '+((i%2!=0)?'alt':'')+' spotlight style' + (i + 1) % 6 + '">';
+				item += ' 	<div class="inner">';
+				item += ' 		<a href="generic.html?type='+type+'&packId='+j.id+'" class="image"><img src="/productSalePack/preview?fileName=' + j.img + '" alt="" /></a>';
+				item += ' 		<div class="content">';
+				item += ' 			<h2 class="major">' + j.title + '</h2>';
+				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.description + '</p>';
+				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&packId='+j.id+'" class="special" >Learn more</a></span>';
+				item += ' 			<span class="price" style="float:right;">' + j.price + '</span></div>';
+				item += ' 		</div>';
+				item += ' 	</div>';
+				item += ' </section>';
+				$("#productWrapper").append(item);
 			}
-			return null;
+		},
+		error : function() {
+			alert('载入数据失败！');
 		}
 	});
-})(jQuery);
+}
+// 读取网站标题
+function loadTitle() {
+	$.get(window.ApiDomian + "/getSiteTitle", function(data) {
+		$('#siteTitle').text(data);
+	});
+}
+function loadProduct(type,id) {
+	if(type=='pack')
+		loadProductPack(id);
+	else if(type=='unit')
+		loadProductUnit(id);
+}
+//读取产品包详情
+function loadProductPack(id) {
+	$.get(window.ApiDomian + "/productSalePack/"+id, function(json) {
+		if(json.code==0) {
+			$('#productTitle').text(json.data.title);
+			$('#productPrice').text("售价："+json.data.price);
+			$('#productDetail').text(json.data.description);
+			$('#productImg').html('<img width="100%" src="/productSalePack/preview?fileName=' + json.data.img + '" alt="" />');
+			
+		}
+	});
+}
+//读取可单独销售的产品
+function loadProductUnit(id) {
+	$.get(window.ApiDomian + "/productSaleUnit/"+id, function(json) {
+		if(json.code==0) {
+			$('#productTitle').text(json.data.title);
+			$('#productPrice').text("售价："+json.data.price);
+			$('#productDetail').text(json.data.description);
+			$('#productImg').html('<img width="100%" src="/productSalePack/preview?fileName=' + json.data.img + '" alt="" />');
+			
+		}
+	});
+}
+function ajaxLog(s) {
+	alert(s);
+}
+function getParams(key) {
+	var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");
+	var r = window.location.search.substr(1).match(reg);
+	if (r != null) {
+		return unescape(r[2]);
+	}
+	return null;
+}

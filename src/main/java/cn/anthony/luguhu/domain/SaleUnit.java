@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
@@ -13,7 +14,7 @@ import lombok.ToString;
 @ToString(exclude = "product,operator")
 @QueryEntity
 @Entity
-public class SaleUnit extends GenericEntity {
+public class SaleUnit extends GenericEntity implements Saleable {
 	private static final long serialVersionUID = -934407005154746958L;
 
 	/*
@@ -24,8 +25,9 @@ public class SaleUnit extends GenericEntity {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "product_id")
+	@JsonIgnore
 	private Product product;
-	private String title, description;
+	private String title, description,img;
 	private String unit;
 	private Float price;
 	private Integer total;//库存总数
@@ -50,6 +52,11 @@ public class SaleUnit extends GenericEntity {
 	@Override
 	public String getSelfDescription() {
 		return product.getTitle() + "产品销售的最小规格";
+	}
+
+	@Override
+	public Boolean isPack() {
+		return false;
 	}
 
 }

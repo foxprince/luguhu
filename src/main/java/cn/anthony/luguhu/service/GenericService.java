@@ -12,22 +12,22 @@ import cn.anthony.luguhu.exception.EntityNotFound;
 import cn.anthony.luguhu.repository.BaseRepository;
 
 public abstract class GenericService<T, ID extends Serializable> {
-	public abstract BaseRepository getRepository();
+	public abstract BaseRepository<T, ?, ID> getRepository();
 
 	public T create(T item) {
-		return (T) getRepository().save(item);
+		return getRepository().save(item);
 	}
 
 	public T saveOrUpdate(T item) throws EntityNotFound {
-		return (T) getRepository().save(item);
+		return getRepository().save(item);
 	}
 
 	public T findById(ID id) {
-		return (T) getRepository().findOne(id);
+		return getRepository().findOne(id);
 	}
 
 	public T delete(ID id) throws EntityNotFound {
-		T deletedT = (T) getRepository().findOne(id);
+		T deletedT = getRepository().findOne(id);
 		if (deletedT == null)
 			throw new EntityNotFound(getClassName().toString());
 		getRepository().delete(deletedT);

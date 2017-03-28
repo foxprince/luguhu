@@ -6,12 +6,15 @@ import javax.persistence.Table;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper=false)
 @QueryEntity
 @Entity
 @Table(name = "ActionLog")
 public class ActionLog extends GenericEntity {
+	private static final long serialVersionUID = -4374405596876283608L;
 	private Long operatorId;
 	private String relateId;
 	private String relateObject;

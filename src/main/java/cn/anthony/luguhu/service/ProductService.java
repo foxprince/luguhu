@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import cn.anthony.luguhu.domain.Product;
+import cn.anthony.luguhu.domain.QProduct;
 import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.ProductRepository;
 
@@ -15,7 +16,7 @@ public class ProductService extends GenericService<Product, Long> {
 	ProductRepository repsitory;
 
 	@Override
-	public BaseRepository getRepository() {
+	public BaseRepository<Product,QProduct,Long> getRepository() {
 		return this.repsitory;
 	}
 }

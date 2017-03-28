@@ -39,7 +39,6 @@ public class Constant {
 
 	public static Map<String, String> levelMap = new TreeMap<String, String>() {
 		private static final long serialVersionUID = 8151676689034026374L;
-
 		{
 			put("0", "散户");
 			put("1", "份额用户");
@@ -50,7 +49,7 @@ public class Constant {
 	};
 
 	public static Map<String, String> levelMapWithUrl = new TreeMap<String, String>() {
-
+		private static final long serialVersionUID = -7703743430823217471L;
 		{
 			put("/user/list?level=0", "普通用户");
 			put("/user/list?level=1", "份额用户");

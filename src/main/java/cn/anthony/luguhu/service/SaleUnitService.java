@@ -1,9 +1,12 @@
 package cn.anthony.luguhu.service;
 
+import java.util.Collection;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cn.anthony.luguhu.domain.QSaleUnit;
 import cn.anthony.luguhu.domain.SaleUnit;
 import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.SaleUnitRepository;
@@ -15,11 +18,15 @@ public class SaleUnitService extends GenericService<SaleUnit, Long> {
 	SaleUnitRepository repsitory;
 
 	@Override
-	public BaseRepository getRepository() {
+	public BaseRepository<SaleUnit, QSaleUnit, Long> getRepository() {
 		return this.repsitory;
 	}
 
 	public Object findByProduct(Long productId) {
 		return repsitory.findByProductId(productId);
+	}
+
+	public Collection<SaleUnit> findBySaleable(Boolean saleable) {
+		return repsitory.findBySaleable(saleable);
 	}
 }

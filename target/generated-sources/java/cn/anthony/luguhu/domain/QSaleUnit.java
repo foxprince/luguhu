@@ -32,6 +32,8 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
+    public final StringPath img = createString("img");
+
     public final NumberPath<Short> minBatch = createNumber("minBatch", Short.class);
 
     public final QUser operator;

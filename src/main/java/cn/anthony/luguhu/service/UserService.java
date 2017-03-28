@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import cn.anthony.luguhu.domain.QUser;
 import cn.anthony.luguhu.domain.User;
 import cn.anthony.luguhu.repository.BaseRepository;
 import cn.anthony.luguhu.repository.UserRepository;
@@ -17,7 +18,7 @@ public class UserService extends GenericService<User, Long> {
 	UserRepository repsitory;
 
 	@Override
-	public BaseRepository getRepository() {
+	public BaseRepository<User, QUser, Long> getRepository() {
 		return this.repsitory;
 	}
 

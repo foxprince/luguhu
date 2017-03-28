@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 public class BasePageRequest {
 
-	private static final long serialVersionUID = 9000080704346445042L;
 	@NotNull(message = "Please enter ")
 	@Min(value = 1, message = "Please addresss.")
 	@Max(100000)

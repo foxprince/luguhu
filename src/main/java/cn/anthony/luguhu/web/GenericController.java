@@ -13,6 +13,9 @@ import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.AntPathMatcher;
@@ -29,6 +32,7 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import cn.anthony.luguhu.api.JsonResponse;
 import cn.anthony.luguhu.domain.GenericEntity;
 import cn.anthony.luguhu.exception.EntityNotFound;
 import cn.anthony.luguhu.service.ActionLogService;
@@ -54,7 +58,7 @@ public abstract class GenericController<T, ID extends Serializable> {
 	 */
 	@ModelAttribute
 	public T setUpForm(Model m, @RequestParam(value = "id", required = false) ID id,
-			@RequestParam(required = false) final Long... relateId) {
+			@RequestParam(required = false) final Object... relateId) {
 		T t = init(m, relateId);
 		if (id != null) {
 			t = getService().findById(id);
@@ -165,16 +169,14 @@ public abstract class GenericController<T, ID extends Serializable> {
 		return getIndexView();
 	}
 
-	@RequestMapping(value = { "/listAll" })
-	public String listAll(Model m) {
-		m.addAttribute("itemList", getService().findAll());
+	@RequestMapping(value = { "/defaultList"})
+	public String listAll(Model m,@PageableDefault(value = 100, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		m.addAttribute("itemList", getService().getRepository().findAll(pageable));
 		return getListView();
 	}
-
-	@RequestMapping(value = { "/defaultList" })
-	public String list(@ModelAttribute("pageRequest") WebPageRequest pageRequest, Model m) {
-		m.addAttribute("itemList", getService().findAll(pageRequest.getPageNumber(), pageRequest.getPageSize()));
-		return getListView();
+	@RequestMapping(value = { "/list.json" }) @ResponseBody
+	public JsonResponse listAll(@PageableDefault(value = 100, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+		return new JsonResponse(getService().getRepository().findAll(pageable));
 	}
 
 	/**

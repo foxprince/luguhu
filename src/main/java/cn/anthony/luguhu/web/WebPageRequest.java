@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class WebPageRequest extends PageRequest {
 
+	private static final long serialVersionUID = 7298084433801010597L;
 	public static int page = 0;
 	public static int size = 1;
 
