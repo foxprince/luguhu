@@ -126,7 +126,7 @@ function loadProducts() {
 				var type = (j.pack)?'pack':'unit';
 				var item = ' <section id="' + j.id + '" class="wrapper '+((i%2!=0)?'alt':'')+' spotlight style' + (i + 1) % 6 + '">';
 				item += ' 	<div class="inner">';
-				item += ' 		<a href="generic.html?type='+type+'&packId='+j.id+'" class="image"><img src="/productSalePack/preview?fileName=' + j.img + '" alt="" /></a>';
+				item += ' 		<a href="generic.html?type='+type+'&packId='+j.id+'" class="image"><img src="/asset/preview?fileName=' + j.asset.location + '" alt="" /></a>';
 				item += ' 		<div class="content">';
 				item += ' 			<h2 class="major">' + j.title + '</h2>';
 				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.description + '</p>';
@@ -162,7 +162,7 @@ function loadProductPack(id) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').text(json.data.description);
-			$('#productImg').html('<img width="100%" src="/productSalePack/preview?fileName=' + json.data.img + '" alt="" />');
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + json.data.asset.location + '" alt="" />');
 			
 		}
 	});
@@ -174,7 +174,7 @@ function loadProductUnit(id) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').text(json.data.description);
-			$('#productImg').html('<img width="100%" src="/productSalePack/preview?fileName=' + json.data.img + '" alt="" />');
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + json.data.asset.location + '" alt="" />');
 			
 		}
 	});
