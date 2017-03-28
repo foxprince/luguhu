@@ -22,7 +22,7 @@ public class ControllerExceptionHanler {
 	@ExceptionHandler(value = Exception.class)
 	@ResponseBody
 	public ResponseEntity<JsonResponse> handleException(Exception exception, HttpServletRequest request) {
-		//logger.error("系统异常:", exception);
+		logger.error("系统异常:", exception);
 		return new ResponseEntity<JsonResponse>(new JsonResponse("系统异常"),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
