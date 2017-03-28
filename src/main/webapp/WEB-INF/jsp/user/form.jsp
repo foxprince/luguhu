@@ -37,7 +37,7 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label no-padding-right" for="form-field-1">确认密码：</label>
                 <div class="col-sm-9">
-                  <input name="repassword" type="password" class="form-control" placeholder="确认密码"  value="<c:out value="${item.action=='edit'?item.password:'' }"/>" /> 
+                  <input name="repassword" type="password" class="input-lg col-xs-10 col-sm-5 valid" placeholder="确认密码"  value="<c:out value="${item.action=='edit'?item.password:'' }"/>" /> 
                 </div>
               </div>
               <html:inputField name="name" label="姓名" />
