@@ -24,6 +24,8 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
 
     public final QGenericEntity _super = new QGenericEntity(this);
 
+    public final QAsset asset;
+
     //inherited
     public final DateTimePath<java.sql.Timestamp> ctime = _super.ctime;
 
@@ -31,8 +33,6 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
 
     //inherited
     public final NumberPath<Long> id = _super.id;
-
-    public final StringPath img = createString("img");
 
     public final NumberPath<Short> minBatch = createNumber("minBatch", Short.class);
 
@@ -68,6 +68,7 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
 
     public QSaleUnit(Class<? extends SaleUnit> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.asset = inits.isInitialized("asset") ? new QAsset(forProperty("asset"), inits.get("asset")) : null;
         this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator")) : null;
         this.product = inits.isInitialized("product") ? new QProduct(forProperty("product"), inits.get("product")) : null;
     }

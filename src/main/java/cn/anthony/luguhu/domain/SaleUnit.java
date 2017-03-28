@@ -27,12 +27,15 @@ public class SaleUnit extends GenericEntity implements Saleable {
 	@JoinColumn(name = "product_id")
 	@JsonIgnore
 	private Product product;
-	private String title, description,img;
+	private String title, description;
 	private String unit;
 	private Float price;
 	private Integer total;//库存总数
 	private boolean saleable;// 是否可以单独销售
 	private Short minBatch;// 最小起售数量
+	@ManyToOne
+	@JoinColumn(name = "asset_id")
+	private Asset asset;
 	@ManyToOne
 	@JoinColumn(name = "operator_id")
 	private User operator;
@@ -57,6 +60,13 @@ public class SaleUnit extends GenericEntity implements Saleable {
 	@Override
 	public Boolean isPack() {
 		return false;
+	}
+
+	@Override
+	public String getImg() {
+		if(asset!=null)
+			return asset.getLocation();
+		return null;
 	}
 
 }

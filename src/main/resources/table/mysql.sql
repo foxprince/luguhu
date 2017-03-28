@@ -4,7 +4,7 @@ grant all on luguhu.* to 'lghuser'@'localhost' identified by 'pwd4lgh';
 grant all on luguhu.* to 'lghuser'@'%' identified by 'pwd4lgh';
 
 /*用户信息表*/
-create table user_info (
+create table user (
 	id bigint not null primary key auto_increment,
 	email varchar(64),
 	login_type tinyint comment '1:手机号码，2：邮箱，3：自定义用户名',
