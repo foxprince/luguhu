@@ -33,6 +33,7 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/user/add"><i class="fa fa-user-plus"></i> 添加用户</a></li>
+                <li><a href="/user/list"><i class="fa fa-user"></i> 全部用户</a></li>
                 <li><a href="/user/list?level=0"><i class="fa fa-user"></i> 散户</a></li>
                 <li><a href="/user/list?level=1"><i class="fa fa-user"></i> 份额用户</a></li>
                 <li><a href="/user/list?level=2"><i class="fa fa-user-secret"></i> 股东用户</a></li>

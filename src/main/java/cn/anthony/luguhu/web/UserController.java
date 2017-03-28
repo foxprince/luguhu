@@ -101,7 +101,8 @@ public class UserController extends GenericController<User, Long> {
 		if (predicate != null && StringUtils.isNoneBlank(us.getName())) {
 			predicate = QUser.user.phone.startsWith(us.getName()).or(predicate);
 		}
-		m.addAttribute("levelName", (Constant.levelMap.get(us.level)));
+		if(us.level!=null)
+			m.addAttribute("levelName", (Constant.levelMap.get(us.level)));
 		ControllerUtil.setPageVariables(m, getService().getRepository().findAll(predicate, pageable));
 		return getListView();
 	}
