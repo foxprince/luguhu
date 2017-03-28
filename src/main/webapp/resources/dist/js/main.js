@@ -2,7 +2,7 @@ function selectAsset(id, location) {
 	$("#assetList").html(" ");
 	$('#assetModal').modal('hide');
 	$("#previewImg").html('<img class="preview" src="/asset/preview?fileName=' + location + '"/>');
-	$("#addOrEditForm").append('<input type="hidden" name="asset"  value="' + id + '"name="img"/>');
+	$("#addOrEditForm").append('<input type="hidden" name="asset"  value="' + id + '"/>');
 }
 function imgUpload(sender) {
 	var uploadLayer = layer.msg('文件上传中...', {
@@ -26,7 +26,7 @@ function imgUpload(sender) {
 			if (json.code == 0) {
 				alert('文件上传成功。');
 				$("#previewImg").html('<img class="preview" src="/asset/preview?fileName=' + json.data.location + '"/>');
-				$("#addOrEditForm").append('<input type="hidden" id="packImg" value="' + json.data + '"name="img"/>');
+				$("#addOrEditForm").append('<input type="hidden" name="asset" id="packImg" value="' + json.data.id + '"/>');
 			} else
 				alert('文件上传失败。');
 		},
