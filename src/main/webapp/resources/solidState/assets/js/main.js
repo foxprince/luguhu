@@ -162,7 +162,7 @@ function loadProductPack(id) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').text(json.data.description);
-			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (j.data.asset===null?"pic07.jpg":j.data.asset.location)  + '" alt="" />');
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
 			
 		}
 	});
@@ -174,7 +174,7 @@ function loadProductUnit(id) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').text(json.data.description);
-			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (j.data.asset===null?"pic07.jpg":j.data.asset.location) + '" alt="" />');
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location) + '" alt="" />');
 			
 		}
 	});
