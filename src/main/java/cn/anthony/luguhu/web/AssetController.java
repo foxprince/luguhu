@@ -36,6 +36,7 @@ import cn.anthony.luguhu.service.UserService;
 import cn.anthony.luguhu.util.Constant;
 import cn.anthony.luguhu.util.ControllerUtil;
 import lombok.Data;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
 @RequestMapping(value = "/asset")
@@ -79,7 +80,7 @@ public class AssetController extends GenericController<Asset, Long> {
 		ControllerUtil.setPageVariables(m, getService().getRepository().findAll(predicate, pageable));
 		return getListView();
 	}
-	
+
 	@PostMapping(value = { "/upload" })
 	@ResponseBody
 	public JsonResponse upload(@RequestParam("file") MultipartFile file) throws IOException {
@@ -87,7 +88,8 @@ public class AssetController extends GenericController<Asset, Long> {
 		FileUtils.copyInputStreamToFile(file.getInputStream(),
 				new File(constant.getUploadAbsoluteDir() + Constant.FILE_SEPA + fileName));
 		Asset item = new Asset();
-		item.setLocation(fileName);item.setType("IMG");
+		item.setLocation(fileName);
+		item.setType("IMG");
 		item.setSourceName(file.getOriginalFilename());
 		item.setTitle(FilenameUtils.getBaseName(file.getOriginalFilename()));
 		getService().create(item);
@@ -95,11 +97,19 @@ public class AssetController extends GenericController<Asset, Long> {
 	}
 
 	@RequestMapping(value = { "/preview" })
-	public void preview(String fileName, HttpServletResponse response) throws IOException {
+	public void preview(String fileName, String size, HttpServletResponse response) throws IOException {
 		File f = new File(constant.getUploadAbsoluteDir() + Constant.FILE_SEPA + fileName);
-		if (f.exists()&&f.isFile()) {
+		if (f.exists() && f.isFile()) {
 			InputStream is = new FileInputStream(f);
-			IOUtils.copy(is, response.getOutputStream());
+			if (size != null)
+				if (size.equals("small"))
+					Thumbnails.of(f).size(215, 215).outputFormat("png").toOutputStream(response.getOutputStream());
+				else if (size.equals("medium"))
+					Thumbnails.of(f).size(430, 430).outputFormat("png").toOutputStream(response.getOutputStream());
+				else
+					IOUtils.copy(is, response.getOutputStream());
+			else
+				IOUtils.copy(is, response.getOutputStream());
 			response.flushBuffer();
 			is.close();
 		}

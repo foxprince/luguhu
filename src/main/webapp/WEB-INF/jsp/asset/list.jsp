@@ -9,6 +9,7 @@
 <c:import url="../include/head.jsp">
 	<c:param name="pageTitle" value="素材列表" />
 </c:import>
+<link href="../resources/plugins/lightbox2/css/lightbox.min.css" rel="stylesheet"/>
 <body class="hold-transition skin-green-light sidebar-mini">
 	<div class="wrapper">
 		<!-- topbar -->
@@ -49,12 +50,12 @@
 									<div class="col-sm-6 col-md-3">
 										<div class="thumbnail">
 										<div id="previewImg">
-											<img  style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=${item.location} " />
+											<a href="/asset/preview?fileName=${item.location}" data-lightbox="image-1" data-title="${item.title}"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName=${item.location} " /></a>
 										</div>
 										<div class="caption">
 											<h6 id="imgTitle-${item.id}">${item.title}</h6>
 											<p>
-												<a href="#" assetId="${item.id}" class="btn btn-primary" role="button" onclick="editTitle(this)">修改</a> <a href="#" class="btn btn-danger" role="button">删除</a>
+												<a href="#" assetId="${item.id}"  class="btn btn-primary" role="button" onclick="editTitle(this)">修改</a> <a href="#" class="btn btn-danger" role="button">删除</a>
 											</p>
 										</div></div>
 									</div>
@@ -78,6 +79,8 @@
 		<%@ include file="../include/script.jspf"%>
 		<%@ include file="../include/footer.jspf"%>
 		<%@ include file="../include/sidebar.jspf"%>
+		<script src="/resources/plugins/lightbox2/js/lightbox.min.js" ></script>
+		
 		<script>
 			$(document).ready(function() {
 			});
@@ -127,9 +130,9 @@
 							t += '	<img style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=' + json.data.location + ' " />';
 							t += '</div>';
 							t += '<div class="caption">';
-							t += '	<h3>' + json.data.title + '</h3>';
+							t += '	<h6>' + json.data.title + '</h6>';
 							t += '	<p>';
-							t += '		<a href="#" class="btn btn-primary" role="button">修改</a> <a href="#" class="btn btn-danger" role="button">删除</a>';
+							t += '		<a href="#" class="btn btn-primary" role="button" onclick="editTitle(this)">修改</a> <a href="#" class="btn btn-danger" role="button">删除</a>';
 							t += '	</p>';
 							t += '</div>';
 							t += '</div></div>';
