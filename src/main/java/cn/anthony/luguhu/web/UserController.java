@@ -25,16 +25,10 @@ import cn.anthony.luguhu.service.ActionLogService;
 import cn.anthony.luguhu.service.UserService;
 import cn.anthony.luguhu.util.Constant;
 import cn.anthony.luguhu.util.ControllerUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 
 @Controller
 @RequestMapping(value = "/user")
-@Api("userController相关api")
+//@Api("userController相关api")
 public class UserController extends GenericController<User, Long> {
 
 	@Override
@@ -74,11 +68,11 @@ public class UserController extends GenericController<User, Long> {
 		// errors.rejectValue("repassword", "password.invalid", "两次输入的密码不一致");
 	}
 
-	@ApiOperation("获取用户信息")
-	@ApiImplicitParams({
-			@ApiImplicitParam(paramType = "header", name = "username", dataType = "String", required = true, value = "用户的姓名", defaultValue = "zhaojigang"),
-			@ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "用户的密码", defaultValue = "wangna") })
-	@ApiResponses({ @ApiResponse(code = 400, message = "请求参数没填好"), @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对") })
+//	@ApiOperation("获取用户信息")
+//	@ApiImplicitParams({
+//			@ApiImplicitParam(paramType = "header", name = "username", dataType = "String", required = true, value = "用户的姓名", defaultValue = "zhaojigang"),
+//			@ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value = "用户的密码", defaultValue = "wangna") })
+//	@ApiResponses({ @ApiResponse(code = 400, message = "请求参数没填好"), @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对") })
 	@RequestMapping(value = { "/regist" }, method = RequestMethod.POST)
 	public String addOrUpdate(@ModelAttribute User user, final RedirectAttributes redirectAttributes, Model m) throws EntityNotFound {
 		getService().saveOrUpdate(user);
