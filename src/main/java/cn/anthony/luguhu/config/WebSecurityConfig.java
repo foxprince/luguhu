@@ -1,25 +1,45 @@
 package cn.anthony.luguhu.config;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
-//@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+// @EnableGlobalMethodSecurity(prePostEnabled = true)
+// @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-				.antMatchers("/**","/resources/**", "/api/**","/wp/**").permitAll();
-//				.antMatchers("/users/**").hasAuthority("ADMIN").anyRequest().fullyAuthenticated().and().formLogin()
-//				.loginPage("/login").failureUrl("/login?error").usernameParameter("email").permitAll().and().logout()
-//				.logoutUrl("/logout").deleteCookies("remember-me").logoutSuccessUrl("/").permitAll().and().rememberMe();
-	}
+		// Build the request matcher for CSFR protection
+		//http://blog.netgloo.com/2014/09/28/spring-boot-enable-the-csrf-check-selectively-only-for-some-requests/
+		RequestMatcher csrfRequestMatcher = new RequestMatcher() {
+			// Disable CSFR protection on the following urls:
+			private AntPathRequestMatcher[] requestMatchers = {new AntPathRequestMatcher("/wp/**") };
 
+			@Override
+			public boolean matches(HttpServletRequest request) {
+				// If the request match one url the CSFR protection will bedisabled
+				for (AntPathRequestMatcher rm : requestMatchers) {
+					if (rm.matches(request)) {
+						return false;
+					}
+				}
+				return true;
+			} // method matches
+		}; // new RequestMatcher
+		// Set security configurations
+		http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher).and().authorizeRequests()
+				.antMatchers("/**", "/resources/**", "/api/**", "/wp/**").permitAll();
+		// .antMatchers("/users/**").hasAuthority("ADMIN").anyRequest().fullyAuthenticated().and().formLogin()
+		// .loginPage("/login").failureUrl("/login?error").usernameParameter("email").permitAll().and().logout()
+		// .logoutUrl("/logout").deleteCookies("remember-me").logoutSuccessUrl("/").permitAll().and().rememberMe();
+	}
 }
 
 class PasswordCrypto {

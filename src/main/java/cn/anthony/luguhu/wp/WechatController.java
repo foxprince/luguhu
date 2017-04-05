@@ -35,7 +35,6 @@ public class WechatController {
 			@RequestParam(name = "nonce", required = false) String nonce,
 			@RequestParam(name = "echostr", required = false) String echostr) {
 		this.logger.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature, timestamp, nonce, echostr);
-		logger.info("appid:"+wxService.getWxMpConfigStorage());
 		if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
 			throw new IllegalArgumentException("请求参数非法，请核实!");
 		}
