@@ -72,6 +72,10 @@ public class WechatController {
 							WxSessionManager sessionManager) throws WxErrorException {
 						WxMpXmlOutTextMessage out = new WxMpXmlOutTextMessage();
 						out.setContent("echo:"+wxMessage.getContent());
+						out.setToUserName(wxMessage.getFromUser());
+						out.setFromUserName(wxMessage.getToUser());
+						out.setCreateTime(System.currentTimeMillis() / 1000l);
+						logger.info(out.toXml());
 						return out;
 					}})
               .end();
