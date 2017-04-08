@@ -111,12 +111,12 @@
 $(function() {
 	loadTitle();
 });
-window.ApiDomian = '/api';
+window.ApiDomian = '';
 //读取产品列表
 function loadProducts() {
 	$.ajax({
 		type : "get",
-		url : window.ApiDomian + "/product/list",
+		url : window.ApiDomian + "/api/product/list",
 		complete : function() {
 			// layer.close(page_layer);
 		},
@@ -145,8 +145,17 @@ function loadProducts() {
 }
 // 读取网站标题
 function loadTitle() {
-	$.get(window.ApiDomian + "/getSiteTitle", function(data) {
+	$.get(window.ApiDomian + "/api/getSiteTitle", function(data) {
 		$('#siteTitle').text(data);
+	});
+}
+// 读取微信用户信息
+function loadWxUser(openId) {
+	$.get(window.ApiDomian + "/wp/portal/user/"+openId, function(json) {
+		if(json.code==0) {
+			$('#userNickname').text(json.data.nickname);
+			$('#userIcon').html('<img width="100%" src="' + (json.data.headImgUrl===null?"pic07.jpg":json.data.headImgUrl)  + '" alt="" />');
+		}
 	});
 }
 function loadProduct(type,id) {
@@ -157,7 +166,7 @@ function loadProduct(type,id) {
 }
 //读取产品包详情
 function loadProductPack(id) {
-	$.get(window.ApiDomian + "/productSalePack/"+id, function(json) {
+	$.get(window.ApiDomian + "/api/productSalePack/"+id, function(json) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
@@ -169,7 +178,7 @@ function loadProductPack(id) {
 }
 //读取可单独销售的产品
 function loadProductUnit(id) {
-	$.get(window.ApiDomian + "/productSaleUnit/"+id, function(json) {
+	$.get(window.ApiDomian + "/api/productSaleUnit/"+id, function(json) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);

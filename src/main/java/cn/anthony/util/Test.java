@@ -1,37 +1,20 @@
 package cn.anthony.util;
 
 import java.security.SecureRandom;
+import java.util.Date;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 public class Test {
 	private final static String DES = "DES";
 
 	public static void main(String[] args) {
 		try {
-			String msg = "hiaaaa";// 1A1338FB3358E03F
-			String pass = "tykc2014";
-			byte[] bs = encrypt(msg.getBytes("UTF-8"), pass);
-			for (byte b : bs)
-				System.out.print(b + ",");
-			System.out.println("=========");
-			System.out.println(bytesToHexString(bs));
-			System.out.println(bytes2Str(bs));
-			// System.err.println(encrypt(msg, pass));
-			// System.err.println(decrypt(encrypt(msg, pass), pass));
-			// System.out.println(string2HexString("测试"));
-			// System.out.println(("测试".getBytes("UTF-8")));
-			SecretKey key3 = new SecretKeySpec(pass.getBytes(), "DESede");
-			IvParameterSpec iv3 = new IvParameterSpec(new byte[8]);
-			Cipher cipher3 = Cipher.getInstance("DESede/CBC/ZeroBytePadding");
-			cipher3.init(Cipher.ENCRYPT_MODE, key3, iv3);
-			// byte[] bMac = cipher3.doFinal(bMsg);
-			// println new String(Hex.encode(bMac));
+			long l = 1387529252000l;
+			System.out.println(new Date(l));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -1,12 +1,15 @@
 package cn.anthony.luguhu.wp;
 
-import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 
 import cn.anthony.luguhu.wp.handler.KfSessionHandler;
 import cn.anthony.luguhu.wp.handler.LocationHandler;
@@ -33,8 +36,12 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 @Configuration
 @ConditionalOnClass(WxMpService.class)
 public class WechatMpConfiguration {
-	@Resource
+	protected Logger logger = LoggerFactory.getLogger(getClass());
+	@Autowired
 	WpConfig wpConfig;
+
+	@Value("classpath:wpMenu.json")
+	Resource wxMenuResource;
 	
 	
     @Bean @ConditionalOnMissingBean public WxMpService wxMpService() throws WxErrorException {
@@ -43,78 +50,7 @@ public class WechatMpConfiguration {
 		wms.setWxMpConfigStorage(wpConfig);
 		return wms;
 	}
-//    
-//    @Bean WxMpMenuService wxMenuService(WxMpService wxMpService) {
-//    	final WxMpMenuService menuService = new WxMpMenuServiceImpl(wxMpService);
-//    	StringBuilder sb = new StringBuilder();
-//    	sb.append("{menu:{");
-//    	sb.append("    \"button\": [");
-//    	sb.append("        {");
-//    	sb.append("            \"name\": \"扫码\", ");
-//    	sb.append("            \"sub_button\": [");
-//    	sb.append("                {");
-//    	sb.append("                    \"type\": \"scancode_waitmsg\", ");
-//    	sb.append("                    \"name\": \"扫码带提示\", ");
-//    	sb.append("                    \"key\": \"rselfmenu_0_0\", ");
-//    	sb.append("                    \"sub_button\": [ ]");
-//    	sb.append("                }, ");
-//    	sb.append("                {");
-//    	sb.append("                    \"type\": \"scancode_push\", ");
-//    	sb.append("                    \"name\": \"扫码推事件\", ");
-//    	sb.append("                    \"key\": \"rselfmenu_0_1\", ");
-//    	sb.append("                    \"sub_button\": [ ]");
-//    	sb.append("                }");
-//    	sb.append("            ]");
-//    	sb.append("        }, ");
-//    	sb.append("        {");
-//    	sb.append("            \"name\": \"发图\", ");
-//    	sb.append("            \"sub_button\": [");
-//    	sb.append("                {");
-//    	sb.append("                    \"type\": \"pic_sysphoto\", ");
-//    	sb.append("                    \"name\": \"系统拍照发图\", ");
-//    	sb.append("                    \"key\": \"rselfmenu_1_0\", ");
-//    	sb.append("                   \"sub_button\": [ ]");
-//    	sb.append("                 }, ");
-//    	sb.append("                {");
-//    	sb.append("                    \"type\": \"pic_photo_or_album\", ");
-//    	sb.append("                    \"name\": \"拍照或者相册发图\", ");
-//    	sb.append("                    \"key\": \"rselfmenu_1_1\", ");
-//    	sb.append("                    \"sub_button\": [ ]");
-//    	sb.append("                }, ");
-//    	sb.append("                {");
-//    	sb.append("                    \"type\": \"pic_weixin\", ");
-//    	sb.append("                    \"name\": \"微信相册发图\", ");
-//    	sb.append("                    \"key\": \"rselfmenu_1_2\", ");
-//    	sb.append("                    \"sub_button\": [ ]");
-//    	sb.append("                }");
-//    	sb.append("            ]");
-//    	sb.append("        }, ");
-//    	sb.append("        {");
-//    	sb.append("            \"name\": \"发送位置\", ");
-//    	sb.append("            \"type\": \"location_select\", ");
-//    	sb.append("            \"key\": \"rselfmenu_2_0\"");
-//    	sb.append("        },");
-//    	sb.append("        {");
-//    	sb.append("           \"type\": \"media_id\", ");
-//    	sb.append("           \"name\": \"图片\", ");
-//    	sb.append("           \"media_id\": \"MEDIA_ID1\"");
-//    	sb.append("        }, ");
-//    	sb.append("        {");
-//    	sb.append("           \"type\": \"view_limited\", ");
-//    	sb.append("           \"name\": \"图文消息\", ");
-//    	sb.append("           \"media_id\": \"MEDIA_ID2\"");
-//    	sb.append("        }");
-//    	sb.append("    ]");
-//    	sb.append("}}");
-//    	WxMenu menu = WxMenu.fromJson(sb.toString());
-//    	try {
-//			menuService.menuCreate(menu.toJson());
-//		} catch (WxErrorException e) {
-//			e.printStackTrace();
-//		}
-//    	return menuService;
-//    }
-//    
+    
     @Bean 
     public WxMpMessageRouter router(WxMpService wxMpService) {
         final WxMpMessageRouter newRouter = new WxMpMessageRouter(wxMpService);

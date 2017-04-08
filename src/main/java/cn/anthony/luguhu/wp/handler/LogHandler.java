@@ -17,18 +17,16 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
  */
 @Component
 public class LogHandler extends AbstractHandler {
-    @Override
-    public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage,
-            Map<String, Object> context, WxMpService wxMpService,
-            WxSessionManager sessionManager) {
-        this.logger.info("\n接收到请求消息，内容：{}", JsonUtils.toJson(wxMessage));
+	@Override
+	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
+			WxSessionManager sessionManager) {
+		this.logger.info("\n接收到请求消息，内容：{}", JsonUtils.toJson(wxMessage));
 		try {
 			WxMpUser userWxInfo = wxMpService.getUserService().userInfo(wxMessage.getFromUser(), null);
-			logger.info("\n微信用户信息，{}",userWxInfo.toString());
-	       } catch (WxErrorException e) {
+			logger.info("\n微信用户信息，{}", userWxInfo.toString());
+		} catch (WxErrorException e) {
 			e.printStackTrace();
 		}
 		return null;
-    }
-
+	}
 }

@@ -1,8 +1,10 @@
 drop database luguhu;
-create database luguhu default charset utf8 COLLATE utf8_general_ci;
+create database luguhu default charset utf8mb4 COLLATE utf8mb4_general_ci;
 grant all on luguhu.* to 'lghuser'@'localhost' identified by 'pwd4lgh';
 grant all on luguhu.* to 'lghuser'@'%' identified by 'pwd4lgh';
-
+ALTER DATABASE luguhu CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
+ALTER TABLE wx_user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+ALTER TABLE wx_user CHANGE nickname column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 /*用户信息表*/
 create table user (
 	id bigint not null primary key auto_increment,
