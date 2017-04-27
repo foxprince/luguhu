@@ -30,9 +30,9 @@
     <!-- Daterange picker -->
     <link rel="stylesheet" href="../resources/plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="../resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <!-- <link rel="stylesheet" href="../resources/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css"> -->
 	<!-- DataTables -->
-    <link rel="stylesheet" href="../resources/plugins/datatables/dataTables.bootstrap.css">
+    <!-- <link rel="stylesheet" href="../resources/plugins/datatables/dataTables.bootstrap.css"> -->
     <link rel="stylesheet" href="../resources/solidState/assets/css/fcw.css" />
     
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

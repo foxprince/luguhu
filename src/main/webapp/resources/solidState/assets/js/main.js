@@ -129,7 +129,7 @@ function loadProducts() {
 				item += ' 		<a href="generic.html?type='+type+'&packId='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
 				item += ' 		<div class="content">';
 				item += ' 			<h2 class="major">' + j.title + '</h2>';
-				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.description + '</p>';
+				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.intro + '</p>';
 				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&packId='+j.id+'" class="special" >Learn more</a></span>';
 				item += ' 			<span class="price" style="float:right;">' + j.price + '</span></div>';
 				item += ' 		</div>';
@@ -170,7 +170,7 @@ function loadProductPack(id) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
-			$('#productDetail').text(json.data.description);
+			$('#productDetail').html(json.data.description);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
 			
 		}
@@ -182,7 +182,7 @@ function loadProductUnit(id) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
 			$('#productPrice').text("售价："+json.data.price);
-			$('#productDetail').text(json.data.description);
+			$('#productDetail').html(json.data.description);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location) + '" alt="" />');
 			
 		}

@@ -4,6 +4,9 @@ function selectAsset(id, location) {
 	$("#previewImg").html('<img class="preview" src="/asset/preview?fileName=' + location + '"/>');
 	$("#addOrEditForm").append('<input type="hidden" name="asset"  value="' + id + '"/>');
 }
+function selectAssetForEditor(id, location) {
+	$("#editor").append('<img class="preview" src="/asset/preview?fileName=' + location + '"/>');
+}
 function imgUpload(sender) {
 	var uploadLayer = layer.msg('文件上传中...', {
 		icon : 16,

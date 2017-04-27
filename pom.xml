@@ -130,6 +130,12 @@
 			<artifactId>weixin-java-mp</artifactId>
 			<version>2.5.0</version>
 		</dependency>
+		<!-- 自然语言处理 中文分词 词性标注 命名实体识别 依存句法分析 关键词提取 自动摘要 短语提取 拼音 简繁转换 http://www.hankcs.com/nlp/ -->
+		<dependency>
+			<groupId>com.hankcs</groupId>
+			<artifactId>hanlp</artifactId>
+			<version>portable-1.3.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>springBoot</finalName>

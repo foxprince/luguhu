@@ -9,8 +9,13 @@
 <c:import url="../include/head.jsp">
 	<c:param name="pageTitle" value="${item.actionDesc.concat(item.selfIntro)}" />
 </c:import>
-
-<body class="hold-transition skin-green-light sidebar-mini">
+<link href="../resources/bootstrap-wysiwyg/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="../resources/bootstrap-wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- <link href="../resources/plugins/font-awesome.3.0.2.css" rel="stylesheet"> -->
+<link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="../resources/bootstrap-wysiwyg/index.css" type="text/css">
+   
+<body class="wysihtml5-supported hold-transition skin-green-light sidebar-mini">
 	<div class="modal fade" id="assetModal">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -22,6 +27,27 @@
 				</div>
 				<div class="modal-body">
 					<div id="assetList" class="box-body"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<div class="modal fade" id="assetModalEditor">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title">素材库</h4>
+				</div>
+				<div class="modal-body">
+					<div id="assetListEditor" class="box-body"></div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
@@ -69,7 +95,7 @@
 						<form:form class="form-horizontal well" modelAttribute="item" id="addOrEditForm" action="./${item.action}">
 							<html:inputField name="title" label="销售包名称 *:" />
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 产品规格 </label>
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 产品规格： </label>
 								<div class="col-sm-9 panel panel-success">
 									<c:forEach var="product" items="${productList}">
 										<div class="panel-group" id="accordion">
@@ -87,36 +113,13 @@
 											</div>
 										</div>
 									</c:forEach>
-									<%-- <c:forEach var="product" items="${productList}">
-              <div class="box box-default box-solid collapsed-box">  
-                <div class="box-header with-border">
-                  <h3 class="box-title">${product.title}</h3>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
-                  </div><!-- /.box-tools -->
-                </div>
-                <div class="box-body" class="panel-collapse collapse in">
-                <c:forEach var="unit" items="${product.saleUnits}">
-                  <form:checkbox path="saleUnits" value="${unit.id }"/>${unit.title}
-                </c:forEach>
-                </div>
-              </div>
-              </c:forEach> --%>
 								</div>
 							</div>
-							<%-- <div class="form-group">
-                <label class="col-sm-3 control-label no-padding-right" for="form-field-1"> 产品规格 </label>
-                <div class="col-sm-9 ">
-                  <form:select path="saleUnits" class="form-control ">
-                    <form:options class="span4 col-xs-10 col-sm-5" items="${saleUnitList}"  itemLabel="title" itemValue="id"/>
-                  </form:select>
-                </div>
-              </div> --%>
-							<html:inputField name="minBatch" label="起售斤数" />
-							<html:inputField name="price" label="价格 *" />
-							<html:inputField name="amount" label="库存总数" />
+							<html:inputField name="minBatch" label="起售斤数：" />
+							<html:inputField name="price" label="价格 *：" />
+							<html:inputField name="amount" label="库存总数：" />
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">销售起止时间</label>
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">销售起止时间：</label>
 								<div class="col-sm-9">
 									<form:input class="input-lg col-xs-10 col-sm-5" path="saleBegin" label="销售开始时间" id="datetimepicker"
 										data-date-format="yyyy-mm-dd hh:ii" />
@@ -125,11 +128,75 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">详细说明</label>
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">内容摘要：</label>
 								<div class="col-sm-9">
-									<form:textarea path="description" cols="100" rows="5" />
+									<form:textarea path="intro" id="intro"/>
 								</div>
 							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">详细说明：</label>
+								<div class="col-sm-9">
+									<%-- <form:textarea path="description" class="wysi" cols="100" rows="5" /> --%>
+									<form:hidden path="description" id="description"/>
+								</div>
+							</div>
+  <div style="width:80%;">
+	<div id="alerts"></div>
+    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
+      <div class="btn-group">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          </ul>
+        </div>
+      <div class="btn-group">
+        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+          <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
+          <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
+          <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
+          </ul>
+      </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
+        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
+      </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
+        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
+        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
+        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>
+      </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
+        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
+        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
+        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
+      </div>
+      <div class="btn-group">
+		  <a class="btn dropdown-toggle" onclick="toggle();" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>
+		    <div id="toggUrl" class="dropdown-menu input-append" style="display:none;">
+			    <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
+			    <button class="btn" type="button">Add</button>
+        </div>
+        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="icon-cut"></i></a>
+      </div>
+      
+      <div class="btn-group">
+        <a class="btn" data-toggle="modal" data-target="#assetModalEditor" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
+      </div>
+      <div class="btn-group">
+        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
+        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
+      </div>
+      <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
+    </div>
+
+    <div id="editor" contenteditable="true">
+      ${item.description}
+    </div>
+  </div>
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
 									<form:hidden path="id" />
@@ -145,6 +212,9 @@
 						</form:form>
 					</div>
 					<!-- /.box-body -->
+					
+  
+					
 					<div class="box-footer">
 						<button type="button" class="btn btn-default">Someting else...</button>
 					</div>
@@ -162,9 +232,53 @@
 	<!-- ./wrapper -->
 	<script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
 	<script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
+	
+	<script src="../resources/bootstrap-wysiwyg/bootstrap-wysiwyg.js" type="text/javascript"></script>
+	<script src="../resources/bootstrap-wysiwyg/external/jquery.hotkeys.js" type="text/javascript"></script>
 	<script>
 		$(document).ready(function() {
+			function initToolbarBootstrapBindings() {
+			      var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier', 
+			            'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
+			            'Times New Roman', 'Verdana'],
+			            fontTarget = $('[title=Font]').siblings('.dropdown-menu');
+			      $.each(fonts, function (idx, fontName) {
+			          fontTarget.append($('<li><a data-edit="fontName ' + fontName +'" style="font-family:\''+ fontName +'\'">'+fontName + '</a></li>'));
+			      });
+			      $('a[title]').tooltip({container:'body'});
+			    	$('.dropdown-menu input').click(function() {return false;})
+					    .change(function () {$(this).parent('.dropdown-menu').siblings('.dropdown-toggle').dropdown('toggle');})
+			        .keydown('esc', function () {this.value='';$(this).change();});
+
+			      $('[data-role=magic-overlay]').each(function () { 
+			        var overlay = $(this), target = $(overlay.data('target')); 
+			        overlay.css('opacity', 0).css('position', 'absolute').offset(target.offset()).width(target.outerWidth()).height(target.outerHeight());
+			      });
+			      if ("onwebkitspeechchange"  in document.createElement("input")) {
+			        var editorOffset = $('#editor').offset();
+			        $('#voiceBtn').css('position','absolute').offset({top: editorOffset.top, left: editorOffset.left+$('#editor').innerWidth()-35});
+			      } else {
+			        $('#voiceBtn').hide();
+			      }
+				};
+				function showErrorAlert (reason, detail) {
+					var msg='';
+					if (reason==='unsupported-file-type') { msg = "Unsupported format " +detail; }
+					else {
+						console.log("error uploading file", reason, detail);
+					}
+					$('<div class="alert"> <button type="button" class="close" data-dismiss="alert">&times;</button>'+ 
+					 '<strong>File upload error</strong> '+msg+' </div>').prependTo('#alerts');
+				};
+			    initToolbarBootstrapBindings(); 
+				$('#editor').wysiwyg({ fileUploadError: showErrorAlert} );
 		});
+		$("#editor").bind('DOMNodeInserted', function(e) {  
+		     $("#description").val($("#editor").html());
+		     $.get("/api/getSummary?content="+ $("#description").val(), function(json) {
+		    	 $("#intro").val(json);
+		 	 });
+		});  
 		$('#assetModal').on(
 				'show.bs.modal',
 				function(event) {
@@ -184,6 +298,30 @@
 								item += '	</div></div>';
 								item += '</div>';
 								$("#assetList").append(item);
+							}
+						} else
+							alert('载入素材库失败。');
+					});
+				});
+		$('#assetModalEditor').on(
+				'show.bs.modal',
+				function(event) {
+					var modal = $(this);
+					$.get("/asset/list.json", function(json) {
+						if (json.code == 0) {
+							for (var i = 0; i < json.data.numberOfElements; i++) {
+								var j = json.data.content[i];
+								var item = '<div class="col-sm-6 col-md-3">';
+								item += '	<div class="thumbnail">';
+								item += '	<div>';
+								item += '		<a href="#" onclick="selectAssetForEditor(\'' + j.id + '\',\'' + j.location
+										+ '\')"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=' + j.location + '" /></a>';
+								item += '	</div>';
+								item += '	<div class="caption">';
+								item += '		<h6 id="imgTitle-${item.id}">' + j.title + '</h6>';
+								item += '	</div></div>';
+								item += '</div>';
+								$("#assetListEditor").append(item);
 							}
 						} else
 							alert('载入素材库失败。');
@@ -213,7 +351,12 @@
 			$('input[name=saleBegin]').val(start.format('YYYY-MM-DD HH:mm:ss'));
 			$('input[name=saleEnd]').val(end.format('YYYY-MM-DD HH:mm:ss'));
 		});
-		
+		function toggle() {
+			if($("#toggUrl").css("display")=="none")
+				$("#toggUrl").css("display","block");
+			else
+				$("#toggUrl").css("display","none");
+		}
 		$("#addOrEditForm").validate({
 			rules : {
 				title : "required",
