@@ -1,27 +1,35 @@
-function addcookie(name,value,expireHours){
-	var cookieString=name+"="+escape(value)+"; path=/";
-	//判断是否设置过期时间
-	if(expireHours>0){
-		var date=new Date();
-		date.setTime(date.getTime+expireHours*3600*1000);
-		cookieString=cookieString+"; expire="+date.toGMTString();
+function addcookie(name, value, expireHours) {
+	var cookieString = name + "=" + escape(value) + "; path=/";
+	// 判断是否设置过期时间
+	if (expireHours > 0) {
+		var date = new Date();
+		date.setTime(date.getTime + expireHours * 3600 * 1000);
+		cookieString = cookieString + "; expire=" + date.toGMTString();
 	}
-	document.cookie=cookieString;
+	document.cookie = cookieString;
 }
-
-function getcookie(name){
-	var strcookie=document.cookie;
-	var arrcookie=strcookie.split("; ");
-	for(var i=0;i<arrcookie.length;i++){
-	var arr=arrcookie[i].split("=");
-	if(arr[0]==name)return decodeURIComponent(arr[1]); //增加对特殊字符的解析
-	}
-	return "";
+function setCookie(cname,cvalue,exdays)
+{
+  var d = new Date();
+  d.setTime(d.getTime()+(exdays*24*60*60*1000));
+  var expires = "expires="+d.toGMTString();
+  document.cookie = cname + "=" + cvalue + "; " + expires;
 }
-
-function delCookie(name){//删除cookie
+function getCookie(cname)
+{
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0; i<ca.length; i++) 
+  {
+    var c = ca[i].trim();alert(c);
+    if (c.indexOf(name)==0) return c.substring(name.length,c.length);
+  }
+  return "";
+}
+function delCookie(name) {// 删除cookie
 	var exp = new Date();
 	exp.setTime(exp.getTime() - 1);
-	var cval=getcookie(name);
-	if(cval!=null) document.cookie= name + "="+cval+"; path=/;expires="+exp.toGMTString();
+	var cval = getcookie(name);
+	if (cval != null)
+		document.cookie = name + "=" + cval + "; path=/;expires=" + exp.toGMTString();
 }

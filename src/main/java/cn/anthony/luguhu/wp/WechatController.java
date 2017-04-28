@@ -109,19 +109,24 @@ public class WechatController {
 	public String auth(String code,String state,HttpServletResponse response) throws WxErrorException {
 		logger.info("code="+code);
 		WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
-		WxMpUser wxUser = wxService.oauth2getUserInfo(accessToken, null);
+		WxMpUser wxUser = wxService.getUserService().userInfo(accessToken.getOpenId());//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
 		WxUser wuser = new WxUser();
 		logger.info("wxUser:"+wxUser+",time:"+wxUser.getSubscribeTime());
 		BeanUtils.copyProperties(wxUser, wuser);
-		//wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
+		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		userRepo.save(wuser);
-		//把openId和unionId存入cookie
-		Cookie foo = new Cookie("wxOpenId", wuser.getOpenId()); 
+		//根据state的不同导向到不同页面，带参数openId
+		return "redirect:/resources/solidState/profile.html?openId="+wuser.getOpenId();
+	}
+	
+	@RequestMapping(value = "/cookietest")
+	public String cookie(String openId,HttpServletResponse response) throws WxErrorException {
+		Cookie foo = new Cookie("wxOpenId", openId); 
 		foo.setMaxAge(365*24*3600);
 		response.addCookie(foo);
 		//根据state的不同导向到不同页面，带参数openId
-		return "redirect:/resources/solidState/profile.html?openId="+wuser.getOpenId();
+		return "redirect:/resources/solidState/profile.html?openId="+openId;
 	}
 	
 	@RequestMapping("oauthUrl")@ResponseBody

@@ -413,9 +413,11 @@ print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
 			<script>
 			$(document).ready(function() {
 				var wxOpenId=getParams("openId"); 
-				if (wxOpenId=="")
-					wxOpenId=getcookie('wxOpenId');
-				loadWxUser(getParams("openId"));
+				if (wxOpenId!=null)
+					setCookie('wxOpenId',wxOpenId,365);
+				else	
+					wxOpenId=getCookie('wxOpenId');
+				loadWxUser(wxOpenId);
 			});
 			</script>
 	</body>
