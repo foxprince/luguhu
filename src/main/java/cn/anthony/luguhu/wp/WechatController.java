@@ -107,6 +107,7 @@ public class WechatController {
 	 */
 	@RequestMapping(value = "/auth")
 	public String auth(String code,String state,HttpServletResponse response) throws WxErrorException {
+		logger.info("code="+code);
 		WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
 		WxMpUser wxUser = wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
@@ -122,6 +123,10 @@ public class WechatController {
 		return "redirect:/resources/solidState/profile.html?openId="+wuser.getOpenId();
 	}
 	
+	@RequestMapping("oauthUrl")@ResponseBody
+	public String oauthUrl(String redirectURI,String scope,String state){
+		return wxService.oauth2buildAuthorizationUrl(redirectURI, scope, state);
+	}
 	@RequestMapping(value = "/shorturl")
 	@ResponseBody
 	public String shortUrl(String url) throws WxErrorException {
