@@ -112,8 +112,9 @@ public class WechatController {
 		WxMpUser wxUser = wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
 		WxUser wuser = new WxUser();
+		logger.info("wxUser:"+wxUser+",time:"+wxUser.getSubscribeTime());
 		BeanUtils.copyProperties(wxUser, wuser);
-		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
+		//wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		userRepo.save(wuser);
 		//把openId和unionId存入cookie
 		Cookie foo = new Cookie("wxOpenId", wuser.getOpenId()); 
