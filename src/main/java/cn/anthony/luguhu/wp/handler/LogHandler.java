@@ -5,12 +5,10 @@ import java.util.Map;
 import org.springframework.stereotype.Component;
 
 import cn.anthony.luguhu.util.JsonUtils;
-import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
-import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * @author Binary Wang
@@ -21,12 +19,12 @@ public class LogHandler extends AbstractHandler {
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxMpService,
 			WxSessionManager sessionManager) {
 		this.logger.info("\n接收到请求消息，内容：{}", JsonUtils.toJson(wxMessage));
-		try {
-			WxMpUser userWxInfo = wxMpService.getUserService().userInfo(wxMessage.getFromUser(), null);
-			logger.debug("\n微信用户信息，{}", userWxInfo.toString());
-		} catch (WxErrorException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			WxMpUser userWxInfo = wxMpService.getUserService().userInfo(wxMessage.getFromUser(), null);
+//			logger.debug("\n微信用户信息，{}", userWxInfo.toString());
+//		} catch (WxErrorException e) {
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 }
