@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+<head>
+<title>文章 - 翡翠湾食安云台</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+<link rel="stylesheet" href="assets/css/main.css" />
+<link rel="stylesheet" href="assets/css/fcw.css" />
+<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+</head>
+<body>
+
+	<!-- Page Wrapper -->
+	<div id="page-wrapper">
+		<!-- Header -->
+		<header id="header">
+			<h1>
+				<a href="index.html">翡翠湾</a>
+			</h1>
+			<nav>
+				<a href="#menu">菜单</a>
+			</nav>
+		</header>
+
+		<!-- Menu -->
+		<nav id="menu">
+			<div class="inner">
+				<h2>菜单</h2>
+				<ul class="links">
+					<li><a href="index.html">首页</a></li>
+					<li><a href="generic.html">单品</a></li>
+					<li><a href="elements.html">文章</a></li>
+					<li><a href="/user/login">登录</a></li>
+					<li><a href="/user/regist">注册</a></li>
+				</ul>
+				<a href="#" class="close"></a>
+			</div>
+		</nav>
+
+		<!-- Wrapper -->
+		<section id="wrapper">
+			<header>
+				<div class="inner">
+					<h2 id="title"></h2>
+					<span id="thumb"></span>
+				</div>
+			</header>
+			<!-- Content -->
+			<div class="wrapper">
+				<div class="inner">
+					<div id="content"></div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<section id="footer">
+		</section>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="assets/js/skel.min.js"></script>
+	<script src="assets/js/jquery.min.js"></script>
+	<script src="assets/js/jquery.scrollex.min.js"></script>
+	<script src="assets/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/lgh.js"></script>
+	<script>
+	$(document).ready(function() {
+		loadArticle(getParams("id"));
+	});
+	</script>
+</body>
+</html>

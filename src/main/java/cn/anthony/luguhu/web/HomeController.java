@@ -17,7 +17,7 @@ import cn.anthony.luguhu.util.Constant;
 public class HomeController {
 	@Resource
 	Constant constant;
-	
+
 	@RequestMapping(value = { "/", "/index", "/main" }, method = RequestMethod.GET)
 	public String index() {
 		return "redirect:resources/solidState/index.html";
@@ -39,12 +39,16 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = { "/api/getSiteTitle" }, method = RequestMethod.GET)
-	public @ResponseBody String getSiteTitle(){
+	public @ResponseBody String getSiteTitle() {
 		return constant.getSiteTitle();
 	}
-	
+
 	@RequestMapping(value = { "/api/getSummary" })
-	public @ResponseBody List<String> summary(String content){
+	public @ResponseBody List<String> summary(String content) {
+		String regMatch = "\\s*|\t|\r|\n";
+		content = content.replaceAll(regMatch, "");
+		String regMatchTag = "<[^>]*>";
+		content = content.replaceAll(regMatchTag, "");
 		List<String> sentenceList = HanLP.extractSummary(content, 3);
 		return sentenceList;
 	}

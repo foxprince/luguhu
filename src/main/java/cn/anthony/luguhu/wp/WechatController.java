@@ -107,12 +107,10 @@ public class WechatController {
 	 */
 	@RequestMapping(value = "/auth")
 	public String auth(String code,String state,HttpServletResponse response) throws WxErrorException {
-		logger.info("code="+code);
 		WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
 		WxMpUser wxUser = wxService.getUserService().userInfo(accessToken.getOpenId());//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
 		WxUser wuser = new WxUser();
-		logger.info("wxUser:"+wxUser+",time:"+wxUser.getSubscribeTime());
 		BeanUtils.copyProperties(wxUser, wuser);
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		userRepo.save(wuser);

@@ -131,7 +131,7 @@ function loadProducts() {
 				item += ' 			<h2 class="major">' + j.title + '</h2>';
 				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.intro + '</p>';
 				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&packId='+j.id+'" class="special" >Learn more</a></span>';
-				item += ' 			<span class="price" style="float:right;">' + j.price + '</span></div>';
+				item += ' 			<span class="price" style="float:right;">' + j.price + ' <i class="fa fa-cny"></i></span></div>';
 				item += ' 		</div>';
 				item += ' 	</div>';
 				item += ' </section>';
@@ -169,9 +169,20 @@ function loadProductPack(id) {
 	$.get(window.ApiDomian + "/api/productSalePack/"+id, function(json) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
-			$('#productPrice').text("售价："+json.data.price);
+			$('#productPrice').text("售价："+json.data.price+" rmb");
 			$('#productDetail').html(json.data.description);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
+			
+		}
+	});
+}
+//读取文章详情
+function loadArticle(id) {
+	$.get(window.ApiDomian + "/api/article/"+id, function(json) {
+		if(json.code==0) {
+			$('#title').text(json.data.title);
+			$('#content').html(json.data.content);
+			$('#thumb').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
 			
 		}
 	});
@@ -188,6 +199,32 @@ function loadProductUnit(id) {
 		}
 	});
 }
+//读取文章列表
+function loadArticles() {
+	$.ajax({
+		type : "get",
+		url : window.ApiDomian + "/api/article/",
+		complete : function() {
+			// layer.close(page_layer);
+		},
+		success : function(json) {
+			for (var i = 0; i < json.data.numberOfElements; i++) {
+				var j = json.data.content[i];
+				var item = '<article>';
+				item += ' 	<a href="article.html?id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
+				item += '	<h3 class="major">'+j.title+'</h3>';
+				item += '	<p>'+j.summary+'</p>';
+				item += '	<a href="article.html?id='+j.id+'" class="special">more</a>';
+				item += '</article>';
+				$("#articles").append(item);
+			}
+		},
+		error : function() {
+			alert('载入数据失败！');
+		}
+	});
+}
+
 function ajaxLog(s) {
 	alert(s);
 }

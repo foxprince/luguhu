@@ -53,6 +53,16 @@
                 <li><a href="/productSalePack/list"><i class="fa fa-user"></i> 产品包</a></li>
               </ul>
             </li>
+            <li class="treeview" navi="article">
+              <a href="#">
+                <i class="fa fa-file-text"></i> <span>文章</span>
+                <i class="fa fa-angle-left pull-right"></i> 
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="/article/list"><i class="fa fa-file"></i> 文章列表</a></li>
+                <li><a href="/asset/list"><i class="fa fa-image"></i> 素材管理</a></li>
+              </ul>
+            </li>
             <li class="treeview">
               <a href="#">
                 <i class="fa fa-table"></i> <span>查询</span>
@@ -83,7 +93,6 @@
                 <i class="fa fa-angle-left pull-right"></i>
               </a>
               <ul class="treeview-menu">
-                <li><a href="/asset/list"><i class="fa fa-circle-o"></i> 素材管理</a></li>
                 <li><a href="/customeOption/list"><i class="fa fa-circle-o"></i> 导出选项</a></li>
                 <li><a href="/resources/index2.html"><i class="fa fa-circle-o"></i> Index2</a></li>
                 <li><a href="/resources/pages/UI/icons.html"><i class="fa fa-circle-o"></i> Icons</a></li>

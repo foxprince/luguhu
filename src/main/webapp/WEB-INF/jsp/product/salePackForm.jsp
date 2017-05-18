@@ -16,48 +16,7 @@
 <link rel="stylesheet" href="../resources/bootstrap-wysiwyg/index.css" type="text/css">
    
 <body class="wysihtml5-supported hold-transition skin-green-light sidebar-mini">
-	<div class="modal fade" id="assetModal">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">素材库</h4>
-				</div>
-				<div class="modal-body">
-					<div id="assetList" class="box-body"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
-	<div class="modal fade" id="assetModalEditor">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title">素材库</h4>
-				</div>
-				<div class="modal-body">
-					<div id="assetListEditor" class="box-body"></div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default pull-left" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary">Save changes</button>
-				</div>
-			</div>
-			<!-- /.modal-content -->
-		</div>
-		<!-- /.modal-dialog -->
-	</div>
+	<%@ include file="../include/assetModal.html"%>
 	<!-- /.modal -->
 	<div class="wrapper">
 		<!-- topbar -->
@@ -87,9 +46,8 @@
 									</div>
 								</div>
 								<div class="col-sm-4">
-									<a class="btn btn-success" data-toggle="modal" data-target="#assetModal">从素材库选择 </a>
+									<a class="btn btn-success" id="assetSelect" data-toggle="modal" data-target="#assetModal">从素材库选择 </a>
 								</div>
-
 							</div>
 						</form:form>
 						<form:form class="form-horizontal well" modelAttribute="item" id="addOrEditForm" action="./${item.action}">
@@ -140,63 +98,7 @@
 									<form:hidden path="description" id="description"/>
 								</div>
 							</div>
-  <div style="width:80%;">
-	<div id="alerts"></div>
-    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
-      <div class="btn-group">
-        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="icon-font"></i><b class="caret"></b></a>
-          <ul class="dropdown-menu">
-          </ul>
-        </div>
-      <div class="btn-group">
-        <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="icon-text-height"></i>&nbsp;<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-          <li><a data-edit="fontSize 5"><font size="5">Huge</font></a></li>
-          <li><a data-edit="fontSize 3"><font size="3">Normal</font></a></li>
-          <li><a data-edit="fontSize 1"><font size="1">Small</font></a></li>
-          </ul>
-      </div>
-      <div class="btn-group">
-        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
-        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
-        <a class="btn" data-edit="strikethrough" title="Strikethrough"><i class="icon-strikethrough"></i></a>
-        <a class="btn" data-edit="underline" title="Underline (Ctrl/Cmd+U)"><i class="icon-underline"></i></a>
-      </div>
-      <div class="btn-group">
-        <a class="btn" data-edit="insertunorderedlist" title="Bullet list"><i class="icon-list-ul"></i></a>
-        <a class="btn" data-edit="insertorderedlist" title="Number list"><i class="icon-list-ol"></i></a>
-        <a class="btn" data-edit="outdent" title="Reduce indent (Shift+Tab)"><i class="icon-indent-left"></i></a>
-        <a class="btn" data-edit="indent" title="Indent (Tab)"><i class="icon-indent-right"></i></a>
-      </div>
-      <div class="btn-group">
-        <a class="btn" data-edit="justifyleft" title="Align Left (Ctrl/Cmd+L)"><i class="icon-align-left"></i></a>
-        <a class="btn" data-edit="justifycenter" title="Center (Ctrl/Cmd+E)"><i class="icon-align-center"></i></a>
-        <a class="btn" data-edit="justifyright" title="Align Right (Ctrl/Cmd+R)"><i class="icon-align-right"></i></a>
-        <a class="btn" data-edit="justifyfull" title="Justify (Ctrl/Cmd+J)"><i class="icon-align-justify"></i></a>
-      </div>
-      <div class="btn-group">
-		  <a class="btn dropdown-toggle" onclick="toggle();" data-toggle="dropdown" title="Hyperlink"><i class="icon-link"></i></a>
-		    <div id="toggUrl" class="dropdown-menu input-append" style="display:none;">
-			    <input class="span2" placeholder="URL" type="text" data-edit="createLink"/>
-			    <button class="btn" type="button">Add</button>
-        </div>
-        <a class="btn" data-edit="unlink" title="Remove Hyperlink"><i class="icon-cut"></i></a>
-      </div>
-      
-      <div class="btn-group">
-        <a class="btn" data-toggle="modal" data-target="#assetModalEditor" title="Insert picture (or just drag & drop)" id="pictureBtn"><i class="icon-picture"></i></a>
-      </div>
-      <div class="btn-group">
-        <a class="btn" data-edit="undo" title="Undo (Ctrl/Cmd+Z)"><i class="icon-undo"></i></a>
-        <a class="btn" data-edit="redo" title="Redo (Ctrl/Cmd+Y)"><i class="icon-repeat"></i></a>
-      </div>
-      <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="">
-    </div>
-
-    <div id="editor" contenteditable="true">
-      ${item.description}
-    </div>
-  </div>
+							<%@include file="../include/wysiwyg.jspf" %>
 							<div class="clearfix form-actions">
 								<div class="col-md-offset-3 col-md-9">
 									<form:hidden path="id" />
@@ -279,54 +181,6 @@
 		    	 $("#intro").val(json);
 		 	 });
 		});  
-		$('#assetModal').on(
-				'show.bs.modal',
-				function(event) {
-					var modal = $(this);
-					$.get("/asset/list.json", function(json) {
-						if (json.code == 0) {
-							for (var i = 0; i < json.data.numberOfElements; i++) {
-								var j = json.data.content[i];
-								var item = '<div class="col-sm-6 col-md-3">';
-								item += '	<div class="thumbnail">';
-								item += '	<div>';
-								item += '		<a href="#" onclick="selectAsset(\'' + j.id + '\',\'' + j.location
-										+ '\')"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=' + j.location + '" /></a>';
-								item += '	</div>';
-								item += '	<div class="caption">';
-								item += '		<h6 id="imgTitle-${item.id}">' + j.title + '</h6>';
-								item += '	</div></div>';
-								item += '</div>';
-								$("#assetList").append(item);
-							}
-						} else
-							alert('载入素材库失败。');
-					});
-				});
-		$('#assetModalEditor').on(
-				'show.bs.modal',
-				function(event) {
-					var modal = $(this);
-					$.get("/asset/list.json", function(json) {
-						if (json.code == 0) {
-							for (var i = 0; i < json.data.numberOfElements; i++) {
-								var j = json.data.content[i];
-								var item = '<div class="col-sm-6 col-md-3">';
-								item += '	<div class="thumbnail">';
-								item += '	<div>';
-								item += '		<a href="#" onclick="selectAssetForEditor(\'' + j.id + '\',\'' + j.location
-										+ '\')"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?fileName=' + j.location + '" /></a>';
-								item += '	</div>';
-								item += '	<div class="caption">';
-								item += '		<h6 id="imgTitle-${item.id}">' + j.title + '</h6>';
-								item += '	</div></div>';
-								item += '</div>';
-								$("#assetListEditor").append(item);
-							}
-						} else
-							alert('载入素材库失败。');
-					});
-				});
 		$('#datetimepicker').daterangepicker({
 			startDate : moment(),
 			maxDate : '2020-12-31 23:59:59',
