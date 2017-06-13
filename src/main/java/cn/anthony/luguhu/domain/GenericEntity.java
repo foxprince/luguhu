@@ -59,9 +59,9 @@ public abstract class GenericEntity implements Serializable {
 	}
 
 	public String getFormatCtime() {
-		return DateUtil.format(getCtime(), "yyyy-MM-dd HH:mm:ss");
+		return DateUtil.format(getCtime(), "yyyy-MM-dd HH:mm");
 	}
-
+	
 	public boolean isAdd() {
 		if (id != null)
 			return false;

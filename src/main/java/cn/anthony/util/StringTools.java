@@ -39,7 +39,7 @@ public class StringTools {
 		StringBuilder sb = new StringBuilder();
 		sb.append("正常@等等 \n");
 		sb.append("\n");
-		sb.append("d@123 dd");
+		sb.append("d@123");
 		String end = " ";
 		String start = "@";
 		System.out.print(extract(sb, start, end));
@@ -270,8 +270,15 @@ public class StringTools {
 		while (startIndex >= 0) {
 			src.delete(0, startIndex);
 			int endIndex = src.indexOf(end);
-			String s = (src.substring(start.length(), endIndex).trim());
-			src.delete(0, endIndex);
+			String s = null;
+			if(endIndex>0){
+				s = src.substring(start.length(), endIndex).trim();
+				src.delete(0, endIndex);
+			}
+			else {
+				s = src.substring(start.length()).trim();
+				src.delete(0,src.length());
+			}
 			startIndex = src.indexOf(start);
 			l.add(s);
 		}

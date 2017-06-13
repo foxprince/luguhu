@@ -22,7 +22,6 @@ import cn.anthony.luguhu.repository.WxUserRepository;
 import cn.anthony.luguhu.service.AssetService;
 import cn.anthony.luguhu.util.Constant;
 import cn.anthony.luguhu.util.JsonUtils;
-import cn.anthony.luguhu.wp.builder.TextBuilder;
 import cn.anthony.util.StringTools;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -102,9 +101,9 @@ public class MsgHandler extends AbstractHandler {
 			asset.setTags(tags);
 			assetServ.create(asset);
 		}
-		// TODO 组装回复消息
 		String content = "收到信息内容：" + JsonUtils.toJson(wxMessage);
-		return new TextBuilder().build(content, wxMessage, wxService);
+		//return new TextBuilder().build(content, wxMessage, wxService);
+		return null;
 	}
 
 	private List<Tag> getLastTag(WxUser wxUser) {
