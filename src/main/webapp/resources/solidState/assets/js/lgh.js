@@ -59,7 +59,7 @@ function loadAsset(openId,tag) {
 			$("#assetList").fadeOut().html("");
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
-				var item = '<h4>'+j.ctime+'</h4><pre><code>';
+				var item = '<h4>'+j.formatCtime+'</h4><pre><code>';
 				if(j.type=='image')
 					item += '<img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName='+j.location+' " />';
 				else
