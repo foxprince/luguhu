@@ -66,6 +66,7 @@ public class WechatController {
 	private WxUserRepository userRepo;
 	@Value("classpath:wpMenu.json")
 	Resource wxMenuResource;
+	
 
 	/** 验证微信服务可用，返回同样内容
 	 */
@@ -130,10 +131,13 @@ public class WechatController {
 	 */
 	@RequestMapping(value = "/auth")
 	public String auth(String code,String state,HttpServletResponse response) throws WxErrorException {
+		logger.info("auth code:"+code);
 		WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
 		WxMpUser wxUser = wxService.getUserService().userInfo(accessToken.getOpenId());//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
-		WxUser wuser = new WxUser();
+		WxUser wuser = userRepo.findByOpenId(wxUser.getOpenId());
+		if(wuser==null)
+			wuser = new WxUser();
 		BeanUtils.copyProperties(wxUser, wuser);
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		userRepo.save(wuser);

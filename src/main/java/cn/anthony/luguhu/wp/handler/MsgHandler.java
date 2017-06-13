@@ -65,7 +65,7 @@ public class MsgHandler extends AbstractHandler {
 		}
 		// 如果是特定用户，则保留其消息
 		WxUser wxUser = userRepo.findByOpenId(wxMessage.getFromUser());
-		if (wxUser != null && wxUser.getLevel() >= 5) {
+		if (wxUser != null && wxUser.getLevel()!=null&&wxUser.getLevel() >= 5) {
 			String msgType = wxMessage.getMsgType();
 			Asset asset = new Asset();
 			asset.setCreateFrom("WECHAT");
