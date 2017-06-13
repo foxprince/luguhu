@@ -1,4 +1,4 @@
-function addcookie(name, value, expireHours) {
+function addCookie(name, value, expireHours) {
 	var cookieString = name + "=" + escape(value) + "; path=/";
 	// 判断是否设置过期时间
 	if (expireHours > 0) {
@@ -21,7 +21,7 @@ function getCookie(cname)
   var ca = document.cookie.split(';');
   for(var i=0; i<ca.length; i++) 
   {
-    var c = ca[i].trim();alert(c);
+    var c = ca[i].trim();
     if (c.indexOf(name)==0) return c.substring(name.length,c.length);
   }
   return "";

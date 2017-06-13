@@ -69,7 +69,7 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
     public QSaleUnit(Class<? extends SaleUnit> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
         this.asset = inits.isInitialized("asset") ? new QAsset(forProperty("asset"), inits.get("asset")) : null;
-        this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator")) : null;
+        this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator"), inits.get("operator")) : null;
         this.product = inits.isInitialized("product") ? new QProduct(forProperty("product"), inits.get("product")) : null;
     }
 

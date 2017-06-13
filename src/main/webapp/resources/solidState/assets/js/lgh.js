@@ -1,113 +1,3 @@
-/*
-	Solid State by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
- */
-(function($) {
-	"use strict";
-	skel.breakpoints({
-		xlarge : '(max-width: 1680px)',
-		large : '(max-width: 1280px)',
-		medium : '(max-width: 980px)',
-		small : '(max-width: 736px)',
-		xsmall : '(max-width: 480px)'
-	});
-	$(function() {
-		var $window = $(window), $body = $('body'), $header = $('#header'), $banner = $('#banner');
-		// Disable animations/transitions until the page has loaded.
-		$body.addClass('is-loading');
-		$window.on('load', function() {
-			window.setTimeout(function() {
-				$body.removeClass('is-loading');
-			}, 100);
-		});
-		// Fix: Placeholder polyfill.
-		$('form').placeholder();
-		// Prioritize "important" elements on medium.
-		skel.on('+medium -medium', function() {
-			$.prioritize('.important\\28 medium\\29', skel.breakpoint('medium').active);
-		});
-		// Header.
-		if (skel.vars.IEVersion < 9)
-			$header.removeClass('alt');
-		if ($banner.length > 0 && $header.hasClass('alt')) {
-			$window.on('resize', function() {
-				$window.trigger('scroll');
-			});
-			$banner.scrollex({
-				bottom : $header.outerHeight(),
-				terminate : function() {
-					$header.removeClass('alt');
-				},
-				enter : function() {
-					$header.addClass('alt');
-				},
-				leave : function() {
-					$header.removeClass('alt');
-				}
-			});
-		}
-		// Menu.
-		var $menu = $('#menu');
-		$menu._locked = false;
-		$menu._lock = function() {
-			if ($menu._locked)
-				return false;
-			$menu._locked = true;
-			window.setTimeout(function() {
-				$menu._locked = false;
-			}, 350);
-			return true;
-		};
-		$menu._show = function() {
-			if ($menu._lock())
-				$body.addClass('is-menu-visible');
-		};
-		$menu._hide = function() {
-			if ($menu._lock())
-				$body.removeClass('is-menu-visible');
-		};
-		$menu._toggle = function() {
-			if ($menu._lock())
-				$body.toggleClass('is-menu-visible');
-		};
-		$menu.appendTo($body).on('click', function(event) {
-			event.stopPropagation();
-			// Hide.
-			$menu._hide();
-		}).find('.inner').on('click', '.close', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			event.stopImmediatePropagation();
-			// Hide.
-			$menu._hide();
-		}).on('click', function(event) {
-			event.stopPropagation();
-		}).on('click', 'a', function(event) {
-			var href = $(this).attr('href');
-			event.preventDefault();
-			event.stopPropagation();
-			// Hide.
-			$menu._hide();
-			// Redirect.
-			window.setTimeout(function() {
-				window.location.href = href;
-			}, 350);
-		});
-		$body.on('click', 'a[href="#menu"]', function(event) {
-			event.stopPropagation();
-			event.preventDefault();
-			// Toggle.
-			$menu._toggle();
-		}).on('keydown', function(event) {
-			// Hide on escape.
-			if (event.keyCode == 27)
-				$menu._hide();
-		});
-	});
-	
-})(jQuery);
-//以下方法为自定义方法
 $(function() {
 	loadTitle();
 });
@@ -124,13 +14,14 @@ function loadProducts() {
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
 				var type = (j.pack)?'pack':'unit';
+				var packIcon = (j.pack)?'<i alt="pack" class="fa fa-calendar"></i>':'';
 				var item = ' <section id="' + j.id + '" class="wrapper '+((i%2!=0)?'alt':'')+' spotlight style' + (i + 1) % 6 + '">';
 				item += ' 	<div class="inner">';
-				item += ' 		<a href="generic.html?type='+type+'&packId='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
+				item += ' 		<a href="generic.html?type='+type+'&id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
 				item += ' 		<div class="content">';
-				item += ' 			<h2 class="major">' + j.title + '</h2>';
+				item += ' 			<h2 class="major"><a href="generic.html?type='+type+'&id='+j.id+'" >' + j.title + '</a> '+packIcon+'</h2>';
 				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.intro + '</p>';
-				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&packId='+j.id+'" class="special" >Learn more</a></span>';
+				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&id='+j.id+'" class="special" >Learn more</a></span>';
 				item += ' 			<span class="price" style="float:right;">' + j.price + ' <i class="fa fa-cny"></i></span></div>';
 				item += ' 		</div>';
 				item += ' 	</div>';
@@ -158,10 +49,34 @@ function loadWxUser(openId) {
 		}
 	});
 }
+// 读取用户发送的微信图文
+function loadAsset(openId,tag) {
+	var url = "/api/asset/list?createFrom=WECHAT&wxUser.openId="+openId;
+	if(tag!=null)
+		url += "&tags="+tag;
+	$.get(window.ApiDomian + url, function(json) {
+		if(json.code==0) {
+			$("#assetList").fadeOut().html("");
+			for (var i = 0; i < json.data.numberOfElements; i++) {
+				var j = json.data.content[i];
+				var item = '<h4>'+j.ctime+'</h4><pre><code>';
+				if(j.type=='image')
+					item += '<img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName='+j.location+' " />';
+				else
+					item += j.sourceName;
+				$.each(j.tags, function (n, tag) {
+					item +='<button onclick="loadAsset(\''+openId+'\',\''+tag.id+'\')" class="button special small">'+tag.label+'</button>';
+		        });
+				item +='</code></pre>';
+				$("#assetList").append(item).fadeIn();
+			}
+		}
+	});
+}
 function loadProduct(type,id) {
 	if(type=='pack')
 		loadProductPack(id);
-	else if(type=='unit')
+	else if(type=='unit') 
 		loadProductUnit(id);
 }
 //读取产品包详情
@@ -169,7 +84,7 @@ function loadProductPack(id) {
 	$.get(window.ApiDomian + "/api/productSalePack/"+id, function(json) {
 		if(json.code==0) {
 			$('#productTitle').text(json.data.title);
-			$('#productPrice').text("售价："+json.data.price+" rmb");
+			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').html(json.data.description);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
 			
@@ -195,9 +110,16 @@ function loadProductUnit(id) {
 			$('#productPrice').text("售价："+json.data.price);
 			$('#productDetail').html(json.data.description);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location) + '" alt="" />');
-			
+			var wxUser = json.data.product.producer.wxUser;
+			$('#userNickname').text(wxUser.nickname);$('#userNickname').attr("href","profile.html?openId="+wxUser.openId);
+			$('#userIcon').html('<img width="100%" src="' + (wxUser.headImgUrl===null?"pic07.jpg":wxUser.headImgUrl)  + '" alt="" />');
+			$('#userIcon').attr("href","profile.html?openId="+wxUser.openId);
+			$('#profile').fadeIn();
 		}
 	});
+}
+//读取生产者
+function loadUser(id) {
 }
 //读取文章列表
 function loadArticles() {
@@ -226,7 +148,7 @@ function loadArticles() {
 }
 
 function ajaxLog(s) {
-	alert(s);
+	console.log(s);
 }
 function getParams(key) {
 	var reg = new RegExp("(^|&)" + key + "=([^&]*)(&|$)");

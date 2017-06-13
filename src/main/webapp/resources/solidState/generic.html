@@ -57,12 +57,21 @@
 			<!-- Content -->
 			<div class="wrapper">
 				<div class="inner">
-
-					<h3 id="productPrice" class="major"></h3><i class="fa fa-cny"></i>
+					<span id="productPrice" class="price"></span><i class="fa fa-cny"></i>
+					
 					<div id="productDetail"></div>
 
-
-					<h3 class="major">销售说明</h3>
+					<!-- 如果是单品，则显示生产者信息 -->
+					<div id="profile" style="display:none;">
+						<h3>生产者: <a href="profile.html" id="userNickname">nickname</a> </h3>
+						<header>
+							<a href="profile.html" class="circled scrolly" id="userIcon">icon</a>
+						</header>
+						<footer>
+							
+						</footer>
+					</div>
+					<h3 class="major">相关文章</h3>
 					<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce
 						tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac
 						elementum arcu. Quisque placerat auctor laoreet.</p>
@@ -133,10 +142,11 @@
 	<script src="assets/js/jquery.scrollex.min.js"></script>
 	<script src="assets/js/util.js"></script>
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="assets/js/main.js"></script>
 	<script src="assets/js/lgh.js"></script>
 	<script>
 	$(document).ready(function() {
-		loadProduct(getParams("type"),getParams("packId"));
+		loadProduct(getParams("type"),getParams("id"));
 	});
 	</script>
 </body>

@@ -33,7 +33,7 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
  * @author Binary Wang
  * edit by zj
  */
-@Configuration
+@Configuration//此注解用于注入bean，特别是在jar包之内的第三方类
 @ConditionalOnClass(WxMpService.class)
 public class WechatMpConfiguration {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
@@ -53,7 +53,8 @@ public class WechatMpConfiguration {
     
     @Bean 
     public WxMpMessageRouter router(WxMpService wxMpService) {
-        final WxMpMessageRouter newRouter = new WxMpMessageRouter(wxMpService);
+        logger.debug("init wechat router with service : "+wxMpService);
+    	final WxMpMessageRouter newRouter = new WxMpMessageRouter(wxMpService);
 
         // 记录所有事件的日志 （异步执行）
         newRouter.rule().handler(this.logHandler).next();

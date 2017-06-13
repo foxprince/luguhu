@@ -36,9 +36,13 @@ public abstract class GenericEntity implements Serializable {
 		this.ctime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
 
-	public abstract String getSelfIntro();
+	public String getSelfIntro() {
+		return this.getClass().getName();
+	}
 
-	public abstract String getSelfDescription();
+	public String getSelfDescription() {
+		return null;
+	}
 
 	public String getAction() {
 		if (isAdd())

@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
@@ -25,7 +24,7 @@ public class SaleUnit extends GenericEntity implements Saleable {
 	 */
 	@ManyToOne
 	@JoinColumn(name = "product_id")
-	@JsonIgnore
+	//@JsonIgnore
 	private Product product;
 	private String title, description;
 	private String unit;

@@ -7,7 +7,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -48,7 +50,9 @@ public class User extends GenericEntity {
 	private Date lastLogin;
 	private boolean active = true;
 	private boolean verified = false;
-
+	@OneToOne(cascade=CascadeType.DETACH)  
+    @JoinColumn(name="wx_user_id") 
+	private WxUser wxUser;
 	@OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "producer")
 	transient private List<Product> products;
 

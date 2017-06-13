@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -31,10 +28,15 @@ import com.querydsl.core.types.Predicate;
 
 import cn.anthony.luguhu.api.JsonResponse;
 import cn.anthony.luguhu.domain.Asset;
+import cn.anthony.luguhu.domain.Tag;
+import cn.anthony.luguhu.domain.WxUser;
+import cn.anthony.luguhu.repository.TagRepository;
+import cn.anthony.luguhu.repository.WxUserRepository;
 import cn.anthony.luguhu.service.AssetService;
 import cn.anthony.luguhu.service.UserService;
 import cn.anthony.luguhu.util.Constant;
 import cn.anthony.luguhu.util.ControllerUtil;
+import cn.anthony.util.StringTools;
 import lombok.Data;
 import net.coobird.thumbnailator.Thumbnails;
 
@@ -48,7 +50,11 @@ public class AssetController extends GenericController<Asset, Long> {
 	UserService userService;
 	@Resource
 	Constant constant;
-
+	@Resource
+	WxUserRepository wxUserrepsitory;
+	@Resource
+	TagRepository tagRepo;
+	
 	@Override
 	AssetService getService() {
 		return this.service;
@@ -75,16 +81,23 @@ public class AssetController extends GenericController<Asset, Long> {
 	}
 
 	@RequestMapping(value = { "list", "listPage" })
-	public String list(@ModelAttribute("search") AssetSearch us, @QuerydslPredicate(root = Asset.class) Predicate predicate,
+	public String list(@ModelAttribute("search") AssetSearch search, @QuerydslPredicate(root = Asset.class) Predicate predicate,
 			@PageableDefault(value = 10, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model m) {
 		ControllerUtil.setPageVariables(m, getService().getRepository().findAll(predicate, pageable));
+		if(search!=null&&search.getCreateFrom()!=null&&search.getCreateFrom().equals("WECHAT")) {
+			m.addAttribute("wechatUsers", wxUserrepsitory.findDistinctWxUser());
+			m.addAttribute("wxUser", search.getWxUser());
+			m.addAttribute("tags", tagRepo.findAll());
+			m.addAttribute("tag", search.getTag());
+			return "/asset/wechatMsg";
+		}
 		return getListView();
 	}
 
 	@PostMapping(value = { "/upload" })
 	@ResponseBody
 	public JsonResponse upload(@RequestParam("file") MultipartFile file) throws IOException {
-		String fileName = createFileName(file.getOriginalFilename());// file.getOriginalFilename();//
+		String fileName = StringTools.createFileNameWithYM(file.getOriginalFilename());// file.getOriginalFilename();//
 		FileUtils.copyInputStreamToFile(file.getInputStream(),
 				new File(constant.getUploadAbsoluteDir() + Constant.FILE_SEPA + fileName));
 		Asset item = new Asset();
@@ -115,14 +128,12 @@ public class AssetController extends GenericController<Asset, Long> {
 		}
 	}
 
-	private String createFileName(String originalName) {
-		return DateFormatUtils.format(Calendar.getInstance(), "yyyyMM") + Constant.FILE_SEPA + "_" + UUID.randomUUID().toString() + "."
-				+ FilenameUtils.getExtension(originalName);
-	}
 }
 
 @Data
 class AssetSearch {
-	private String title;
+	private String title,createFrom;
 	private String description;
+	private WxUser wxUser;
+	private Tag tag;
 }

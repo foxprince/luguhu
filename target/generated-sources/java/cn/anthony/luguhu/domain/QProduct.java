@@ -60,8 +60,8 @@ public class QProduct extends EntityPathBase<Product> {
 
     public QProduct(Class<? extends Product> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator")) : null;
-        this.producer = inits.isInitialized("producer") ? new QUser(forProperty("producer")) : null;
+        this.operator = inits.isInitialized("operator") ? new QUser(forProperty("operator"), inits.get("operator")) : null;
+        this.producer = inits.isInitialized("producer") ? new QUser(forProperty("producer"), inits.get("producer")) : null;
     }
 
 }

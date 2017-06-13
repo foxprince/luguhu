@@ -1,5 +1,6 @@
 package cn.anthony.luguhu.wp;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -40,6 +42,9 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNews.WxMpMaterialNewsArticle;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNewsBatchGetResult;
+import me.chanjar.weixin.mp.bean.material.WxMpMaterialNewsBatchGetResult.WxMaterialNewsBatchGetNewsItem;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutTextMessage;
@@ -54,14 +59,16 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
 public class WechatController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private WxMpService wxService;
+	private WxMpService wxService;//注意，此类的bean声明是通过WechatMpConfiguration实现的
 	@Autowired
-	private WxMpMessageRouter router;
+	private WxMpMessageRouter router;//注意，此类的bean声明是通过WechatMpConfiguration实现的
 	@Autowired
 	private WxUserRepository userRepo;
 	@Value("classpath:wpMenu.json")
 	Resource wxMenuResource;
 
+	/** 验证微信服务可用，返回同样内容
+	 */
 	@GetMapping(produces = "text/plain;charset=utf-8")
 	@ResponseBody
 	public String authGet(@RequestParam(name = "signature", required = false) String signature,
@@ -89,12 +96,28 @@ public class WechatController {
 	@RequestMapping(value = "/pushtest")
 	@ResponseBody
 	public boolean test() throws WxErrorException {
+		boolean bool = false; 
 		WxMpKefuMessage message = new WxMpKefuMessage();
 		message.setToUser("o6AWbjpi4e7MRmXP4qYQpN5zSoIM");
 		message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
 		message.setContent("测试推送消息");
-		boolean bool = wxService.getKefuService().sendKefuMessage(message);
+		bool = wxService.getKefuService().sendKefuMessage(message);
 		return bool;
+	}
+	
+	/*下载素材*/
+	private void fetchMedia() throws WxErrorException {
+		WxMpMaterialNewsBatchGetResult newsList = wxService.getMaterialService().materialNewsBatchGet(20, 40);
+		for(WxMaterialNewsBatchGetNewsItem news :newsList.getItems()) {
+			for(WxMpMaterialNewsArticle article : news.getContent().getArticles()) {
+				try {
+					System.out.println(article.getTitle());
+					FileUtils.writeStringToFile(new File("/Users/zj/tmp/lm/"+article.getTitle()+".html"), article.getContent());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 	
 	/**
@@ -183,6 +206,7 @@ public class WechatController {
 		return bool;
 	}
 
+	/**消息处理主方法**/
 	@PostMapping(produces = "application/xml; charset=UTF-8")
 	@ResponseBody
 	public String post(@RequestBody String requestBody, @RequestParam("signature") String signature,

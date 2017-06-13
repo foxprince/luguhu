@@ -60,7 +60,8 @@
               </a>
               <ul class="treeview-menu">
                 <li><a href="/article/list"><i class="fa fa-file"></i> 文章列表</a></li>
-                <li><a href="/asset/list"><i class="fa fa-image"></i> 素材管理</a></li>
+                <li><a href="/asset/list?createFrom=ADMIN"><i class="fa fa-image"></i> 素材管理</a></li>
+                <li><a href="/asset/list?createFrom=WECHAT"><i class="fa fa-image"></i> 微信收集</a></li>
               </ul>
             </li>
             <li class="treeview">
