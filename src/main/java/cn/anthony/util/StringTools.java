@@ -275,8 +275,6 @@ public class StringTools {
 			if(startIndex>0)
 				break;
 		}
-		
-		System.out.println(startIndex);
 		while (startIndex >= 0) {
 			src.delete(0, startIndex);
 			int endIndex = src.indexOf(end);
