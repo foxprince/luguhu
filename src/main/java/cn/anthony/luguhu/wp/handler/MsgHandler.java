@@ -3,8 +3,10 @@ package cn.anthony.luguhu.wp.handler;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -91,7 +93,9 @@ public class MsgHandler extends AbstractHandler {
 				// 从文本里读取标签
 				String content = wxMessage.getContent();
 				asset.setSourceName(content);
-				List<String> labelList = StringTools.extract(new StringBuilder(content), "@", " ");
+				Set<String> set = new HashSet<String>();
+				set.add("＠");set.add("@");
+				List<String> labelList = StringTools.extract(new StringBuilder(content), set, " ");
 				tags = getOrCreateTags(labelList);
 				break;
 			}

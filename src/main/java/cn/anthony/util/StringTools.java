@@ -12,11 +12,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -37,12 +39,13 @@ public class StringTools {
 	public static void main(String[] args) {
 		// caluMarathon(1);
 		StringBuilder sb = new StringBuilder();
-		sb.append("正常@等等 \n");
-		sb.append("\n");
-		sb.append("d@123");
+		sb.append("《从腐竹谈翡翠湾的项目运行》！＠腐竹");
 		String end = " ";
 		String start = "@";
-		System.out.print(extract(sb, start, end));
+		Set<String> set = new HashSet<String>();
+		set.add(start);
+		set.add("＠");
+		System.out.print(extract(sb, set, end));
 	}
 	
 	public static String createFileNameWithYM(String originalName) {
@@ -264,22 +267,33 @@ public class StringTools {
 		return s.startsWith(":") || s.startsWith("：") ? s.substring(1) : s;
 	}
 
-	public static List<String> extract(StringBuilder src, String start, String end) {
+	public static List<String> extract(StringBuilder src, Set<String> startTokens, String end) {
 		List<String> l = new ArrayList<String>();
-		int startIndex = src.indexOf(start);
+		int startIndex = -1;
+		for(String s : startTokens) {
+			startIndex = src.indexOf(s);
+			if(startIndex>0)
+				break;
+		}
+		
+		System.out.println(startIndex);
 		while (startIndex >= 0) {
 			src.delete(0, startIndex);
 			int endIndex = src.indexOf(end);
 			String s = null;
 			if(endIndex>0){
-				s = src.substring(start.length(), endIndex).trim();
+				s = src.substring(1, endIndex).trim();
 				src.delete(0, endIndex);
 			}
 			else {
-				s = src.substring(start.length()).trim();
+				s = src.substring(1).trim();
 				src.delete(0,src.length());
 			}
-			startIndex = src.indexOf(start);
+			for(String t : startTokens) {
+				startIndex = src.indexOf(t);
+				if(startIndex>0)
+					break;
+			}
 			l.add(s);
 		}
 		return l;
