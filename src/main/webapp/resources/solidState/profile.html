@@ -408,30 +408,6 @@
 					wxOpenId=getCookie('wxOpenId');
 				loadWxUser(wxOpenId);
 				loadAsset(wxOpenId);
-				// 安装下拉刷新插件
-		        var pullToRefresh = $.installPullToRefresh("#container", {
-		            onRefresh: function(refreshDone) {
-		            	$("#content").fadeOut().html("");console.log('refresh');
-		            	setTimeout(function() {
-		                    refreshDone();
-		                }, 2000);
-		            	$("#content").fadeIn("");
-		            },
-		            onLoad: function(loadDone) {
-		                setTimeout(function() {
-		                    loadDone();
-		                }, 0);
-		            },
-		            // noRefresh: true,
-		            // noLoad: true,
-		            // pauseBound: 40,
-		            // lowerBound: 80,
-		            // loadImg: "load.png",
-		            // pullImg: "pull.png",
-		            // bottomHeight: 1,
-		        });
-		        pullToRefresh.refresh();
-		        pullToRefresh.triggerPull();
 			});
 			</script>
 	</body>
