@@ -206,9 +206,10 @@ public abstract class GenericController<T, ID extends Serializable> {
 	protected abstract String getFormView();
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam ID id, final RedirectAttributes redirectAttributes, SessionStatus status)
+	public ModelAndView delete(@RequestParam ID id, final RedirectAttributes redirectAttributes, SessionStatus status,HttpServletRequest request)
 			throws EntityNotFound {
-		ModelAndView mav = new ModelAndView("redirect:list");
+		String url = appendParameter("list",request);
+		ModelAndView mav = new ModelAndView("redirect:"+url);
 		T t = getService().delete(id);
 		logAction(id, (GenericEntity) t, "DELETE", "删除");
 		status.setComplete();
@@ -228,7 +229,20 @@ public abstract class GenericController<T, ID extends Serializable> {
 		String finalPath = apm.extractPathWithinPattern(bestMatchPattern, path);
 		return finalPath;
 	}
-
+	
+	private String appendParameter(String url,HttpServletRequest request) {
+		java.util.Enumeration<String> reqEnum = request.getParameterNames();
+		if(url.indexOf("?")>0)
+			url += "&";
+		else
+			url += "?";
+		while (reqEnum.hasMoreElements()) {
+			String s = reqEnum.nextElement();
+			url += s+"="+request.getParameter(s)+"&";
+		}
+		return url;
+	}
+	
 	protected void logPara(Model m, HttpServletRequest request, HttpSession session) {
 		System.out.println("Inside of dosomething handler method");
 		System.out.println("--- Model data ---");

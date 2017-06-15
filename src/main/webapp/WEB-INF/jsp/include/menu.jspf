@@ -53,9 +53,9 @@
                 <li><a href="/productSalePack/list"><i class="fa fa-user"></i> 产品包</a></li>
               </ul>
             </li>
-            <li class="treeview" navi="article">
+            <li class="treeview" navi="article asset">
               <a href="#">
-                <i class="fa fa-file-text"></i> <span>文章</span>
+                <i class="fa fa-file-text"></i> <span>素材</span>
                 <i class="fa fa-angle-left pull-right"></i> 
               </a>
               <ul class="treeview-menu">

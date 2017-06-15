@@ -12,6 +12,7 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/fcw.css" />
+		<link rel='stylesheet' type='text/css' href = '../plugins/pullToRefresh/pullToRefresh.css'>
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
@@ -44,6 +45,7 @@
 					</nav>
 
 				<!-- Wrapper -->
+					<div id="container"> <div id="content">
 					<section id="wrapper">
 						<div id="profile">
 							<div class="inner">
@@ -53,10 +55,8 @@
 								<footer>
 								<h1><a href="profile.html" id="userNickname">nickname</a></h1>
 								</footer>
-								
 							</div>
 						</div>
-
 						<!-- Content -->
 							<div class="wrapper">
 								<div class="inner">
@@ -343,7 +343,7 @@
 							</div>
 
 					</section>
-
+					</div></div>
 				<!-- Footer -->
 					<section id="footer">
 						<div class="inner"><!--  
@@ -397,6 +397,8 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/lgh.js"></script>
 			<script src="assets/js/cookie.js"></script>
+			<script src="../plugins/pullToRefresh/iscroll.js"></script>
+			<script src="../plugins/pullToRefresh/pullToRefresh.js"></script>
 			<script>
 			$(document).ready(function() {
 				var wxOpenId=getParams("openId"); 
@@ -406,6 +408,30 @@
 					wxOpenId=getCookie('wxOpenId');
 				loadWxUser(wxOpenId);
 				loadAsset(wxOpenId);
+				// 安装下拉刷新插件
+		        var pullToRefresh = $.installPullToRefresh("#container", {
+		            onRefresh: function(refreshDone) {
+		            	$("#content").fadeOut().html("");console.log('refresh');
+		            	setTimeout(function() {
+		                    refreshDone();
+		                }, 2000);
+		            	$("#content").fadeIn("");
+		            },
+		            onLoad: function(loadDone) {
+		                setTimeout(function() {
+		                    loadDone();
+		                }, 0);
+		            },
+		            // noRefresh: true,
+		            // noLoad: true,
+		            // pauseBound: 40,
+		            // lowerBound: 80,
+		            // loadImg: "load.png",
+		            // pullImg: "pull.png",
+		            // bottomHeight: 1,
+		        });
+		        pullToRefresh.refresh();
+		        pullToRefresh.triggerPull();
 			});
 			</script>
 	</body>

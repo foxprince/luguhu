@@ -132,7 +132,7 @@ public class AssetController extends GenericController<Asset, Long> {
 
 @Data
 class AssetSearch {
-	private String title,createFrom;
+	private String sourceName,createFrom;
 	private String description;
 	private WxUser wxUser;
 	private Tag tag;

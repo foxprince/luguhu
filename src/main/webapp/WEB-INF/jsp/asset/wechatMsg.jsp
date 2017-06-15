@@ -20,7 +20,7 @@
     <div class="content-wrapper">
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>微信内容列表</h1>
+        <h1>微信内容收集</h1>
         <ol class="breadcrumb">
           <li><a href="/"><i class="fa fa-dashboard"></i> 主页</a></li>
           <li class="active"><a href="/asset/list?createFrom=WECHAT">微信内容列表</a></li>
@@ -44,10 +44,11 @@
                      	<li class="user-header text-center <c:if test="${item.id==tag.id }">table-bordered</c:if>"><a class="btn btn-default"href="list?createFrom=WECHAT&tags=${item.id}">${item.label}</a></li>
                      </c:forEach>
                      </ul>
-                     <form:form class="form-inline form-search" modelAttribute="search" id="searchForm" action="/article/list"  method="post">
+                     <form:form class="form-inline form-search" modelAttribute="search" id="searchForm" action="/asset/list?createFrom=WECHAT"  method="post">
                       <div class="form-group">  
-                      <form:input class="form-control" path="title" placeholder="名称"/>
+                      <form:input class="form-control" path="sourceName" placeholder="关键词"/>
                       <button type="submit" class="btn btn-outline btn-primary btn-lg">搜</button>
+                      <a href="/asset/list?createFrom=WECHAT" class="btn btn-outline btn-primary btn-lg">重置</a>
                       </div>
                     </form:form>
                   </div>
@@ -72,7 +73,7 @@
                         <td>${item.id}</td>
                         <td>${item.wxUser.nickname}</td>
                         <td>${item.formatCtime}</td>
-                        <td>
+                        <td width="50%">
                         <c:choose>
                         	<c:when test="${item.type =='image'}">
                         	<a href="/asset/preview?fileName=${item.location}" data-lightbox="image-1" data-title="${item.title}"><img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName=${item.location} " /></a>
@@ -83,7 +84,7 @@
                         </c:choose>
                         </td>
                         <td>${item.tagLables}</td>
-                        <td><a href="./delete?id=${item.id}" class="btn btn-danger" onclick='return confirm("您确认忽略吗？");'>忽略</a><br /> </td>
+                        <td><a href="./delete?createFrom=WECHAT&id=${item.id}" class="btn btn-danger" onclick='return confirm("您确认忽略吗？");'>忽略</a><br /> </td>
                       </tr>
                     </c:forEach>
                   </tbody>
