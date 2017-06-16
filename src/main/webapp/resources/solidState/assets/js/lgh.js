@@ -50,8 +50,8 @@ function loadWxUser(openId) {
 	});
 }
 // 读取用户发送的微信图文
-function loadAsset(openId,tag) {
-	var url = "/api/asset/list?createFrom=WECHAT&wxUser.openId="+openId;
+function loadAsset(openId,tag,page,size) {
+	var url = "/api/asset/list?createFrom=WECHAT&wxUser.openId="+openId+'&page='+page+'&size='+size;
 	if(tag!=null)
 		url += "&tags="+tag;
 	$.get(window.ApiDomian + url, function(json) {

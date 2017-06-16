@@ -12,7 +12,7 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link rel="stylesheet" href="assets/css/fcw.css" />
-		<link rel='stylesheet' type='text/css' href = '../plugins/pullToRefresh/pullToRefresh.css'>
+		<link rel='stylesheet' type='text/css' href = '../plugins/dropload/dropload.css'>
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
@@ -397,8 +397,7 @@
 			<script src="assets/js/main.js"></script>
 			<script src="assets/js/lgh.js"></script>
 			<script src="assets/js/cookie.js"></script>
-			<script src="../plugins/pullToRefresh/iscroll.js"></script>
-			<script src="../plugins/pullToRefresh/pullToRefresh.js"></script>
+			<script src="../plugins/dropload/dropload.js"></script>
 			<script>
 			$(document).ready(function() {
 				var wxOpenId=getParams("openId"); 
@@ -407,7 +406,44 @@
 				else	
 					wxOpenId=getCookie('wxOpenId');
 				loadWxUser(wxOpenId);
-				loadAsset(wxOpenId);
+				//loadAsset(wxOpenId);
+				// 页数
+			    var page = 0;
+			    // 每页展示5个
+			    var size = 5;
+				$('#content').dropload({
+				    scrollArea : window,
+				    loadDownFn : function(me){
+				        $.ajax({
+				            type: 'GET',
+				            url: '/api/asset/list?createFrom=WECHAT&wxUser.openId='+wxOpenId+'&page='+page+'&size='+size,
+				            dataType: 'json',
+				            success: function(json){console.log(page);
+				            	if(json.data.numberOfElements>0) {
+				            		page++;
+				            		for (var i = 0; i < json.data.numberOfElements; i++) {
+				    				var j = json.data.content[i];
+				    				var item = '<h4>'+j.formatCtime+'</h4><pre><code>';
+				    				if(j.type=='image')
+				    					item += '<img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName='+j.location+' " />';
+				    				else
+				    					item += j.sourceName;
+				    				$.each(j.tags, function (n, tag) {
+				    					item +='<button onclick="loadAsset(\''+wxOpenId+'\',\''+tag.id+'\')" class="button special small">'+tag.label+'</button>';
+				    		        });
+				    				item +='</code></pre>';
+				    				$("#assetList").append(item);
+				    			}}
+				            },
+				            error: function(xhr, type){
+				                console.log('Ajax error!');
+				            },
+				            complete: function(json){
+				            	me.resetload();
+				            }
+				        });
+				    }
+				});
 			});
 			</script>
 	</body>

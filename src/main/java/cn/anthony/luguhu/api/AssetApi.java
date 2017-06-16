@@ -23,7 +23,7 @@ public class AssetApi extends GenericRestController<Asset, Long> {
 
 	@RequestMapping(value = { "list"})
 	public JsonResponse list(@QuerydslPredicate(root=Asset.class) Predicate predicate,
-			@PageableDefault(value = 100, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+			@PageableDefault(value = 1, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
 		return new JsonResponse(this.service.getRepository().findAll(predicate, pageable));
 	}
 }
