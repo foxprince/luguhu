@@ -144,7 +144,7 @@ public class WechatController {
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		wxUserRepo.save(wuser);
 		//根据state的不同导向到不同页面，带参数openId
-		return "redirect:/resources/solidState/profile.html?openId="+wuser.getOpenId();
+		return "redirect:solidState/profile.html?openId="+wuser.getOpenId();
 	}
 	
 	@RequestMapping(value = "/cookietest")
@@ -153,7 +153,7 @@ public class WechatController {
 		foo.setMaxAge(365*24*3600);
 		response.addCookie(foo);
 		//根据state的不同导向到不同页面，带参数openId
-		return "redirect:/resources/solidState/profile.html?openId="+openId;
+		return "redirect:solidState/profile.html?openId="+openId;
 	}
 	
 	@RequestMapping("oauthUrl")@ResponseBody
@@ -172,7 +172,7 @@ public class WechatController {
 	}
 	@RequestMapping(value = "/profile")
 	public String profile()  {
-		return "redirect:/resources/solidState/profile.html";
+		return "redirect:solidState/profile.html";
 	}
 	@RequestMapping(value = "/getUser")
 	@ResponseBody
