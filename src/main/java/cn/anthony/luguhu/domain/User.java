@@ -11,11 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import com.querydsl.core.annotations.QueryEntity;
 
@@ -28,35 +26,39 @@ import lombok.ToString;
 @Entity
 @Table
 public class User extends GenericEntity {
-
 	private static final long serialVersionUID = 2614801674646477358L;
-	@NotNull
-	@NotEmpty
+	// @NotNull
+	// @NotEmpty
 	@Column(nullable = false, length = 64)
 	@Email
 	private String email;
-	private byte loginType;
-	@NotEmpty
+	private Byte loginType;//'1:手机号码，2：邮箱，3：自定义用户名',4:微信
 	@Size(min = 6, max = 30)
 	private String password;
-	@NotEmpty
 	private String name;
 	private String nickname;
-	private byte sex, age;
-	private byte level;
+	private Byte sex, age;
+	private Byte level = 0;//'0-普通用户，1：份额用户,2：股东用户',
 	private String phone;
 	private String address;
 	private String origin = "web";
 	private Date lastLogin;
 	private boolean active = true;
 	private boolean verified = false;
-	@OneToOne(cascade=CascadeType.DETACH)  
-    @JoinColumn(name="wx_user_id") 
-	private WxUser wxUser;
+	@OneToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "wx_user_id")
+	private WxUser wxUser = null;;
 	@OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "producer")
 	transient private List<Product> products;
-
+	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	private List<Address> addresses;
+	public User(){}
+	public User(Byte loginType) {
+		this.loginType = loginType;
+	}
 	public String getOriginDesc() {
+		if (origin == null)
+			return null;
 		switch (origin) {
 		case "web":
 			return "网站注册";
@@ -80,6 +82,8 @@ public class User extends GenericEntity {
 	}
 
 	public String getLevelDesc() {
+		if (level == null)
+			return null;
 		switch (level) {
 		case 1:
 			return "份额用户";
@@ -93,7 +97,8 @@ public class User extends GenericEntity {
 	}
 
 	public String getSexDesc() {
-		switch (sex) {
+		if (sex == null)
+			return null;switch (sex) {
 		case 1:
 			return "男";
 		case 2:

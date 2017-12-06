@@ -70,9 +70,9 @@
 				</div>
 				<!-- /.row -->
 			</section>
-			<section class="content-header">
+			<!-- <section class="content-header">
 				<a class="btn btn-lg btn-info" href="./add">添加素材</a>
-			</section>
+			</section> -->
 			<!-- /.content -->
 		</div>
 		<!-- /.content-wrapper -->
@@ -83,6 +83,7 @@
 		
 		<script>
 			$(document).ready(function() {
+				
 			});
 			function editTitle(sender) {
 				var titleDom = $(sender).parent().parent().find('h6');

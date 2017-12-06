@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>翡翠湾食安云台</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/fcw.css" />
+		<link rel='stylesheet' type='text/css' href = '../plugins/dropload/dropload.css'>
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+				<!-- Header -->
+					<header id="header">
+						<h1>
+							<a href="index.html">翡翠湾</a>
+						</h1>
+						<nav>
+							<a href="#menu">菜单</a>
+						</nav>
+					</header>
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>菜单</h2>
+							<ul class="links">
+								<li><a href="index.html">首页</a></li>
+								<li><a href="generic.html">产品</a></li>
+								<li><a href="elements.html">文章</a></li>
+								<li><a href="userIndex.html">我</a></li>
+							</ul>
+							<a href="#" class="close"></a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<div id="container"> <div id="content">
+					<section id="wrapper">
+						<div id="profile">
+							<div class="inner">
+								<header>
+								<a href="profile.html" class="circled scrolly" id="userIcon">icon</a>
+								</header>
+								<footer>
+								<h1><a href="profile.html" id="userNickname">nickname</a></h1>
+								</footer>
+							</div>
+						</div>
+						<!-- Content -->
+							<div class="wrapper">
+							<ul class="contact">
+								<li class="fa-home"><a href="address.html">收货地址</a></li>
+								<li class="fa-phone"><a href="profile.html">个人信息</a></li>
+								<li class="fa-envelope"><a href="wenchatMsg.html">微信言论</a></li>
+							</ul>
+							</div>
+
+					</section>
+					</div></div>
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner"><!--  
+							<h2 class="major">Get in touch</h2>
+							<p>Cras mattis ante fermentum, malesuada neque vitae, eleifend erat. Phasellus non pulvinar erat. Fusce tincidunt, nisl eget mattis egestas, purus ipsum consequat orci, sit amet lobortis lorem lacus in tellus. Sed ac elementum arcu. Quisque placerat auctor laoreet.</p>
+							<form method="post" action="#">
+								<div class="field">
+									<label for="name">Name</label>
+									<input type="text" name="name" id="name" />
+								</div>
+								<div class="field">
+									<label for="email">Email</label>
+									<input type="email" name="email" id="email" />
+								</div>
+								<div class="field">
+									<label for="message">Message</label>
+									<textarea name="message" id="message" rows="4"></textarea>
+								</div>
+								<ul class="actions">
+									<li><input type="submit" value="Send Message" /></li>
+								</ul>
+							</form>
+							<ul class="contact">
+								<li class="fa-home">
+									Untitled Inc<br />
+									1234 Somewhere Road Suite #2894<br />
+									Nashville, TN 00000-0000
+								</li>
+								<li class="fa-phone">(000) 000-0000</li>
+								<li class="fa-envelope"><a href="#">information@untitled.tld</a></li>
+								<li class="fa-twitter"><a href="#">twitter.com/untitled-tld</a></li>
+								<li class="fa-facebook"><a href="#">facebook.com/untitled-tld</a></li>
+								<li class="fa-instagram"><a href="#">instagram.com/untitled-tld</a></li>
+							</ul>
+							
+							-->
+							<ul class="copyright">
+								<li>&copy; 翡翠湾 Inc. All rights reserved.</li>
+							</ul>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/lgh.js"></script>
+			<script src="assets/js/cookie.js"></script>
+			<script src="../plugins/dropload/dropload.js"></script>
+			<script>
+			$(document).ready(function() {
+				var wxOpenId=getParams("openId"); 
+				if (wxOpenId!=null)
+					setCookie('wxOpenId',wxOpenId,365);
+				else	
+					wxOpenId=getCookie('wxOpenId');
+				console.log("wxOpenId:"+wxOpenId);
+				loadWxUser(wxOpenId);
+				//网络不通时测试用
+				//loadUserByWxUser(sessionStorage.wxUserId);
+			});
+			</script>
+	</body>
+</html>

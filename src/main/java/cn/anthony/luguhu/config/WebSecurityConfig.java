@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.IpAddressMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
@@ -20,12 +20,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// http://blog.netgloo.com/2014/09/28/spring-boot-enable-the-csrf-check-selectively-only-for-some-requests/
 		RequestMatcher csrfRequestMatcher = new RequestMatcher() {
 			// Disable CSFR protection on the following urls:
-			private AntPathRequestMatcher[] requestMatchers = { new AntPathRequestMatcher("/wp/**") };
+			private RequestMatcher[] requestMatchers = { new IpAddressMatcher("127.0.0.1")};//,new AntPathRequestMatcher("/resources/**"),new AntPathRequestMatcher("/asset/preview/**"),new AntPathRequestMatcher("/wp/**"),new AntPathRequestMatcher("/api/**") };
 
 			@Override
 			public boolean matches(HttpServletRequest request) {
 				// If the request match one url the CSFR protection will be disabled
-				for (AntPathRequestMatcher rm : requestMatchers) {
+				for (RequestMatcher rm : requestMatchers) {
 					if (rm.matches(request)) {
 						return false;
 					}
@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			} 
 		}; 
 		// Set security configurations
-		// http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher).and()
+		http.csrf().requireCsrfProtectionMatcher(csrfRequestMatcher);
 		http.csrf().ignoringAntMatchers("/wp/**").and().authorizeRequests().antMatchers("/**", "/resources/**", "/api/**", "/wp/**")
 				.permitAll();
 		// .antMatchers("/users/**").hasAuthority("ADMIN").anyRequest().fullyAuthenticated().and().formLogin()

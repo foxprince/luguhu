@@ -31,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.anthony.luguhu.api.JsonResponse;
+import cn.anthony.luguhu.domain.User;
 import cn.anthony.luguhu.domain.WxUser;
+import cn.anthony.luguhu.repository.UserRepository;
 import cn.anthony.luguhu.repository.WxUserRepository;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
@@ -62,8 +64,8 @@ public class WechatController {
 	private WxMpService wxService;//注意，此类的bean声明是通过WechatMpConfiguration实现的
 	@Autowired
 	private WxMpMessageRouter router;//注意，此类的bean声明是通过WechatMpConfiguration实现的
-	@Autowired
-	private WxUserRepository userRepo;
+	@Autowired private WxUserRepository wxUserRepo;
+	@Autowired private UserRepository userRepo;
 	@Value("classpath:wpMenu.json")
 	Resource wxMenuResource;
 	
@@ -135,12 +137,12 @@ public class WechatController {
 		WxMpOAuth2AccessToken accessToken = wxService.oauth2getAccessToken(code);
 		WxMpUser wxUser = wxService.getUserService().userInfo(accessToken.getOpenId());//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
-		WxUser wuser = userRepo.findByOpenId(wxUser.getOpenId());
+		WxUser wuser = wxUserRepo.findByOpenId(wxUser.getOpenId());
 		if(wuser==null)
 			wuser = new WxUser();
 		BeanUtils.copyProperties(wxUser, wuser);
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
-		userRepo.save(wuser);
+		wxUserRepo.save(wuser);
 		//根据state的不同导向到不同页面，带参数openId
 		return "redirect:/resources/solidState/profile.html?openId="+wuser.getOpenId();
 	}
@@ -181,14 +183,34 @@ public class WechatController {
 			WxUser wuser = new WxUser();
 			BeanUtils.copyProperties(userWxInfo, wuser);
 			wuser.setSubscribeTime(new Timestamp(userWxInfo.getSubscribeTime()*1000l));
-			return userRepo.save(wuser);
+			return wxUserRepo.save(wuser);
 		}
 		return null;
 	}
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+	/**
+	 * @param openId 根据
+	 * @return
+	 * @throws WxErrorException
+	 */
+	@RequestMapping(value = "/wxUser/{openId}", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse get(@PathVariable String id) throws WxErrorException {
-		return new JsonResponse(wxService.getUserService().userInfo(id, null));
+	public JsonResponse get(@PathVariable String openId) throws WxErrorException {
+		WxMpUser userWxInfo = wxService.getUserService().userInfo(openId, null);
+		if (userWxInfo != null) {
+			WxUser wxUser = wxUserRepo.findByOpenId(openId);
+			if(wxUser==null)
+				wxUser = new WxUser();
+			BeanUtils.copyProperties(userWxInfo, wxUser);
+			wxUser.setSubscribeTime(new Timestamp(userWxInfo.getSubscribeTime()*1000l));
+			wxUserRepo.save(wxUser);
+			User user = userRepo.findByWxUserOpenId(openId);
+			if(user==null)
+				user = new User(Byte.valueOf((byte) 4));
+			user.setWxUser(wxUser);
+			userRepo.save(user);
+			return new JsonResponse(user);
+		}
+		return null;
 	}
 
 	@RequestMapping(value = "/getAllUsers")
@@ -206,7 +228,7 @@ public class WechatController {
 				list.add(wuser);
 			}
 		}
-		userRepo.save(list);
+		wxUserRepo.save(list);
 		return bool;
 	}
 

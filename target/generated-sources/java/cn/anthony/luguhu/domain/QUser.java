@@ -28,6 +28,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath address = createString("address");
 
+    public final ListPath<Address, QAddress> addresses = this.<Address, QAddress>createList("addresses", Address.class, QAddress.class, PathInits.DIRECT2);
+
     public final NumberPath<Byte> age = createNumber("age", Byte.class);
 
     //inherited

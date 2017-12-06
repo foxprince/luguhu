@@ -59,8 +59,9 @@ public class Asset extends GenericEntity {
 	
 	public List<String> getTagLables() {
 		List<String> l = new ArrayList<String>();
-		for(Tag tag : tags)
-			l.add(tag.getLabel());
+		if(tags!=null)
+			for(Tag tag : tags)
+				l.add(tag.getLabel());
 		return l;
 	}
 }

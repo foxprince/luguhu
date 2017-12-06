@@ -34,7 +34,7 @@ public class UserController extends GenericController<User, Long> {
 	@Override
 	public User init(Model m, Object... relateId) {
 		m.addAttribute("userLevelMap", Constant.levelMap);
-		return new User();
+		return new User((byte)5);
 	}
 
 	@Resource

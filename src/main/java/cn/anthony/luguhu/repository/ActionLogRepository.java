@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.querydsl.core.types.dsl.StringPath;
 
 import cn.anthony.luguhu.domain.ActionLog;
 import cn.anthony.luguhu.domain.QActionLog;
 
+@RepositoryRestResource
 public interface ActionLogRepository extends BaseRepository<ActionLog, QActionLog, Long> {
 
 	@Override

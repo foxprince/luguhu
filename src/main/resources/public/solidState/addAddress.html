@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<!--
+	Solid State by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>增加地址_翡翠湾</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/resources/bootstrap/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/resources/plugins/fancybox/jquery.fancybox.css" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<link rel="stylesheet" href="assets/css/fcw.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body>
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+				<!-- Header -->
+					<header id="header">
+						<h1>
+							<a href="index.html">翡翠湾</a>
+						</h1>
+						<nav>
+							<a href="#menu">菜单</a>
+						</nav>
+					</header>
+				<!-- Menu -->
+					<nav id="menu">
+						<div class="inner">
+							<h2>菜单</h2>
+							<ul class="links">
+								<li><a href="index.html">首页</a></li>
+								<li><a href="generic.html">产品</a></li>
+								<li><a href="elements.html">文章</a></li>
+								<li><a href="userIndex.html">我</a></li>
+							</ul>
+							<a href="#" class="close"></a>
+						</div>
+					</nav>
+
+				<!-- Wrapper -->
+					<div id="container"> 
+					<div id="content">
+						<section id="wrapper"><div class="wrapper profile">
+						<h2 class="major">地址信息</h2>
+							<form class="form-inline" id="addressForm" method="post" >
+								<div class="field">
+									<label for="name">联系人</label>
+									<input type="text" name="consignee" id="consignee" />
+								</div>
+								<div class="field">
+									<label for="message">手机</label>
+									<input type="text" name="phone" id="phone" />
+								</div>
+								<div class="field">
+									<label for="text">地址</label>
+									<input type="text" name="postAddress" id="address" />
+								</div>
+								<div class="field">
+								<input type="hidden" name="user.id" id="userId"/>
+								<a id="inline" href="#data"  onclick="addAddress()" class="button special small">添加</a>
+								</div>
+							</form>
+						</div></section>
+					</div></div>
+					<div style="display:none"><div id="data">更新成功。</div></div>
+				<!-- Footer -->
+					<section id="footer">
+						<div class="inner">
+							<ul class="copyright">
+								<li>&copy; 翡翠湾 Inc. All rights reserved.</li>
+							</ul>
+						</div>
+					</section>
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script src="assets/js/lgh.js"></script>
+			<script src="assets/js/cookie.js"></script>
+			<script src="/resources/bootstrap/js/bootstrap.min.js" ></script>
+			<script src="/resources/plugins/fancybox/jquery.fancybox.js" ></script>
+			<script>
+			$(document).ready(function() {
+				$('#userId').val(sessionStorage.userId);
+			});
+			</script>
+	</body>
+</html>

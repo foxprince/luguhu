@@ -25,6 +25,13 @@ public class UserService extends GenericService<User, Long> {
 	public User findByEmail(String email) {
 		return repsitory.findByEmail(email);
 	}
+	
+	public User findByWxUser(Long wxUserId) {
+		List<User> l = repsitory.findByWxUserId(wxUserId);
+		if(l!=null&&l.size()>0)
+			return l.get(0);
+		return null;
+	}
 
 	public boolean emailExists(String email) {
 		User u = repsitory.findByEmail(email);

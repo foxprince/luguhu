@@ -20,7 +20,7 @@ public class HomeController {
 
 	@RequestMapping(value = { "/", "/index", "/main" }, method = RequestMethod.GET)
 	public String index() {
-		return "redirect:resources/solidState/index.html";
+		return "redirect:solidState/index.html";
 	}
 
 	@RequestMapping(value = { "/index2" }, method = RequestMethod.GET)
