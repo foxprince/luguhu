@@ -9,11 +9,11 @@
 <c:import url="../include/head.jsp">
 	<c:param name="pageTitle" value="${item.actionDesc.concat(item.selfIntro)}" />
 </c:import>
-<link href="../resources/bootstrap-wysiwyg/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-<link href="../resources/bootstrap-wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
-<!-- <link href="../resources/plugins/font-awesome.3.0.2.css" rel="stylesheet"> -->
+<link href="../bootstrap-wysiwyg/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="../bootstrap-wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- <link href="../plugins/font-awesome.3.0.2.css" rel="stylesheet"> -->
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="../resources/bootstrap-wysiwyg/index.css" type="text/css">
+<link rel="stylesheet" href="../bootstrap-wysiwyg/index.css" type="text/css">
    
 <body class="wysihtml5-supported hold-transition skin-green-light sidebar-mini">
 	<%@ include file="../include/assetModal.html"%>
@@ -95,7 +95,7 @@
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">详细说明：</label>
 								<div class="col-sm-9">
 									<%-- <form:textarea path="description" class="wysi" cols="100" rows="5" /> --%>
-									<form:hidden path="description" id="description"/>
+									<form:hidden path="content" id="content"/>
 								</div>
 							</div>
 							<%@include file="../include/wysiwyg.jspf" %>
@@ -132,11 +132,11 @@
 		<%@ include file="../include/sidebar.jspf"%>
 	</div>
 	<!-- ./wrapper -->
-	<script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-	<script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
+	<script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="../plugins/jquery-validation/messages_zh.js"></script>
 	
-	<script src="../resources/bootstrap-wysiwyg/bootstrap-wysiwyg.js" type="text/javascript"></script>
-	<script src="../resources/bootstrap-wysiwyg/external/jquery.hotkeys.js" type="text/javascript"></script>
+	<script src="../bootstrap-wysiwyg/bootstrap-wysiwyg.js" type="text/javascript"></script>
+	<script src="../bootstrap-wysiwyg/external/jquery.hotkeys.js" type="text/javascript"></script>
 	<script>
 		$(document).ready(function() {
 			function initToolbarBootstrapBindings() {

@@ -28,7 +28,7 @@ public class Product extends GenericEntity {
 	@JoinColumn(name = "producer_id")
 	private User producer;
 	private String place;
-	private String description;
+	private String content;
 	@ManyToOne
 	@JoinColumn(name = "operator_id")
 	private User operator;

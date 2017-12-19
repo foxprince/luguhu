@@ -52,9 +52,10 @@
 					            </c:when>
 					        </c:choose>			
 							</div>
-  <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
-  <script src="/resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="/resources/plugins/jquery-validation/messages_zh.js"></script>
+  <!-- 这三条必须放在这里，因为footer.jspf是在尾部导入的 -->
+  <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
+  <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="../plugins/jquery-validation/messages_zh.js"></script>
   <script>
   $("#pageSizeForm").validate({
       rules : {

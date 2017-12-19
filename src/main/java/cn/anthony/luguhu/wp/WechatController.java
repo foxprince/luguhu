@@ -102,7 +102,7 @@ public class WechatController {
 		boolean bool = false; 
 		WxMpKefuMessage message = new WxMpKefuMessage();
 		message.setToUser("o6AWbjpi4e7MRmXP4qYQpN5zSoIM");
-		message.setMsgType(WxConsts.CUSTOM_MSG_TEXT);
+		message.setMsgType(WxConsts.KefuMsgType.TEXT);
 		message.setContent("测试推送消息");
 		bool = wxService.getKefuService().sendKefuMessage(message);
 		return bool;
@@ -219,7 +219,7 @@ public class WechatController {
 		boolean bool = false;
 		WxMpUserService wus = wxService.getUserService();
 		List<WxUser> list = new ArrayList<WxUser>();
-		for (String openId : wus.userList(null).getOpenIds()) {
+		for (String openId : wus.userList(null).getOpenids()) {
 			WxMpUser userWxInfo = wus.userInfo(openId, null);
 			if (userWxInfo != null) {
 				WxUser wuser = new WxUser();

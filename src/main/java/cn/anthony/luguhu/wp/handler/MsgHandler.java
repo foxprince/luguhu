@@ -51,7 +51,7 @@ public class MsgHandler extends AbstractHandler {
 	@Override
 	public WxMpXmlOutMessage handle(WxMpXmlMessage wxMessage, Map<String, Object> context, WxMpService wxService,
 			WxSessionManager sessionManager) throws WxErrorException {
-		if (!wxMessage.getMsgType().equals(WxConsts.XML_MSG_EVENT)) {
+		if (!wxMessage.getMsgType().equals(WxConsts.XmlMsgType.EVENT)) {
 			// TODO 可以选择将消息保存到本地
 		}
 		// 当用户输入关键词如“你好”，“客服”等，并且有客服在线时，把消息转发给在线客服
@@ -75,7 +75,7 @@ public class MsgHandler extends AbstractHandler {
 			asset.setOpen(false);
 			List<Tag> tags = null;
 			switch (msgType) {
-			case WxConsts.XML_MSG_IMAGE:
+			case WxConsts.XmlMsgType.IMAGE:
 				String mediaId = wxMessage.getMediaId();
 				File f = wxService.getMaterialService().mediaDownload(mediaId);
 				String fileName = StringTools.createFileNameWithYM(f.getName());
@@ -85,11 +85,11 @@ public class MsgHandler extends AbstractHandler {
 					e.printStackTrace();
 				}
 				asset.setLocation(fileName);
-				asset.setType(WxConsts.XML_MSG_IMAGE);
+				asset.setType(WxConsts.XmlMsgType.IMAGE);
 				asset.setSourceName(f.getName());
 				asset.setTitle(FilenameUtils.getBaseName(f.getName()));
 				break;
-			case WxConsts.XML_MSG_TEXT:
+			case WxConsts.XmlMsgType.TEXT:
 				// 从文本里读取标签
 				String content = wxMessage.getContent();
 				asset.setSourceName(content);

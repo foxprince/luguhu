@@ -9,7 +9,7 @@
 <c:import url="../include/head.jsp">
   <c:param name="pageTitle" value="${item.actionDesc}用户" />
 </c:import>
-<link rel="stylesheet" href="../resources/ace/ace-rtl.min.css" />
+<link rel="stylesheet" href="../ace/ace-rtl.min.css" />
 
 <body class="hold-transition skin-green-light sidebar-mini">
   <div class="wrapper">
@@ -89,8 +89,8 @@
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
+  <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="../plugins/jquery-validation/messages_zh.js"></script>
   <script>
 			$(document).ready(function() {
 

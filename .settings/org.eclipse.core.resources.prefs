@@ -3,6 +3,7 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/application.properties=UTF-8
 encoding//src/main/resources/messages_zh_CN.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/include/wysiwyg.jspf=UTF-8
 encoding//src/test/java=UTF-8
 encoding//src/test/resources=UTF-8
 encoding//target/generated-sources/java=UTF-8

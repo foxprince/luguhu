@@ -99,7 +99,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right" for="form-field-tags">详细说明</label>
 								<div class="col-sm-9">
-									<form:textarea path="description" cols="50" rows="5" />
+									<form:textarea path="content" cols="50" rows="5" />
 								</div>
 							</div>
 							<div class="clearfix form-actions">
@@ -132,8 +132,8 @@
 		<%@ include file="../include/sidebar.jspf"%>
 	</div>
 	<!-- ./wrapper -->
-	<script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-	<script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
+	<script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+	<script src="../plugins/jquery-validation/messages_zh.js"></script>
 	<script>
 		$(document).ready(function() {
 		});

@@ -36,7 +36,7 @@ public class SalePack extends GenericEntity implements Saleable {
 	@ManyToMany(targetEntity = SaleUnit.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinTable(name="sale_pack_unit")
 	private List<SaleUnit> saleUnits;
-	private String title, intro,description;
+	private String title, intro,content;
 	private Float price;
 	private Integer amount;
 	private Short minBatch;// 最小起售数量

@@ -9,7 +9,7 @@
 <c:import url="../include/head.jsp">
 	<c:param name="pageTitle" value="素材列表" />
 </c:import>
-<link href="../resources/plugins/lightbox2/css/lightbox.min.css" rel="stylesheet"/>
+<link href="../plugins/lightbox2/css/lightbox.min.css" rel="stylesheet"/>
 <body class="hold-transition skin-green-light sidebar-mini">
 	<div class="wrapper">
 		<!-- topbar -->
@@ -79,7 +79,7 @@
 		<%@ include file="../include/script.jspf"%>
 		<%@ include file="../include/footer.jspf"%>
 		<%@ include file="../include/sidebar.jspf"%>
-		<script src="/resources/plugins/lightbox2/js/lightbox.min.js" ></script>
+		<script src="../plugins/lightbox2/js/lightbox.min.js" ></script>
 		
 		<script>
 			$(document).ready(function() {

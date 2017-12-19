@@ -9,11 +9,11 @@
 <c:import url="../include/head.jsp">
   <c:param name="pageTitle" value="${article.actionDesc}产品" />
 </c:import>
-<link href="../resources/bootstrap-wysiwyg/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-<link href="../resources/bootstrap-wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
-<!-- <link href="../resources/plugins/font-awesome.3.0.2.css" rel="stylesheet"> -->
+<link href="../bootstrap-wysiwyg/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<link href="../bootstrap-wysiwyg/bootstrap-responsive.min.css" rel="stylesheet">
+<!-- <link href="../plugins/font-awesome.3.0.2.css" rel="stylesheet"> -->
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="../resources/bootstrap-wysiwyg/index.css" type="text/css">
+<link rel="stylesheet" href="../bootstrap-wysiwyg/index.css" type="text/css">
 <style>
 .modal-dialog{
     position: relative;
@@ -107,10 +107,10 @@
     <%@ include file="../include/sidebar.jspf"%>
   </div>
   <!-- ./wrapper -->
-  <script src="../resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="../resources/plugins/jquery-validation/messages_zh.js"></script>
-  <script src="../resources/bootstrap-wysiwyg/bootstrap-wysiwyg.js" type="text/javascript"></script>
-  <script src="../resources/bootstrap-wysiwyg/external/jquery.hotkeys.js" type="text/javascript"></script>
+  <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="../plugins/jquery-validation/messages_zh.js"></script>
+  <script src="../bootstrap-wysiwyg/bootstrap-wysiwyg.js" type="text/javascript"></script>
+  <script src="../bootstrap-wysiwyg/external/jquery.hotkeys.js" type="text/javascript"></script>
   <script>
 	$(document).ready(function() {
 		

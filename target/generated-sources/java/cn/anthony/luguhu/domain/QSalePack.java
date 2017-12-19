@@ -28,10 +28,10 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public final QAsset asset;
 
+    public final StringPath content = createString("content");
+
     //inherited
     public final DateTimePath<java.sql.Timestamp> ctime = _super.ctime;
-
-    public final StringPath description = createString("description");
 
     //inherited
     public final NumberPath<Long> id = _super.id;

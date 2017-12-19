@@ -37,6 +37,10 @@ import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 @ConditionalOnClass(WxMpService.class)
 public class WechatMpConfiguration {
 	protected Logger logger = LoggerFactory.getLogger(getClass());
+	public static final String EVT_KF_CREATE_SESSION = "kf_create_session"; // 客服接入会话
+	  public static final String EVT_KF_CLOSE_SESSION = "kf_close_session"; // 客服关闭会话
+	  public static final String EVT_KF_SWITCH_SESSION = "kf_switch_session"; // 客服转接会话
+	  public static final String EVT_POI_CHECK_NOTIFY = "poi_check_notify"; //门店审核事件推送
 	@Autowired
 	WpConfig wpConfig;
 
@@ -60,51 +64,51 @@ public class WechatMpConfiguration {
         newRouter.rule().handler(this.logHandler).next();
 
         // 接收客服会话管理事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_KF_CREATE_SESSION)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(EVT_KF_CREATE_SESSION)
             .handler(this.kfSessionHandler).end();
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_KF_CLOSE_SESSION).handler(this.kfSessionHandler)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(EVT_KF_CLOSE_SESSION).handler(this.kfSessionHandler)
             .end();
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_KF_SWITCH_SESSION)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(EVT_KF_SWITCH_SESSION)
             .handler(this.kfSessionHandler).end();
         
         // 门店审核事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_POI_CHECK_NOTIFY)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(EVT_POI_CHECK_NOTIFY)
             .handler(this.storeCheckNotifyHandler).end();
 
         // 自定义菜单事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.BUTTON_CLICK).handler(this.menuHandler).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.MenuButtonType.CLICK).handler(this.menuHandler).end();
 
         // 点击菜单连接事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.BUTTON_VIEW).handler(this.nullHandler).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.MenuButtonType.VIEW).handler(this.nullHandler).end();
 
         // 关注事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_SUBSCRIBE).handler(this.subscribeHandler)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.EventType.SUBSCRIBE).handler(this.subscribeHandler)
             .end();
 
         // 取消关注事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_UNSUBSCRIBE)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.EventType.UNSUBSCRIBE)
             .handler(this.unsubscribeHandler).end();
 
         // 上报地理位置事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_LOCATION).handler(this.locationHandler)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.EventType.LOCATION).handler(this.locationHandler)
             .end();
 
         // 接收地理位置消息
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_LOCATION)
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.LOCATION)
             .handler(this.locationHandler).end();
 
         // 扫码事件
-        newRouter.rule().async(false).msgType(WxConsts.XML_MSG_EVENT)
-            .event(WxConsts.EVT_SCAN).handler(this.scanHandler).end();
+        newRouter.rule().async(false).msgType(WxConsts.XmlMsgType.EVENT)
+            .event(WxConsts.EventType.SCAN).handler(this.scanHandler).end();
 
         // 默认
         newRouter.rule().async(false).handler(this.msgHandler).end();

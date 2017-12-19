@@ -52,6 +52,7 @@
     </div>
 
     <div id="editor" contenteditable="true">
+      <!-- 要保证所有的domain都有content字段，而且包含着的变量命名是item -->
       ${item.content}
     </div>
   </div>

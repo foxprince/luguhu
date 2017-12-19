@@ -15,18 +15,11 @@ import lombok.ToString;
 @Entity
 public class SaleUnit extends GenericEntity implements Saleable {
 	private static final long serialVersionUID = -934407005154746958L;
-
-	/*
-	 * product_id bigint not null, title varchar(50) not null comment
-	 * '规格标题，如一级骏枣，个重70-90克猕猴桃', unit varchar(6) not null comment
-	 * '规格，斤、克、公斤、箱、打、个、头', price float null comment '单价，可以为空', amount integer
-	 * null comment '库存总数', operator_id bigint default 0 null,
-	 */
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	//@JsonIgnore
 	private Product product;
-	private String title, description;
+	private String title, content;
 	private String unit;
 	private Float price;
 	private Integer total;//库存总数

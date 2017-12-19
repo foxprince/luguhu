@@ -2,6 +2,10 @@ drop database luguhu;
 create database luguhu default charset utf8mb4 COLLATE utf8mb4_general_ci;
 grant all on luguhu.* to 'lghuser'@'localhost' identified by 'pwd4lgh';
 grant all on luguhu.* to 'lghuser'@'%' identified by 'pwd4lgh';
+create database happytimecn DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
+grant all on happytimecn.* to 'happytimecn_f'@'%' identified by '20080501';
+flush privileges;
+
 ALTER DATABASE luguhu CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
 ALTER TABLE wx_user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE wx_user CHANGE nickname column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -84,7 +88,7 @@ CREATE TABLE `single_product` (
   `title` varchar(20) NOT NULL,	/*单品名称*/
   `producer_id` bigint NOT NULL,	/*生产者id*/
    place varchar(50)	NULL, /*产地*/
-  `description` varchar(500) DEFAULT NULL,	/*说明信息*/
+  `content` text DEFAULT NULL,	/*说明信息*/
    operator_id bigint default 0  null,/*操作员*/ 
    ctime timestamp not null
 );
@@ -109,7 +113,7 @@ create table sale_pack (
 	min_batch integer null comment '最小起售数量',
 	sale_begin timestamp not null comment '开始销售日期',
 	sale_end timestamp null comment '截止销售日期',
-	description text null,
+	content text null,
 	operator_id bigint default 0  null,/*操作员*/ 
 	ctime timestamp not null
 );

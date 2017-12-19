@@ -13,18 +13,18 @@
 <!-- Tell the browser to be responsive to screen width -->
 <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 <!-- Bootstrap 3.3.5 -->
-<link rel="stylesheet" href="../resources/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
 <!-- Font Awesome -->
-<link rel="stylesheet" href="../resources/dist/css/font-awesome.min.css">
+<link rel="stylesheet" href="../dist/css/font-awesome.min.css">
 <!-- Ionicons -->
-<link rel="stylesheet" href="../resources/dist/css/ionicons.min.css">
-<link rel="stylesheet" href="../resources/ace/ace.min.css" />
-<link rel="stylesheet" href="../resources/ace/ace-rtl.min.css" />
+<link rel="stylesheet" href="../dist/css/ionicons.min.css">
+<link rel="stylesheet" href="../ace/ace.min.css" />
+<link rel="stylesheet" href="../ace/ace-rtl.min.css" />
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
-        <script src="../resources/plugins/html5shiv.min.js"></script>
-        <script src="../resources/plugins/respond.min.js"></script>
+        <script src="../plugins/html5shiv.min.js"></script>
+        <script src="../plugins/respond.min.js"></script>
     <![endif]-->
 </head>
 <style type="text/css">
@@ -239,11 +239,11 @@
   <!-- /.main-container -->
   <!-- /.register-box -->
   <!-- jQuery 2.1.4 -->
-  <script src="/resources/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+  <script src="../plugins/jQuery/jQuery-2.1.4.min.js"></script>
   <!-- Bootstrap 3.3.5 -->
-  <script src="/resources/bootstrap/js/bootstrap.min.js"></script>
-  <script src="/resources/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="/resources/plugins/jquery-validation/messages_zh.js"></script>
+  <script src="../bootstrap/js/bootstrap.min.js"></script>
+  <script src="../plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="../plugins/jquery-validation/messages_zh.js"></script>
   <script type="text/javascript">
   	var showBox = "${s}";//getUrlParam("s");
   	if(showBox!=null&&showBox!="")
