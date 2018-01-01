@@ -17,11 +17,11 @@ function loadProducts() {
 				var packIcon = (j.pack)?'<i alt="pack" class="fa fa-calendar"></i>':'';
 				var item = ' <section id="' + j.id + '" class="wrapper '+((i%2!=0)?'alt':'')+' spotlight style' + (i + 1) % 6 + '">';
 				item += ' 	<div class="inner">';
-				item += ' 		<a href="generic.html?type='+type+'&id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
+				item += ' 		<a href="product.html?type='+type+'&id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
 				item += ' 		<div class="content">';
-				item += ' 			<h2 class="major"><a href="generic.html?type='+type+'&id='+j.id+'" >' + j.title + '</a> '+packIcon+'</h2>';
+				item += ' 			<h2 class="major"><a href="product.html?type='+type+'&id='+j.id+'" >' + j.title + '</a> '+packIcon+'</h2>';
 				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.intro + '</p>';
-				item += ' 			<span style="float:left;"><a href="generic.html?type='+type+'&id='+j.id+'" class="special" >Learn more</a></span>';
+				item += ' 			<span style="float:left;"><a href="product.html?type='+type+'&id='+j.id+'" class="special" >Learn more</a></span>';
 				item += ' 			<span class="price" style="float:right;">' + j.price + ' <i class="fa fa-cny"></i></span></div>';
 				item += ' 		</div>';
 				item += ' 	</div>';

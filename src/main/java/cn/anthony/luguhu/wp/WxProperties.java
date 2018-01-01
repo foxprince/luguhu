@@ -9,6 +9,6 @@ import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 @Component
 @ConfigurationProperties("wechat.mp")
 @Data
-public class WpConfig extends WxMpInMemoryConfigStorage{
+public class WxProperties extends WxMpInMemoryConfigStorage{
 
 }
