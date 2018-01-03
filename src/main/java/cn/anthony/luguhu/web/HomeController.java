@@ -40,7 +40,7 @@ public class HomeController {
 
 	@RequestMapping(value = { "/api/getSiteTitle" }, method = RequestMethod.GET)
 	public @ResponseBody String getSiteTitle() {
-		return constant.getSiteTitle()+constant.getGloble();
+		return constant.getSiteTitle();
 	}
 
 	@RequestMapping(value = { "/api/getSummary" })

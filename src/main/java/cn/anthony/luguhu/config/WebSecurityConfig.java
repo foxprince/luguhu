@@ -21,10 +21,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		RequestMatcher csrfRequestMatcher = new RequestMatcher() {
 			// Disable CSFR protection on the following urls:
 			private RequestMatcher[] requestMatchers = { new IpAddressMatcher("localhost"),new IpAddressMatcher("127.0.0.1")};//,new AntPathRequestMatcher("/resources/**"),new AntPathRequestMatcher("/asset/preview/**"),new AntPathRequestMatcher("/wp/**"),new AntPathRequestMatcher("/api/**") };
-
 			@Override
 			public boolean matches(HttpServletRequest request) {
-				// If the request match one url the CSFR protection will be disabled
 				for (RequestMatcher rm : requestMatchers) {
 					if (rm.matches(request)) {
 						return false;
@@ -40,6 +38,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// .antMatchers("/users/**").hasAuthority("ADMIN").anyRequest().fullyAuthenticated().and().formLogin()
 		// .loginPage("/login").failureUrl("/login?error").usernameParameter("email").permitAll().and().logout()
 		// .logoutUrl("/logout").deleteCookies("remember-me").logoutSuccessUrl("/").permitAll().and().rememberMe();
+		//  简单粗暴的方式：禁用csrf
+		http.csrf().disable();
 	}
 }
 
