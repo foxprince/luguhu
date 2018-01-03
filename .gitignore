@@ -6,3 +6,4 @@
 pacs/
 .DS_Store
 /target/
+.classpath
