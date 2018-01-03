@@ -23,11 +23,11 @@ public abstract class GenericService<T, ID extends Serializable> {
 	}
 
 	public T findById(ID id) {
-		return getRepository().findOne(id);
+		return (T) getRepository().findById(id);
 	}
 
 	public T delete(ID id) throws EntityNotFound {
-		T deletedT = getRepository().findOne(id);
+		T deletedT = (T) getRepository().findById(id);
 		if (deletedT == null)
 			throw new EntityNotFound(getClassName().toString());
 		getRepository().delete(deletedT);

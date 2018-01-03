@@ -19,6 +19,7 @@ import lombok.Data;
 public class Constant {
 	@Inject
 	private Environment env;
+	private String globle;
 	private String siteTitle;
 	private String uploadTmpDir;
 	private String uploadDir;

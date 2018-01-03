@@ -228,7 +228,7 @@ public class WechatController {
 				list.add(wuser);
 			}
 		}
-		wxUserRepo.save(list);
+		wxUserRepo.saveAll(list);
 		return bool;
 	}
 
