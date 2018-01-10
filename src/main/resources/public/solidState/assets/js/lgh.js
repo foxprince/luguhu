@@ -337,7 +337,7 @@ function loadProductUnit(id) {
 	$.get(window.ApiDomian + "/api/productSaleUnit/" + id, function(json) {
 		if (json.code == 0) {
 			$('#productTitle').text(json.data.title);
-			$('#productPrice').html("<i class='fa fa-cny'></i>售价：" + json.data.price);
+			$('#productPrice').html("<i class='fa fa-cny'></i>" + json.data.price + "<button onclick='callPay()'>buy</button>");
 			$('#productDetail').html(json.data.content);
 			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset === null ? "pic07.jpg" : json.data.asset.location) + '" alt="" />');
 			var wxUser = json.data.product.producer.wxUser;
