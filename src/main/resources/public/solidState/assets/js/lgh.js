@@ -274,36 +274,19 @@ function loadProductPack(id) {
 		}
 	});
 }
-var paySign ;  
-var appId ;  
-var timeStamp ;  
-var nonceStr ;  
-var packageStr ;  
-var signType ;  
-function callPay() {
-	if (typeof WeixinJSBridge == "undefined") {
-		if (document.addEventListener) {
-			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-		} else if (document.attachEvent) {
-			document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
-			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-		}
-	} else {
-		//调用后台支付
-		$.get(window.ApiDomian + "/pay/mpCreateOrder?openId=" + getCookie('wxOpenId'), function(json) {
-			if (json.code == 0) {console.log(json.data);
-				appId = json.data.appId;  
-	            paySign = json.data.paySign;  
-	            timeStamp = json.data.timeStamp;  
-	            nonceStr = json.data.nonceStr;  
-	            packageStr = json.data.packageValue;  
-	            signType = json.data.signType; 
-	            onBridgeReady();
-			}
-		});
-		
-	}
-}
+
+function callWxPay(){  
+    if (typeof WeixinJSBridge == "undefined"){  
+        if( document.addEventListener ){  
+            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);  
+        }else if (document.attachEvent){  
+            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);  
+            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);  
+        }  
+    }else{  
+        onBridgeReady();  
+    }  
+}  
 function onBridgeReady() {
 	WeixinJSBridge.invoke('getBrandWCPayRequest', {
 		"appId" : appId, // 公众号名称，由商户传入

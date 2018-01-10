@@ -137,10 +137,32 @@
 	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 	<script src="assets/js/main.js"></script>
 	<script src="assets/js/lgh.js"></script>
+	<script src="assets/js/cookie.js"></script>
 	<script>
 	$(document).ready(function() {
 		loadProduct(getParams("type"),getParams("id"));
 	});
+	var paySign;
+	var appId;
+	var timeStamp;
+	var nonceStr;
+	var packageStr;
+	var signType;
+	function callPay() {
+		// 调用后台支付
+		$.get(window.ApiDomian + "/pay/mpCreateOrder?openId=" + getCookie('wxOpenId'), function(json) {
+			if (json.code == 0) {
+				console.log(json.data);
+				appId = json.data.appId;
+				paySign = json.data.paySign;
+				timeStamp = json.data.timeStamp;
+				nonceStr = json.data.nonceStr;
+				packageStr = json.data.packageValue;
+				signType = json.data.signType;
+				callWxPay();
+			}
+		});
+	}
 	</script>
 </body>
 </html>
