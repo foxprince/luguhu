@@ -46,6 +46,7 @@ import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 
+import cn.anthony.luguhu.api.JsonResponse;
 import me.chanjar.weixin.mp.api.WxMpService;
 
 /**
@@ -80,6 +81,20 @@ public class WxPayController {
 		return wxPayService.unifiedOrder(orderRequest);
 	}
 
+	@RequestMapping("/mpCreateOrder")
+	public JsonResponse pay(String openId) throws WxPayException {
+		System.out.println("openid:"+openId);
+		WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
+		orderRequest.setBody("fcwwww");
+		orderRequest.setDeviceInfo("WEB");
+		orderRequest.setOutTradeNo("fcw00002");
+		orderRequest.setTotalFee(1);// 元转成分
+		orderRequest.setOpenid(openId);
+		orderRequest.setTradeType("JSAPI");
+		orderRequest.setSpbillCreateIp("123.123.11.22");
+		return new JsonResponse(0,"SUCCESS",this.wxPayService.createOrder(orderRequest));
+	}
+	
 	/**
 	 * <pre>
 	 * 查询订单(详见https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2)

@@ -2,7 +2,7 @@ $(function() {
 	loadTitle();
 });
 window.ApiDomian = '';
-//读取产品列表
+// 读取产品列表
 function loadProducts() {
 	$.ajax({
 		type : "get",
@@ -13,15 +13,16 @@ function loadProducts() {
 		success : function(json) {
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
-				var type = (j.pack)?'pack':'unit';
-				var packIcon = (j.pack)?'<i alt="pack" class="fa fa-calendar"></i>':'';
-				var item = ' <section id="' + j.id + '" class="wrapper '+((i%2!=0)?'alt':'')+' spotlight style' + (i + 1) % 6 + '">';
+				var type = (j.pack) ? 'pack' : 'unit';
+				var packIcon = (j.pack) ? '<i alt="pack" class="fa fa-calendar"></i>' : '';
+				var item = ' <section id="' + j.id + '" class="wrapper ' + ((i % 2 != 0) ? 'alt' : '') + ' spotlight style' + (i + 1) % 6 + '">';
 				item += ' 	<div class="inner">';
-				item += ' 		<a href="product.html?type='+type+'&id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
+				item += ' 		<a href="product.html?type=' + type + '&id=' + j.id + '" class="image"><img src="/asset/preview?fileName='
+						+ (j.asset === null ? "pic07.jpg" : j.asset.location) + '" alt="" /></a>';
 				item += ' 		<div class="content">';
-				item += ' 			<h2 class="major"><a href="product.html?type='+type+'&id='+j.id+'" >' + j.title + '</a> '+packIcon+'</h2>';
+				item += ' 			<h2 class="major"><a href="product.html?type=' + type + '&id=' + j.id + '" >' + j.title + '</a> ' + packIcon + '</h2>';
 				item += ' 			<div style="display:inline-block;width:100%;"><p style="text-align:left;">' + j.intro + '</p>';
-				item += ' 			<span style="float:left;"><a href="product.html?type='+type+'&id='+j.id+'" class="special" >Learn more</a></span>';
+				item += ' 			<span style="float:left;"><a href="product.html?type=' + type + '&id=' + j.id + '" class="special" >Learn more</a></span>';
 				item += ' 			<span class="price" style="float:right;">' + j.price + ' <i class="fa fa-cny"></i></span></div>';
 				item += ' 		</div>';
 				item += ' 	</div>';
@@ -40,15 +41,15 @@ function loadTitle() {
 		$('#siteTitle').text(data);
 	});
 }
-//网络不通时测试用
+// 网络不通时测试用
 function loadUserByWxUser(wxUserId) {
-	$.get(window.ApiDomian + "/api/useres/"+wxUserId, function(json) {
-		if(json.code==0){
-			sessionStorage.wxUserId=json.data.wxUser.id;
-			sessionStorage.userId=json.data.id;
-			sessionStorage.user=JSON.stringify(json.data);
+	$.get(window.ApiDomian + "/api/useres/" + wxUserId, function(json) {
+		if (json.code == 0) {
+			sessionStorage.wxUserId = json.data.wxUser.id;
+			sessionStorage.userId = json.data.id;
+			sessionStorage.user = JSON.stringify(json.data);
 			$('#userNickname').text(json.data.wxUser.nickname);
-			$('#userIcon').html('<img width="100%" src="' + (json.data.wxUser.headImgUrl===null?"pic07.jpg":json.data.wxUser.headImgUrl)  + '" alt="" />');
+			$('#userIcon').html('<img width="100%" src="' + (json.data.wxUser.headImgUrl === null ? "pic07.jpg" : json.data.wxUser.headImgUrl) + '" alt="" />');
 		}
 	});
 }
@@ -61,66 +62,71 @@ function loadUserFromSession() {
 }
 function loadAddressFromSession() {
 	var j = JSON.parse(sessionStorage.user);
-	$.each(j.addresses, function (n, v) {
-        var item = "";
-        item +='<ul class="contact" id="'+v.id+'">';
-		item +='<li class="fa-home" editAttr="postAddress">'+v.postAddress+'</li>';
-		item +='<li class="fa-phone" editAttr="phone">'+v.phone+'</li>';
-		item +='<li class="fa-user" editAttr="consignee">'+v.consignee+'</li>';
-		item +='<li><a href="javascript:;" onclick="editAddress(\''+v.id+'\',\''+v.postAddress+'\',\''+v.phone+'\',\''+v.consignee+'\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,'+v.id+')">删除 <i class="fa fa-remove"></i></a></li>';
+	$.each(j.addresses, function(n, v) {
+		var item = "";
+		item += '<ul class="contact" id="' + v.id + '">';
+		item += '<li class="fa-home" editAttr="postAddress">' + v.postAddress + '</li>';
+		item += '<li class="fa-phone" editAttr="phone">' + v.phone + '</li>';
+		item += '<li class="fa-user" editAttr="consignee">' + v.consignee + '</li>';
+		item += '<li><a href="javascript:;" onclick="editAddress(\'' + v.id + '\',\'' + v.postAddress + '\',\'' + v.phone + '\',\'' + v.consignee
+				+ '\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,' + v.id + ')">删除 <i class="fa fa-remove"></i></a></li>';
 		item += '<hr/>';
-		item +='</ul>';
-        $("#addressList").append(item).fadeIn();
-    });
+		item += '</ul>';
+		$("#addressList").append(item).fadeIn();
+	});
 }
 function loadAddress() {
 	$.ajax({
 		type : "get",
-		url : window.ApiDomian + "/rest/addresses/search/findByUserId?userId="+sessionStorage.userId,
+		url : window.ApiDomian + "/rest/addresses/search/findByUserId?userId=" + sessionStorage.userId,
 		success : function(json) {
 			$("#addressList").html("").fadeOut();
 			var j = json._embedded;
-			$.each(j.addresses, function (n, v) {
-		        var item = "";
-		        item +='<ul class="contact" id="'+v.id+'">';
-				item +='<li class="fa-home" editAttr="postAddress">'+v.postAddress+'</li>';
-				item +='<li class="fa-phone" editAttr="phone">'+v.phone+'</li>';
-				item +='<li class="fa-user" editAttr="consignee">'+v.consignee+'</li>';
-				item +='<li><a href="javascript:;" onclick="editAddress(\''+v.id+'\',\''+v.postAddress+'\',\''+v.phone+'\',\''+v.consignee+'\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,'+v.id+')">删除 <i class="fa fa-remove"></i></a></li>';
+			$.each(j.addresses, function(n, v) {
+				var item = "";
+				item += '<ul class="contact" id="' + v.id + '">';
+				item += '<li class="fa-home" editAttr="postAddress">' + v.postAddress + '</li>';
+				item += '<li class="fa-phone" editAttr="phone">' + v.phone + '</li>';
+				item += '<li class="fa-user" editAttr="consignee">' + v.consignee + '</li>';
+				item += '<li><a href="javascript:;" onclick="editAddress(\'' + v.id + '\',\'' + v.postAddress + '\',\'' + v.phone + '\',\'' + v.consignee
+						+ '\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,' + v.id + ')">删除 <i class="fa fa-remove"></i></a></li>';
 				item += '<hr/>';
-				item +='</ul>';
-		        $("#addressList").append(item).fadeIn();
-		    });
+				item += '</ul>';
+				$("#addressList").append(item).fadeIn();
+			});
 			$("#addressList").fadeIn();
 		}
 	});
 }
-function editAddress(id,postAddress,phone,consignee) {
-	var t = '<form class="form-inline" id="addressForm_'+id+'" method="post" >';
-	t += '<li class="fa-home"><input type="text" name="postAddress" value="'+postAddress+'"/></li>';
-	t += '<li class="fa-phone"><input type="text" name="phone" value="'+phone+'"/></li>';
-	t += '<li class="fa-user"><input type="text" name="consignee" value="'+consignee+'"/></li>';
-	t +='<li><a href="javascript:;" onclick="updateAddress(\''+id+'\')">提交<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,'+id+')">删除 <i class="fa fa-remove"></i></a></li>';
+function editAddress(id, postAddress, phone, consignee) {
+	var t = '<form class="form-inline" id="addressForm_' + id + '" method="post" >';
+	t += '<li class="fa-home"><input type="text" name="postAddress" value="' + postAddress + '"/></li>';
+	t += '<li class="fa-phone"><input type="text" name="phone" value="' + phone + '"/></li>';
+	t += '<li class="fa-user"><input type="text" name="consignee" value="' + consignee + '"/></li>';
+	t += '<li><a href="javascript:;" onclick="updateAddress(\'' + id + '\')">提交<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,' + id
+			+ ')">删除 <i class="fa fa-remove"></i></a></li>';
 	t += '<hr/>';
 	t += '</form>';
-	$('#'+id).html(t);
+	$('#' + id).html(t);
 }
 function updateAddress(id) {
-	var url = window.ApiDomian + "/api/addresses/"+id;
+	var url = window.ApiDomian + "/api/addresses/" + id;
 	$.ajax({
 		type : "post",
 		url : url,
-		data : $('#addressForm_'+id).serialize(),//serialize(),
+		data : $('#addressForm_' + id).serialize(),// serialize(),
 		complete : function() {
 		},
 		success : function(json) {
-			if(json.code==0){
-				var item ='<li class="fa-home" editAttr="postAddress">'+json.data.postAddress+'</li>';
-				item +='<li class="fa-phone" editAttr="phone">'+json.data.phone+'</li>';
-				item +='<li class="fa-user" editAttr="consignee">'+json.data.consignee+'</li>';
-				item +='<li><a href="javascript:;" onclick="editAddress(\''+json.data.id+'\',\''+json.data.postAddress+'\',\''+json.data.phone+'\',\''+json.data.consignee+'\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,'+json.data.id+')">删除 <i class="fa fa-remove"></i></a></li>';
+			if (json.code == 0) {
+				var item = '<li class="fa-home" editAttr="postAddress">' + json.data.postAddress + '</li>';
+				item += '<li class="fa-phone" editAttr="phone">' + json.data.phone + '</li>';
+				item += '<li class="fa-user" editAttr="consignee">' + json.data.consignee + '</li>';
+				item += '<li><a href="javascript:;" onclick="editAddress(\'' + json.data.id + '\',\'' + json.data.postAddress + '\',\'' + json.data.phone + '\',\''
+						+ json.data.consignee + '\')">修改<i class="fa fa-edit"></i></a><a href="javascript:;"onclick="removeAddress(this,' + json.data.id
+						+ ')">删除 <i class="fa fa-remove"></i></a></li>';
 				item += '<hr/>';
-				$('#'+id).html(item);
+				$('#' + id).html(item);
 			}
 		},
 		error : function() {
@@ -137,9 +143,9 @@ function addAddress() {
 		complete : function() {
 		},
 		success : function(json) {
-			if(json.code==0){
-				sessionStorage.user=JSON.stringify(json.data);
-				window.location.href="address.html";
+			if (json.code == 0) {
+				sessionStorage.user = JSON.stringify(json.data);
+				window.location.href = "address.html";
 			}
 		},
 		error : function() {
@@ -147,8 +153,8 @@ function addAddress() {
 		}
 	});
 }
-function removeAddress(item,id) {
-	var url = window.ApiDomian + "/rest/addresses/"+id;
+function removeAddress(item, id) {
+	var url = window.ApiDomian + "/rest/addresses/" + id;
 	$.ajax({
 		type : "delete",
 		url : url,
@@ -164,13 +170,13 @@ function removeAddress(item,id) {
 }
 // 读取微信用户信息from微信服务器
 function loadWxUser(openId) {
-	$.get(window.ApiDomian + "/wp/portal/wxUser/"+openId, function(json) {
-		if(json.code==0) {
-			sessionStorage.wxUserId=json.data.wxUser.id;
-			sessionStorage.userId=json.data.id;
-			sessionStorage.user=JSON.stringify(json.data);
+	$.get(window.ApiDomian + "/wp/portal/wxUser/" + openId, function(json) {
+		if (json.code == 0) {
+			sessionStorage.wxUserId = json.data.wxUser.id;
+			sessionStorage.userId = json.data.id;
+			sessionStorage.user = JSON.stringify(json.data);
 			$('#userNickname').text(json.data.wxUser.nickname);
-			$('#userIcon').html('<img width="100%" src="' + (json.data.wxUser.headImgUrl===null?"pic07.jpg":json.data.wxUser.headImgUrl)  + '" alt="" />');
+			$('#userIcon').html('<img width="100%" src="' + (json.data.wxUser.headImgUrl === null ? "pic07.jpg" : json.data.wxUser.headImgUrl) + '" alt="" />');
 		}
 	});
 }
@@ -178,11 +184,11 @@ function loadUser() {
 	$.ajax({
 		type : "get",
 		async : false,
-		url : window.ApiDomian + "/api/user/"+sessionStorage.userId,
+		url : window.ApiDomian + "/api/user/" + sessionStorage.userId,
 		success : function(json) {
-			if(json.code==0) {
+			if (json.code == 0) {
 				alert('success');
-				sessionStorage.user=JSON.stringify(json.data);
+				sessionStorage.user = JSON.stringify(json.data);
 				alert('sessionStorage.user');
 			}
 		}
@@ -190,17 +196,17 @@ function loadUser() {
 }
 function updateProfile() {
 	var url = window.ApiDomian + "/api/users/";
-	if(typeof sessionStorage.userId!=undefined)
+	if (typeof sessionStorage.userId != undefined)
 		url += sessionStorage.userId;
 	$.ajax({
 		type : "post",
 		url : url,
-		data : $('#profileForm').serialize(),//serialize(),
+		data : $('#profileForm').serialize(),// serialize(),
 		complete : function() {
 		},
 		success : function(json) {
-			if(json.code==0){
-				sessionStorage.user=JSON.stringify(json.data);
+			if (json.code == 0) {
+				sessionStorage.user = JSON.stringify(json.data);
 				$('#name').val(json.data.name);
 				$('#email').val(json.data.email);
 				$('#phone').val(json.data.phone);
@@ -212,95 +218,141 @@ function updateProfile() {
 		}
 	});
 }
-
 // 读取用户发送的微信图文
-function loadAsset(openId,tag,page,size) {
-	var url = "/api/asset/list?createFrom=WECHAT&wxUser.openId="+openId+'&page='+page+'&size='+size;
-	if(tag!=null)
-		url += "&tags="+tag;
+function loadAsset(openId, tag, page, size) {
+	var url = "/api/asset/list?createFrom=WECHAT&wxUser.openId=" + openId + '&page=' + page + '&size=' + size;
+	if (tag != null)
+		url += "&tags=" + tag;
 	$.get(window.ApiDomian + url, function(json) {
-		if(json.code==0) {
+		if (json.code == 0) {
 			$("#assetList").fadeOut().html("");
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
-				var item = '<h4>'+j.formatCtime+'</h4><pre><code>';
-				if(j.type=='image')
-					item += '<img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName='+j.location+' " />';
+				var item = '<h4>' + j.formatCtime + '</h4><pre><code>';
+				if (j.type == 'image')
+					item += '<img  style="max-width:200px;max-height:200px;" src="/asset/preview?size=small&fileName=' + j.location + ' " />';
 				else
 					item += j.sourceName;
-				$.each(j.tags, function (n, tag) {
-					item +='<button onclick="loadAsset(\''+openId+'\',\''+tag.id+'\')" class="button special small">'+tag.label+'</button>';
-		        });
-				item +='</code></pre>';
+				$.each(j.tags, function(n, tag) {
+					item += '<button onclick="loadAsset(\'' + openId + '\',\'' + tag.id + '\')" class="button special small">' + tag.label + '</button>';
+				});
+				item += '</code></pre>';
 				$("#assetList").append(item).fadeIn();
 			}
 		}
 	});
 }
-function loadProduct(type,id) {
-	if(type=='pack')
+function loadProduct(type, id) {
+	if (type == 'pack')
 		loadProductPack(id);
-	else if(type=='unit') 
+	else if (type == 'unit')
 		loadProductUnit(id);
 }
 function loadAddressForUser(userId) {
-	$.get(window.ApiDomian + "/api/"+userId+"/address/", function(json) {
-		if(json.code==0) {
+	$.get(window.ApiDomian + "/api/" + userId + "/address/", function(json) {
+		if (json.code == 0) {
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
 				var item = '<ul class="contact">';
-				item += '	<li class="fa-envelope">'+j.consignee+'</li>'
-				item += '	<li class="fa-home">'+j.address+'</li>';
-				item += '	<li class="fa-phone">'+j.phone+'</li>';
-				item +='</ul>';
+				item += '	<li class="fa-envelope">' + j.consignee + '</li>'
+				item += '	<li class="fa-home">' + j.address + '</li>';
+				item += '	<li class="fa-phone">' + j.phone + '</li>';
+				item += '</ul>';
 				$("#address").append(item);
 			}
 		}
 	});
 }
-//读取产品包详情
+// 读取产品包详情
 function loadProductPack(id) {
-	$.get(window.ApiDomian + "/api/productSalePack/"+id, function(json) {
-		if(json.code==0) {
+	$.get(window.ApiDomian + "/api/productSalePack/" + id, function(json) {
+		if (json.code == 0) {
 			$('#productTitle').text(json.data.title);
-			$('#productPrice').html("<i class='fa fa-cny'></i>售价："+json.data.price);
+			$('#productPrice').html("<i class='fa fa-cny'></i>" + json.data.price + "<button onclick='callPay()'>buy</button>");
 			$('#productDetail').html(json.data.content);
-			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
-			
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset === null ? "pic07.jpg" : json.data.asset.location) + '" alt="" />');
 		}
 	});
 }
-//读取文章详情
+var paySign ;  
+var appId ;  
+var timeStamp ;  
+var nonceStr ;  
+var packageStr ;  
+var signType ;  
+function callPay() {
+	if (typeof WeixinJSBridge == "undefined") {
+		if (document.addEventListener) {
+			document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		} else if (document.attachEvent) {
+			document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+			document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		}
+	} else {
+		//调用后台支付
+		$.get(window.ApiDomian + "/pay/mpCreateOrder?openId=" + getCookie('wxOpenId'), function(json) {
+			if (json.code == 0) {console.log(json.data);
+				appId = json.data.appId;  
+	            paySign = json.data.paySign;  
+	            timeStamp = json.data.timeStamp;  
+	            nonceStr = json.data.nonceStr;  
+	            packageStr = json.data.packageValue;  
+	            signType = json.data.signType; 
+	            onBridgeReady();
+			}
+		});
+		
+	}
+}
+function onBridgeReady() {
+	WeixinJSBridge.invoke('getBrandWCPayRequest', {
+		"appId" : appId, // 公众号名称，由商户传入
+		"paySign" : paySign, // 微信签名
+		"timeStamp" : timeStamp, // 时间戳，自1970年以来的秒数
+		"nonceStr" : nonceStr, // 随机串
+		"package" : packageStr, // 预支付交易会话标识
+		"signType" : signType
+	// 微信签名方式
+	}, function(res) {
+		if (res.err_msg == "get_brand_wcpay_request:ok") {
+			alert('支付成功');
+		} else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+			alert('支付取消');
+		} else if (res.err_msg == "get_brand_wcpay_request:fail") {
+			alert('支付失败');
+		} // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回 ok，但并不保证它绝对可靠。
+	});
+}
 function loadArticle(id) {
-	$.get(window.ApiDomian + "/api/article/"+id, function(json) {
-		if(json.code==0) {
+	$.get(window.ApiDomian + "/api/article/" + id, function(json) {
+		if (json.code == 0) {
 			$('#title').text(json.data.title);
 			$('#content').html(json.data.content);
-			$('#thumb').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location)  + '" alt="" />');
-			
+			$('#thumb').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset === null ? "pic07.jpg" : json.data.asset.location) + '" alt="" />');
 		}
 	});
 }
-//读取可单独销售的产品
+// 读取可单独销售的产品
 function loadProductUnit(id) {
-	$.get(window.ApiDomian + "/api/productSaleUnit/"+id, function(json) {
-		if(json.code==0) {
+	$.get(window.ApiDomian + "/api/productSaleUnit/" + id, function(json) {
+		if (json.code == 0) {
 			$('#productTitle').text(json.data.title);
-			$('#productPrice').html("<i class='fa fa-cny'></i>售价："+json.data.price);
+			$('#productPrice').html("<i class='fa fa-cny'></i>售价：" + json.data.price);
 			$('#productDetail').html(json.data.content);
-			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset===null?"pic07.jpg":json.data.asset.location) + '" alt="" />');
+			$('#productImg').html('<img width="100%" src="/asset/preview?fileName=' + (json.data.asset === null ? "pic07.jpg" : json.data.asset.location) + '" alt="" />');
 			var wxUser = json.data.product.producer.wxUser;
-			$('#userNickname').text(wxUser.nickname);$('#userNickname').attr("href","profile.html?openId="+wxUser.openId);
-			$('#userIcon').html('<img width="100%" src="' + (wxUser.headImgUrl===null?"pic07.jpg":wxUser.headImgUrl)  + '" alt="" />');
-			$('#userIcon').attr("href","profile.html?openId="+wxUser.openId);
+			$('#userNickname').text(wxUser.nickname);
+			$('#userNickname').attr("href", "profile.html?openId=" + wxUser.openId);
+			$('#userIcon').html('<img width="100%" src="' + (wxUser.headImgUrl === null ? "pic07.jpg" : wxUser.headImgUrl) + '" alt="" />');
+			$('#userIcon').attr("href", "profile.html?openId=" + wxUser.openId);
 			$('#profile').fadeIn();
 		}
 	});
 }
-//读取生产者
+// 读取生产者
 function loadUser(id) {
 }
-//读取文章列表
+// 读取文章列表
 function loadArticles() {
 	$.ajax({
 		type : "get",
@@ -312,10 +364,11 @@ function loadArticles() {
 			for (var i = 0; i < json.data.numberOfElements; i++) {
 				var j = json.data.content[i];
 				var item = '<article>';
-				item += ' 	<a href="article.html?id='+j.id+'" class="image"><img src="/asset/preview?fileName=' + (j.asset===null?"pic07.jpg":j.asset.location) + '" alt="" /></a>';
-				item += '	<h3 class="major">'+j.title+'</h3>';
-				item += '	<p>'+j.summary+'</p>';
-				item += '	<a href="article.html?id='+j.id+'" class="special">more</a>';
+				item += ' 	<a href="article.html?id=' + j.id + '" class="image"><img src="/asset/preview?fileName=' + (j.asset === null ? "pic07.jpg" : j.asset.location)
+						+ '" alt="" /></a>';
+				item += '	<h3 class="major">' + j.title + '</h3>';
+				item += '	<p>' + j.summary + '</p>';
+				item += '	<a href="article.html?id=' + j.id + '" class="special">more</a>';
 				item += '</article>';
 				$("#articles").append(item);
 			}
@@ -325,7 +378,6 @@ function loadArticles() {
 		}
 	});
 }
-
 function ajaxLog(s) {
 	console.log(s);
 }
