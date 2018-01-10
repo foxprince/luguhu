@@ -72,7 +72,7 @@
                         <td>${item.minBatch}</td>
                         <td>${item.total}</td>
                         <td>${item.formatCtime}</td>
-                        <td>${item.description}</td>
+                        <td>${item.content}</td>
                         <td><a href="./edit?id=${item.id}" class="btn btn-info">修改</a></td>
                         <td><a href="./delete?id=${item.id}" class="btn btn-danger" onclick='return confirm("您确认删除吗？");'>删除</a><br /> </td>
                       </tr>
