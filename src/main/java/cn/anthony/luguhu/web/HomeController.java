@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,8 @@ import cn.anthony.luguhu.util.Constant;
 
 @Controller
 public class HomeController {
+	public Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Resource
 	Constant constant;
 
@@ -40,6 +44,7 @@ public class HomeController {
 
 	@RequestMapping(value = { "/api/getSiteTitle" }, method = RequestMethod.GET)
 	public @ResponseBody String getSiteTitle() {
+		logger.info("get title....");
 		return constant.getSiteTitle();
 	}
 

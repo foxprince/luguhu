@@ -53,7 +53,7 @@ public class TestService implements CommandLineRunner {
 	    //orderRequest.setNotifyURL(notifyURL);
 	    orderRequest.setTradeType("JSAPI");
 		orderRequest.setSpbillCreateIp("103.10.87.204");
-	    System.out.println(wxPayService.unifiedOrder(orderRequest));
+	    //System.out.println(wxPayService.unifiedOrder(orderRequest));
 		System.out.println("run test");
 	}
 

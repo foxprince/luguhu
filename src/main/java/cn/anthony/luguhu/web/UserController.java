@@ -110,8 +110,8 @@ public class UserController extends GenericController<User, Long> {
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.POST)
 	public String login(String email, String password, Model m) {
+		logger.info("login ....");
 		if (getService().findByEmail(email).getPassword().equals(password)) {
-			logger.info("login success");
 			return "redirect:/index";
 		} else {
 			m.addAttribute("s", "login-box");

@@ -14,7 +14,7 @@
       </div><!-- /.login-logo -->
       <div class="login-box-body">
         <p class="login-box-msg">请登录</p>
-        <form action="/login" method="post">
+        <form action="/user/login" method="post">
           <div class="form-group has-feedback">
             <input type="text" name="username"class="form-control" placeholder="手机号|邮箱|用户名">
             <span class="glyphicon glyphicon-user form-control-feedback"></span>
