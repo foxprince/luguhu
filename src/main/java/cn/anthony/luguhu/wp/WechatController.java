@@ -272,6 +272,7 @@ public class WechatController {
 			logger.info("from user:"+openId);
 			Cookie foo = new Cookie("openId", openId); 
 			foo.setMaxAge(365*24*3600);
+			foo.setPath("/");
 			response.addCookie(foo);
 			outMessage = this.route(inMessage);
 			if (outMessage == null) {

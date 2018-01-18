@@ -21,8 +21,8 @@
 					},
 					{
 						"type": "view",
-						"name": "我思",
-						"url": "http://www.shianca.com:9009/api/wp/visit"
+						"name": "我在",
+						"url": "http://www.shianca.com/api/wp/visit"
 					}
 				]
 			},
