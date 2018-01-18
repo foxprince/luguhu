@@ -275,9 +275,10 @@ public class WechatController {
 			foo.setPath("/");
 			response.addCookie(foo);
 			outMessage = this.route(inMessage);
-			if (outMessage == null) {
-				return "";
-			}
+			response.sendRedirect("redirect:/wp/user.html?openId="+openId);
+			//if (outMessage == null) {
+				//return "";
+			//}
 			out = outMessage.toXml();
 		} else if ("aes".equals(encType)) {
 			// aes加密的消息
