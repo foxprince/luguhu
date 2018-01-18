@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -152,8 +153,9 @@ public class WechatController {
 	}
 	
 	@RequestMapping(value = "/visit")
-	public String visit(@CookieValue("openId") String openId) throws WxErrorException {
-		logger.info("visit openId:"+openId);
+	public String visit(@CookieValue(name="openId",defaultValue="") String openId,HttpSession session) throws WxErrorException {
+		logger.info("visit openId cookie:"+openId);
+		logger.info("session openId:"+session.getAttribute("openId"));
 		WxMpUser wxUser = wxService.getUserService().userInfo(openId);//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
 		WxUser wuser = wxUserRepo.findByOpenId(wxUser.getOpenId());
@@ -257,7 +259,7 @@ public class WechatController {
 	public String post(@RequestBody String requestBody, @RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce,
 			@RequestParam(name = "encrypt_type", required = false) String encType,
-			@RequestParam(name = "msg_signature", required = false) String msgSignature,HttpServletResponse response) throws WxErrorException, IOException {
+			@RequestParam(name = "msg_signature", required = false) String msgSignature,HttpServletResponse response,HttpSession session) throws WxErrorException, IOException {
 		this.logger.info( "接收微信POST请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ", signature, encType, msgSignature, timestamp, nonce, requestBody);
 		if (!this.wxService.checkSignature(timestamp, nonce, signature)) {
 			throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
@@ -274,11 +276,11 @@ public class WechatController {
 			foo.setMaxAge(365*24*3600);
 			foo.setPath("/");
 			response.addCookie(foo);
+			session.setAttribute("openId", openId);
 			outMessage = this.route(inMessage);
-			response.sendRedirect("redirect:/wp/user.html?openId="+openId);
-			//if (outMessage == null) {
-				//return "";
-			//}
+			if (outMessage == null) {
+				return "";
+			}
 			out = outMessage.toXml();
 		} else if ("aes".equals(encType)) {
 			// aes加密的消息
