@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -150,9 +151,24 @@ public class WechatController {
 			return "redirect:/solidState/userIndex.html?openId="+wuser.getOpenId();
 	}
 	
+	@RequestMapping(value = "/visit")
+	public String visit(@CookieValue("openId") String openId) throws WxErrorException {
+		logger.info("visit openId:"+openId);
+		WxMpUser wxUser = wxService.getUserService().userInfo(openId);//wxService.oauth2getUserInfo(accessToken, null);
+		//添加或更新用户信息
+		WxUser wuser = wxUserRepo.findByOpenId(wxUser.getOpenId());
+		if(wuser==null)
+			wuser = new WxUser();
+		BeanUtils.copyProperties(wxUser, wuser);
+		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
+		wxUserRepo.save(wuser);
+		//根据state的不同导向到不同页面，带参数openId
+		return "redirect:/wp/user.html?openId="+openId;
+	}
+	
 	@RequestMapping(value = "/cookietest")
 	public String cookie(String openId,HttpServletResponse response) throws WxErrorException {
-		Cookie foo = new Cookie("wxOpenId", openId); 
+		Cookie foo = new Cookie("openId", openId); 
 		foo.setMaxAge(365*24*3600);
 		response.addCookie(foo);
 		//根据state的不同导向到不同页面，带参数openId
@@ -241,8 +257,8 @@ public class WechatController {
 	public String post(@RequestBody String requestBody, @RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce,
 			@RequestParam(name = "encrypt_type", required = false) String encType,
-			@RequestParam(name = "msg_signature", required = false) String msgSignature) throws WxErrorException, IOException {
-		this.logger.info( "\n接收微信请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ", signature, encType, msgSignature, timestamp, nonce, requestBody);
+			@RequestParam(name = "msg_signature", required = false) String msgSignature,HttpServletResponse response) throws WxErrorException, IOException {
+		this.logger.info( "接收微信POST请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ", signature, encType, msgSignature, timestamp, nonce, requestBody);
 		if (!this.wxService.checkSignature(timestamp, nonce, signature)) {
 			throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
 		}
@@ -252,6 +268,11 @@ public class WechatController {
 		if (encType == null) {
 			// 明文传输的消息
 			inMessage = WxMpXmlMessage.fromXml(requestBody);
+			String openId = inMessage.getFromUser();
+			logger.info("from user:"+openId);
+			Cookie foo = new Cookie("openId", openId); 
+			foo.setMaxAge(365*24*3600);
+			response.addCookie(foo);
 			outMessage = this.route(inMessage);
 			if (outMessage == null) {
 				return "";
