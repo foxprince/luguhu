@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -38,6 +39,7 @@ import cn.anthony.luguhu.domain.User;
 import cn.anthony.luguhu.domain.WxUser;
 import cn.anthony.luguhu.repository.UserRepository;
 import cn.anthony.luguhu.repository.WxUserRepository;
+import cn.anthony.luguhu.util.JsonUtils;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.bean.menu.WxMenu;
 import me.chanjar.weixin.common.exception.WxErrorException;
@@ -154,7 +156,9 @@ public class WechatController {
 	}
 	
 	@RequestMapping(value = "/visit")
-	public String visit(@CookieValue(name="openId",defaultValue="") String openId,HttpSession session) throws WxErrorException {
+	public String visit(@CookieValue(name="openId",defaultValue="") String openId,HttpServletRequest httpRequest,HttpSession session) throws WxErrorException {
+		Cookie[] cookies = httpRequest.getCookies();
+        logger.info("cookies info"+JsonUtils.toJson(cookies));
 		logger.info("visit openId cookie:"+openId);
 		logger.info("session openId:"+session.getAttribute("openId"));
 		openId = (String)session.getAttribute("openId");
@@ -268,7 +272,7 @@ public class WechatController {
 	public String post(@RequestBody String requestBody, @RequestParam("signature") String signature,
 			@RequestParam("timestamp") String timestamp, @RequestParam("nonce") String nonce,
 			@RequestParam(name = "encrypt_type", required = false) String encType,
-			@RequestParam(name = "msg_signature", required = false) String msgSignature,HttpServletResponse response,HttpSession session) throws WxErrorException, IOException {
+			@RequestParam(name = "msg_signature", required = false) String msgSignature,HttpServletRequest httpRequest,HttpServletResponse response,HttpSession session) throws WxErrorException, IOException {
 		this.logger.info( "接收微信POST请求：[signature=[{}], encType=[{}], msgSignature=[{}]," + " timestamp=[{}], nonce=[{}], requestBody=[\n{}\n] ", signature, encType, msgSignature, timestamp, nonce, requestBody);
 		if (!this.wxService.checkSignature(timestamp, nonce, signature)) {
 			throw new IllegalArgumentException("非法请求，可能属于伪造的请求！");
@@ -293,6 +297,8 @@ public class WechatController {
 				System.out.println(s);
 				System.out.println("**" + session.getAttribute(s));
 			}
+			Cookie[] cookies = httpRequest.getCookies();
+			System.out.println("cookies info"+JsonUtils.toJson(cookies));
 			outMessage = this.route(inMessage);
 			if (outMessage == null) {
 				return "";
