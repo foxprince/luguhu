@@ -57,7 +57,7 @@ import me.chanjar.weixin.mp.bean.result.WxMpUser;
  * @author Binary Wang
  */
 @Controller
-@RequestMapping("/wp/portal")
+@RequestMapping("/api/wp")
 public class WechatController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -176,7 +176,7 @@ public class WechatController {
 	}
 	@RequestMapping(value = "/getUser")
 	@ResponseBody
-	public WxUser getUser(String openId) throws WxErrorException {
+	private WxUser getUser(String openId) throws WxErrorException {
 		WxMpUserService wus = wxService.getUserService();
 		WxMpUser userWxInfo = wus.userInfo(openId, null);
 		if (userWxInfo != null) {

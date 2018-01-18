@@ -14,6 +14,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.querydsl.core.annotations.QueryEntity;
 
@@ -34,23 +35,24 @@ public class User extends GenericEntity {
 	private String email;
 	private Byte loginType;//'1:手机号码，2：邮箱，3：自定义用户名',4:微信
 	@Size(min = 6, max = 30)
+	@RestResource(exported = false)
 	private String password;
 	private String name;
 	private String nickname;
 	private Byte sex, age;
 	private Byte level = 0;//'0-普通用户，1：份额用户,2：股东用户',
 	private String phone;
-	private String address;
 	private String origin = "web";
 	private Date lastLogin;
 	private boolean active = true;
 	private boolean verified = false;
 	@OneToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name = "wx_user_id")
+	@JoinColumn(name = "wx_user_id")@RestResource(exported = true)
 	private WxUser wxUser = null;;
 	@OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "producer")
 	transient private List<Product> products;
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	@RestResource(path = "addresses", rel = "addresses")
 	private List<Address> addresses;
 	public User(){}
 	public User(Byte loginType) {

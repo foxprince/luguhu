@@ -1,0 +1,59 @@
+#$    java    -jar    -Dspring.profiles.active=production    demo-0.0.1-SNAPSHOT.jar
+#In    Spring    Boot    you    can    also    set    the    active    profile    in    application.properties,    e.g.
+#spring.profiles.active=dev
+#spring.main.web_environment=false
+
+server:
+    port: 9009
+spring:
+    mvc:
+        view:
+            prefix: /WEB-INF/jsp/
+            suffix: .jsp
+    http:
+        multipart:
+            max-file-size: 2MB
+            max-request-size: 10MB
+    application: 
+        index: index
+    data:
+        rest:
+            basePath: /rest
+    datasource:
+        url: jdbc:mysql://127.0.0.1:3306/luguhu?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&rewriteBatchedStatements=true
+        username: lghuser
+        password: pwd4lgh
+        driver-class-name: com.mysql.jdbc.Driver
+    jpa:
+        hibernate:
+            dialect: org.hibernate.dialect.MySQLInnoDBDialect
+            ddl-auto: update
+            naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        database: mysql
+        show-sql: false
+    messages:
+      basename: messages_zh_CN
+application:
+    message: Hello    同道者
+    globle: 全局信息
+    siteTitle: 翡翠湾食安云台
+    siteInfo: 食安云台的介绍
+    uploadDir: tmp/luguhu
+    uploadTmpDir: tmp/luguhu/tmp
+wechat:
+    mp:
+        appId: wx7a058c81272e3cef
+        secret: 8a251df8751fc540804aa17e9b1a832d
+        token: chxlqqxmbdwwlc
+        aesKey: eHqnBuZyuT11maIISuGak51sSndLAzlDgEI4q7sphUR
+    pay:
+        appId: wx7a058c81272e3cef
+        mchId: 1448996602
+        mchKey: rszsyqcchbgfyyrsdczhsysfhtxn1234
+        keyPath:
+        notifyUrl: http://www.shianca.com/paycallback
+hibernate:
+    jdbc:
+        batch_size: 10
+    dialect: org.hibernate.dialect.MySQLInnoDBDialect
+    

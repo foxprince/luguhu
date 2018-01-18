@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hankcs.hanlp.HanLP;
 
+import cn.anthony.luguhu.api.JsonResponse;
 import cn.anthony.luguhu.util.Constant;
 
 @Controller
@@ -42,19 +43,28 @@ public class HomeController {
 		return "main/register";
 	}
 
-	@RequestMapping(value = { "/api/getSiteTitle" }, method = RequestMethod.GET)
-	public @ResponseBody String getSiteTitle() {
-		logger.info("get title....");
-		return constant.getSiteTitle();
+	@RequestMapping(value = { "/api/getSiteTitle" })
+	public @ResponseBody JsonResponse getSiteTitle() {
+		return new JsonResponse(constant.getSiteTitle());
+	}
+	
+	@RequestMapping(value = { "/api/getSiteInfo" })
+	public @ResponseBody JsonResponse getSiteInfo() {
+		return new JsonResponse(constant.getSiteInfo());
+	}
+	
+	@RequestMapping(value = { "/api/getSiteLogo" })
+	public @ResponseBody JsonResponse getSiteLogo() {
+		return new JsonResponse("logo的url地址");
 	}
 
 	@RequestMapping(value = { "/api/getSummary" })
-	public @ResponseBody List<String> summary(String content) {
+	public @ResponseBody JsonResponse summary(String content) {
 		String regMatch = "\\s*|\t|\r|\n";
 		content = content.replaceAll(regMatch, "");
 		String regMatchTag = "<[^>]*>";
 		content = content.replaceAll(regMatchTag, "");
 		List<String> sentenceList = HanLP.extractSummary(content, 3);
-		return sentenceList;
+		return new JsonResponse(sentenceList);
 	}
 }

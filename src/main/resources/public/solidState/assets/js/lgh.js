@@ -170,7 +170,7 @@ function removeAddress(item, id) {
 }
 // 读取微信用户信息from微信服务器
 function loadWxUser(openId) {
-	$.get(window.ApiDomian + "/wp/portal/wxUser/" + openId, function(json) {
+	$.get(window.ApiDomian + "/api/wp/wxUser/" + openId, function(json) {
 		if (json.code == 0) {
 			sessionStorage.wxUserId = json.data.wxUser.id;
 			sessionStorage.userId = json.data.id;

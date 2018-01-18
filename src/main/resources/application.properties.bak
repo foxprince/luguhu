@@ -6,7 +6,7 @@
 server.port: 9009
 #https\u652f\u6301
 # Tell Spring Security (if used) to require requests over HTTPS
-#security.require-ssl=true
+security.require-ssl=true
 # The format used for the keystore JKS or PKCS12
 #server.ssl.key-store-type:JKS
 # The path to the keystore containing the certificate
@@ -23,6 +23,7 @@ spring.mvc.view.suffix: .jsp
 application.message: Hello \u795e\u4e91
 application.globle: \u5168\u5c40\u4fe1\u606f
 application.siteTitle=\u7fe1\u7fe0\u6e7e\u6cf8\u6cbd\u6e56
+application.siteInfo=
 application.uploadDir=tmp/luguhu
 application.uploadTmpDir=tmp/luguhu/tmp
 

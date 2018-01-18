@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,19 +29,19 @@ public abstract class GenericEntity implements Serializable {
 	@Column(name = "ctime", nullable = false)
 	protected Timestamp ctime;
 
-	@JsonIgnore
+	@JsonIgnore@RestResource(exported = false)
 	transient protected String action;
-	@JsonIgnore
+	@JsonIgnore@RestResource(exported = false)
 	transient protected String actionDesc;
 
 	public GenericEntity() {
 		this.ctime = new Timestamp(Calendar.getInstance().getTimeInMillis());
 	}
-
+	@RestResource(exported = false)
 	public String getSelfIntro() {
 		return this.getClass().getName();
 	}
-
+	@RestResource(exported = false)
 	public String getSelfDescription() {
 		return null;
 	}
@@ -61,7 +63,7 @@ public abstract class GenericEntity implements Serializable {
 	public String getFormatCtime() {
 		return DateUtil.format(getCtime(), "yyyy-MM-dd HH:mm");
 	}
-	
+	@RestResource(exported = false)
 	public boolean isAdd() {
 		if (id != null)
 			return false;

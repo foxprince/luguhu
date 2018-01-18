@@ -1,0 +1,185 @@
+1:概述
+=================================================
+HTTP-REST风格的请求
+	GET：用来获取资源；
+	POST：用来新建资源；返回HTTP 状态201 表示创建成功。
+	PUT：用来更新资源，完全覆盖；
+	PATCH：用来更新资源，局部更新，部分覆盖；
+	DELETE：用来删除资源；返回HTTP 状态204 表示执行成功。
+	
+REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规定。
+其他请求的的前缀是/api，以此开头的请求并不要求严格遵守REST风格，按接口定义。
+所有接口同时支持JSON和JSONP方式。
+/rest接口的的说明地址：/rest/browser/index.html#/rest/，用浏览器打开。
+
+/api前缀接口如果没有特殊指明，同时支持GET和PUT方式，通用的返回格式是：
+	{
+	    "code": 0,
+	    "msg": "success",
+	    "data": "食安云台的介绍"
+	}
+	code 为0表示成功，其他为失败；
+	msg 是code说明。
+	data 是返回的数据，可以是字符串、数组、json结构。
+以下接口说明，参数以{}形式标注
+
+2:接口
+==================================================
+	
+	1:）获得网站标题
+	GET /api/getSiteTitle
+	{
+		"code": 0,
+		"msg": "success",
+		"data": "翡翠湾食安云台"
+	}
+	
+	2:）获得网站简介
+	GET /api/getSiteInfo
+	{
+	    "code": 0,
+	    "msg": "success",
+	    "data": "食安云台的介绍"
+	}
+	
+	3:）获得网站Logo
+	GET /api/getSiteLogo
+	{
+	    "code": 0,
+	    "msg": "success",
+	    "data": "logo的url地址"
+	}
+	
+	4:）微信用户点击链接进入公众号
+	GET /api/wp/auth
+	后台会验证微信用户身份，获得openId，并保存在cookie里，然后重定向到公众号首页或个人首页，并携带参数：openId,如
+		http://www.shianca.com/userIndex.html?openId=o6AWbjnhuD5ZZSeMpp3hVF7ArF6U
+	此时页面可以从cookie或者请求参数里获得openId，后续场景根据需要传送。
+	
+	5:）根据openId获得用户信息
+	GET /rest/users/search/openId?openId={openId}
+	如：/rest/users/search/openId?openId=o6AWbjpi4e7MRmXP4qYQpN5zSoIM
+		{
+		  "ctime": "2017-12-07 10:36:53",
+		  "email": "1@1.com",
+		  "loginType": 4, //'登录类型，1:手机号码，2：邮箱，3：自定义用户名',4:微信
+		  "password": null,
+		  "name": "张军1111",
+		  "nickname": null,
+		  "sex": null,
+		  "age": null,
+		  "level": 0,//'0-普通用户，1：份额用户,2：股东用户',
+		  "phone": "12444",
+		  "origin": "wechat",//用户来源，web：网站注册，wechat：微信关注
+		  "lastLogin": null,
+		  "active": true,
+		  "verified": false,//审核状态，true：审核通过
+		  "selfIntro": "普通用户",
+		  "selfDescription": "张军1111",
+		  "originDesc": "网站注册",
+		  "verifiedDesc": "待审核",
+		  "activeDesc": "正常",
+		  "levelDesc": "普通用户",
+		  "sexDesc": null,
+		  "add": false,
+		  "formatCtime": "2017-12-07 10:36",
+		  "_links": {
+		    "self": {
+		      "href": "http://localhost:9009/rest/users/7"
+		    },
+		    "user": {
+		      "href": "http://localhost:9009/rest/users/7"
+		    },
+		    "wxUser": {
+		      "href": "http://localhost:9009/rest/users/7/wxUser"
+		    },
+		    "addresses": {
+		      "href": "http://localhost:9009/rest/users/7/addresses"
+		    },
+		    "products": {
+		      "href": "http://localhost:9009/rest/users/7/products"
+		    }
+		  }
+		}
+	
+	6:）更新用户信息
+	PATCH {url}
+	注意，此处的url从上一步json结构的属性_links->self->href读出值，如http://localhost:9009/rest/users/7
+	提交body：
+	{
+		  "email": "9600348@qq.com",
+		  "name": "张军",
+		  "nickname": "昵称",
+		  "age": 123,
+		  "phone": "13311032007"
+		}
+		
+	7:）获得用户地址列表
+	GET {url}
+	此处的url从上一步json结构的属性_links->addresses->href读出值
+	{
+	  "_embedded": {
+	    "addresses": [
+	      {
+	        "id": 12,
+	        "ctime": "2018-01-17 23:49:26",
+	        "consignee": "收货人",
+	        "phone": "手机号码",
+	        "postAddress": "收货地址",
+	        "city": "城市bb",
+	        "region": "区域cc",
+	        "tag": "标记，家庭或公司等",
+	        "default": false,//是否缺省地址
+	        "formatCtime": "2018-01-17 23:49",
+	        "_links": {
+	          "self": {
+	            "href": "http://localhost:9009/rest/addresses/12"
+	          },
+	          "address": {
+	            "href": "http://localhost:9009/rest/addresses/12"
+	          },
+	          "user": {
+	            "href": "http://localhost:9009/rest/addresses/12/user"
+	          }
+	        }
+	      }
+	    ]
+	  },
+	  "_links": {
+	    "self": {
+	      "href": "http://localhost:9009/rest/users/7/addresses"
+	    }
+	  }
+	}
+	
+	8:）添加地址
+	POST /rest/addresses/
+	{
+	"user":"http://localhost:9009/rest/users/7",
+	"consignee":"收货人",
+	"phone":"手机号码",
+	"postAddress":"收货地址",
+	"city":"城市",
+	"region":"区域cc",
+	"tag":"标记，家庭或公司等",
+	"isDefault":0
+	}
+	
+	9:）修改地址
+	PATCH {url}
+	此处的url从地址列表json结构的属性_links->self->href读出值，如http://localhost:9009/rest/addresses/7
+	{
+	"consignee":"收货人",
+	"phone":"手机号码",
+	"postAddress":"收货地址",
+	"city":"城市",
+	"region":"区域cc",
+	"tag":"标记，家庭或公司等",
+	"isDefault":0
+	}
+	
+	10:）删除地址
+	DELETE {url}
+	
+	
+	

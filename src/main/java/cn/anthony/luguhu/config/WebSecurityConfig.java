@@ -40,11 +40,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// .antMatchers("/users/**").hasAuthority("ADMIN").anyRequest().fullyAuthenticated().and().formLogin()
 		// .loginPage("/login").failureUrl("/login?error").usernameParameter("email").permitAll().and().logout()
 		// .logoutUrl("/logout").deleteCookies("remember-me").logoutSuccessUrl("/").permitAll().and().rememberMe();
+		
 		//  简单粗暴的方式：禁用csrf
-		//http.csrf().disable();
+		http.csrf().disable();
 		
 		http.authorizeRequests()
-		.antMatchers("/*.html","/bootstrap/**","/dist/**","/pages/**","/solidState/**","/plugins/**","/api/**", "/wp/**").permitAll()
+		.antMatchers("/*.html","/bootstrap/**","/dist/**","/pages/**","/solidState/**","/plugins/**","/rest/**","/api/**", "/wp/**").permitAll()
 		.antMatchers("/user/login","/login").permitAll()
 		.anyRequest().fullyAuthenticated()
 		.and()

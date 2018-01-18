@@ -14,11 +14,11 @@ public interface UserRepository extends BaseRepository<User, QUser, Long> {
 	@RestResource(path="email",rel="email")
 	public User findByEmail(@Param("email") String email);
 	
-	public List<User> findByWxUserId(@Param("wxUser")Long wxUserId);
+	public List<User> findByWxUserId(@Param("wxUserId")Long wxUserId);
 
-	public List<User> findByNameOrPhone(String name, String phone);
+	public List<User> findByNameOrPhone(@Param("name")String name, @Param("phone")String phone);
 
-	public List<User> findByLevel(byte level);
+	public List<User> findByLevel(@Param("level")byte level);
 
 	@Override
 	default public void customize(QuerydslBindings bindings, QUser p) {
@@ -26,6 +26,6 @@ public interface UserRepository extends BaseRepository<User, QUser, Long> {
 		bindings.excluding(p.password);
 		bindings.bind(String.class).first((StringPath path, String value) -> path.containsIgnoreCase(value));
 	}
-
-	public User findByWxUserOpenId(String openId);
+	@RestResource(path="openId",rel="openId")
+	public User findByWxUserOpenId(@Param("openId")String openId);
 }

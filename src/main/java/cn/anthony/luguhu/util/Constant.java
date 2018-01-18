@@ -21,6 +21,7 @@ public class Constant {
 	private Environment env;
 	private String globle;
 	private String siteTitle;
+	private String siteInfo;
 	private String uploadTmpDir;
 	private String uploadDir;
 

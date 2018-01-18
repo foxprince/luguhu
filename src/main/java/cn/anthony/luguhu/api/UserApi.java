@@ -17,6 +17,7 @@ public class UserApi extends GenericRestController<User, Long> {
 	}
 
 	//@Override
+	@Override
 	@GetMapping(value = "/{wxUserId}")
 	public JsonResponse get(@PathVariable Long wxUserId) {
 		User user = ((UserService) this.service).findByWxUser(wxUserId);
