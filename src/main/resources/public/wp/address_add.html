@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+    <title>翡翠湾食安云台</title>
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <script src="js/common.js"></script>
+</head>
+<body>
+    <section class="container">
+        <div class="container_box" style="margin:0;">
+            <h1>新增地址</h1>
+            <div class="short-line"><span></span></div>
+        </div>
+
+        <div class="address-add">
+            <div class="box_ident">
+                <form>
+                    <dl class="clearfix">
+                        <dt>联系人</dt>
+                        <dd><input type="text" placeholder="您的姓名" /></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>联系电话</dt>
+                        <dd><input type="text" placeholder="您的手机号" /></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>城市</dt>
+                        <dd><select><option>请选择城市</option></select></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>行政区</dt>
+                        <dd><select><option>请选择行政区</option></select></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>收货地址</dt>
+                        <dd><input type="text" placeholder="您的收货地址" /></dd>
+                    </dl>
+                    <dl class="clearfix">
+                        <dt>详细地址</dt>
+                        <dd><input type="text" placeholder="例：1单元402" /></dd>
+                    </dl>
+                    <p><label><input type="checkbox" class="radio" id="agree" name="agree" /><label for="agree"></label>设置为默认收货地址</label></p>
+                    <p style="padding:0;padding-bottom:20px;" class="center">
+                        <label><input type="radio" class="radio" checked="checked" id="company" name="group" /><label for="company"></label>公司</label>
+                        <label><input type="radio" class="radio" id="home" name="group" /><label for="home"></label>家</label>
+                    </p>
+                    <div class="center"><button type="submit" class="submit_btn">确认</button></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    
+    <aside>
+        <a href="index.html">首页</a>
+        <a href="prodlist.html">产品</a>
+        <a href="articlelist.html">文章</a>
+        <a href="user.html" class="on">我</a>
+    </aside>
+    <section class="fixHeader">
+        <img src="images/logo.jpeg" /><span>翡翠湾泸沽湖</span><label><i class="fa fa-bars"></i></label>
+    </section>
+    <script>
+        utils.init();
+    </script>
+</body>
+</html>

@@ -144,7 +144,10 @@ public class WechatController {
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		wxUserRepo.save(wuser);
 		//根据state的不同导向到不同页面，带参数openId
-		return "redirect:/solidState/userIndex.html?openId="+wuser.getOpenId();
+		if(state.equals("new"))
+			return "redirect:/wp/user.html?openId="+wuser.getOpenId();
+		else	
+			return "redirect:/solidState/userIndex.html?openId="+wuser.getOpenId();
 	}
 	
 	@RequestMapping(value = "/cookietest")

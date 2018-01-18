@@ -11,8 +11,13 @@
 					},
 					{
 						"type": "view",
-						"name": "我",
-						"url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a058c81272e3cef&redirect_uri=http%3A%2F%2Fwww.shianca.com%2Fwp%2Fportal%2Fauth&response_type=code&scope=snsapi_userinfo&state=paraTest#wechat_redirect"
+						"name": "旧我",
+						"url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a058c81272e3cef&redirect_uri=http%3A%2F%2Fwww.shianca.com%2Fapi%2Fwp%2Fauth&response_type=code&scope=snsapi_userinfo&state=old#wechat_redirect"
+					},
+					{
+						"type": "view",
+						"name": "新我",
+						"url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7a058c81272e3cef&redirect_uri=http%3A%2F%2Fwww.shianca.com%2Fapi%2Fwp%2Fauth&response_type=code&scope=snsapi_userinfo&state=new#wechat_redirect"
 					}
 				]
 			},
