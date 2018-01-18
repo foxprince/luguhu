@@ -283,22 +283,6 @@ public class WechatController {
 		if (encType == null) {
 			// 明文传输的消息
 			inMessage = WxMpXmlMessage.fromXml(requestBody);
-			String openId = inMessage.getFromUser();
-			logger.info("from user:"+openId);
-			Cookie foo = new Cookie("openId", openId); 
-			foo.setMaxAge(365*24*3600);
-			foo.setPath("/");
-			response.addCookie(foo);
-			session.setAttribute("openId", openId);
-			System.out.println("*** Session data ***");
-			Enumeration<String> e = session.getAttributeNames();
-			while (e.hasMoreElements()) {
-				String s = e.nextElement();
-				System.out.println(s);
-				System.out.println("**" + session.getAttribute(s));
-			}
-			Cookie[] cookies = httpRequest.getCookies();
-			System.out.println("cookies info"+JsonUtils.toJson(cookies));
 			outMessage = this.route(inMessage);
 			if (outMessage == null) {
 				return "";
