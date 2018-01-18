@@ -11,6 +11,10 @@ spring:
             prefix: /WEB-INF/jsp/
             suffix: .jsp
     http:
+        encoding:
+            force: true
+            charset: UTF-8
+            enabled: true
         multipart:
             max-file-size: 2MB
             max-request-size: 10MB
@@ -33,6 +37,7 @@ spring:
         show-sql: false
     messages:
       basename: messages_zh_CN
+        
 application:
     message: Hello    同道者
     globle: 全局信息
