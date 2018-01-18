@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -156,6 +157,14 @@ public class WechatController {
 	public String visit(@CookieValue(name="openId",defaultValue="") String openId,HttpSession session) throws WxErrorException {
 		logger.info("visit openId cookie:"+openId);
 		logger.info("session openId:"+session.getAttribute("openId"));
+		openId = (String)session.getAttribute("openId");
+		logger.info("*** Session data ***");
+		Enumeration<String> e = session.getAttributeNames();
+		while (e.hasMoreElements()) {
+			String s = e.nextElement();
+			logger.info(s+":" + session.getAttribute(s));
+		}
+		if(openId!=null) {
 		WxMpUser wxUser = wxService.getUserService().userInfo(openId);//wxService.oauth2getUserInfo(accessToken, null);
 		//添加或更新用户信息
 		WxUser wuser = wxUserRepo.findByOpenId(wxUser.getOpenId());
@@ -163,7 +172,7 @@ public class WechatController {
 			wuser = new WxUser();
 		BeanUtils.copyProperties(wxUser, wuser);
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
-		wxUserRepo.save(wuser);
+		wxUserRepo.save(wuser);}
 		//根据state的不同导向到不同页面，带参数openId
 		return "redirect:/wp/user.html?openId="+openId;
 	}
@@ -277,6 +286,13 @@ public class WechatController {
 			foo.setPath("/");
 			response.addCookie(foo);
 			session.setAttribute("openId", openId);
+			System.out.println("*** Session data ***");
+			Enumeration<String> e = session.getAttributeNames();
+			while (e.hasMoreElements()) {
+				String s = e.nextElement();
+				System.out.println(s);
+				System.out.println("**" + session.getAttribute(s));
+			}
 			outMessage = this.route(inMessage);
 			if (outMessage == null) {
 				return "";
