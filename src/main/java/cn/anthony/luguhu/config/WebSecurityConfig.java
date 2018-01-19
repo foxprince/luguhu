@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		//  简单粗暴的方式：禁用csrf
 		http.csrf().disable();
-		
+		//*.txt 是为了保证微信公众平台的授权文件可以被访问到
 		http.authorizeRequests()
 		.antMatchers("/*.txt","/*.html","/bootstrap/**","/dist/**","/pages/**","/solidState/**","/plugins/**","/rest/**","/api/**", "/wp/**").permitAll()
 		.antMatchers("/user/login","/login").permitAll()

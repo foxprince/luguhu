@@ -155,6 +155,7 @@ public class WechatController {
 			return "redirect:/solidState/userIndex.html?openId="+wuser.getOpenId();
 	}
 	
+	//测试cookie和session用
 	@RequestMapping(value = "/visit")
 	public String visit(@CookieValue(name="openId",defaultValue="") String openId,HttpServletRequest httpRequest,HttpSession session) throws WxErrorException {
 		Cookie[] cookies = httpRequest.getCookies();

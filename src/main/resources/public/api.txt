@@ -11,7 +11,7 @@ HTTP-REST风格的请求
 REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规定。
 其他请求的的前缀是/api，以此开头的请求并不要求严格遵守REST风格，按接口定义。
 所有接口同时支持JSON和JSONP方式。
-/rest接口的的说明地址：/rest/browser/index.html#/rest/，用浏览器打开。
+/rest接口的的说明地址：/rest/browser/index.html#/rest/，用浏览器打开http://www.shianca.com:9009/rest/browser/index.html#/rest/查看。
 
 /api前缀接口如果没有特殊指明，同时支持GET和PUT方式，通用的返回格式是：
 	{
@@ -49,6 +49,38 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	    "code": 0,
 	    "msg": "success",
 	    "data": "logo的url地址"
+	}
+	
+	上面三个接口可以统一为
+	GET /rest/siteConfigs/0
+	{
+	    "ctime": "2018-01-19 16:44:06",
+	    "title": "翡翠湾",
+	    "info": "介绍",
+	    "logo": "hhhh",
+	    "copyright": "hhhhhh",
+	    "formatCtime": "2018-01-19 16:44",
+	    "_links": {
+	        "self": {
+	            "href": "http://127.0.0.1:9009/rest/siteConfigs/0"
+	        },
+	        "siteConfig": {
+	            "href": "http://127.0.0.1:9009/rest/siteConfigs/0"
+	        }
+	    }
+	}
+	
+	修改网站信息
+	PATCH /rest/siteConfigs/0
+	{
+		"title":"翡翠湾",
+		"info":"介绍",
+		"logo":"网站logo",
+		"copyright":"hhhhhh"
+	}
+	只需要提交修改过的字段，如：
+	{
+		"title":"翡翠湾"
 	}
 	
 	4:）微信用户点击链接进入公众号
