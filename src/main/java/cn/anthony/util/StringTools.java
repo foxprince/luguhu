@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,7 +48,7 @@ public class StringTools {
 	}
 	
 	public static String createFileNameWithYM(String originalName) {
-		return DateFormatUtils.format(Calendar.getInstance(), "yyyyMM") + Constant.FILE_SEPA + "_" + UUID.randomUUID().toString() + "."
+		return DateFormatUtils.format(Calendar.getInstance(), "yyyyMM") + Constant.FILE_SEPA  + DateFormatUtils.format(Calendar.getInstance(), "yyyyMMddHHmmss") + "."
 				+ FilenameUtils.getExtension(originalName);
 	}
 

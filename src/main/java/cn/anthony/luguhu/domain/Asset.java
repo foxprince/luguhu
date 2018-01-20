@@ -12,6 +12,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
@@ -34,10 +35,10 @@ public class Asset extends GenericEntity {
 	private List<Tag> tags;
 	private String sourceName;//如果是图片则为原始文件名称，如果是文本则是内容
 	private Boolean open = true;//是否开放浏览
-	@ManyToOne
+	@ManyToOne@JsonIgnore
 	@JoinColumn(name = "operator_id")
 	private User operator;
-	@ManyToOne
+	@ManyToOne@JsonIgnore
 	@JoinColumn(name = "wx_user_id")
 	private WxUser wxUser;
 	

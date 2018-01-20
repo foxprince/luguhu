@@ -41,7 +41,7 @@ import lombok.Data;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Controller
-@RequestMapping(value = "/asset")
+@RequestMapping(value = "/api/asset")
 public class AssetController extends GenericController<Asset, Long> {
 
 	@Resource

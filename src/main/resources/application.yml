@@ -43,8 +43,8 @@ application:
     globle: 全局信息
     siteTitle: 翡翠湾食安云台
     siteInfo: 食安云台的介绍
-    uploadDir: tmp/luguhu
-    uploadTmpDir: tmp/luguhu/tmp
+    uploadDir: data/fcw
+    uploadTmpDir: data/fcw/tmp
 wechat:
     mp:
         appId: wx7a058c81272e3cef
