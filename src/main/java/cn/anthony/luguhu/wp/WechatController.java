@@ -148,6 +148,11 @@ public class WechatController {
 		BeanUtils.copyProperties(wxUser, wuser);
 		wuser.setSubscribeTime(new Timestamp(wxUser.getSubscribeTime()*1000l));
 		wxUserRepo.save(wuser);
+		User user = userRepo.findByWxUserOpenId(wxUser.getOpenId());
+		if(user==null)
+			user = new User();
+		user.setWxUser(wuser);
+		userRepo.save(user);
 		//根据state的不同导向到不同页面，带参数openId
 		if(state.equals("new"))
 			return "redirect:/wp/user.html?openId="+wuser.getOpenId();
