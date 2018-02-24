@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -151,6 +150,7 @@ public class WechatController {
 		User user = userRepo.findByWxUserOpenId(wxUser.getOpenId());
 		if(user==null)
 			user = new User();
+		user.setLoginType((byte) 4);
 		user.setWxUser(wuser);
 		userRepo.save(user);
 		//根据state的不同导向到不同页面，带参数openId
@@ -232,9 +232,9 @@ public class WechatController {
 	 * @return
 	 * @throws WxErrorException
 	 */
-	@RequestMapping(value = "/wxUser/{openId}", method = RequestMethod.GET)
-	@ResponseBody
-	public JsonResponse get(@PathVariable String openId) throws WxErrorException {
+	//@RequestMapping(value = "/wxUser/{openId}", method = RequestMethod.GET)
+	//@ResponseBody
+	private JsonResponse get(@PathVariable String openId) throws WxErrorException {
 		WxMpUser userWxInfo = wxService.getUserService().userInfo(openId, null);
 		if (userWxInfo != null) {
 			WxUser wxUser = wxUserRepo.findByOpenId(openId);
