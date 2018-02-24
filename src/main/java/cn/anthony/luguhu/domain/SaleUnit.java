@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString(exclude = "product,operator")
 @QueryEntity
 @Entity
-public class SaleUnit extends GenericEntity implements Saleable {
+public class SaleUnit extends GenericEntity {
 	private static final long serialVersionUID = -934407005154746958L;
 	@ManyToOne
 	@JoinColumn(name = "product_id")
@@ -21,10 +21,9 @@ public class SaleUnit extends GenericEntity implements Saleable {
 	private Product product;
 	private String title, content;
 	private String unit;
-	private Float price;
+	private Integer price;
 	private Integer total;//库存总数
 	private boolean saleable;// 是否可以单独销售
-	private Short minBatch;// 最小起售数量
 	@ManyToOne
 	@JoinColumn(name = "asset_id")
 	private Asset asset;
@@ -48,17 +47,4 @@ public class SaleUnit extends GenericEntity implements Saleable {
 	public String getSelfDescription() {
 		return product.getTitle() + "产品销售的最小规格";
 	}
-
-	@Override
-	public Boolean isPack() {
-		return false;
-	}
-
-	@Override
-	public String getImg() {
-		if(asset!=null)
-			return asset.getLocation();
-		return null;
-	}
-
 }

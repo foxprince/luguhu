@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import com.querydsl.core.annotations.QueryEntity;
@@ -31,7 +30,6 @@ public class User extends GenericEntity {
 	// @NotNull
 	// @NotEmpty
 	@Column(nullable = false, length = 64)
-	@Email
 	private String email;
 	private Byte loginType;//'1:手机号码，2：邮箱，3：自定义用户名',4:微信
 	@Size(min = 6, max = 30)

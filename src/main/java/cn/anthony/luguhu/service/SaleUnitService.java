@@ -1,7 +1,5 @@
 package cn.anthony.luguhu.service;
 
-import java.util.Collection;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -24,9 +22,5 @@ public class SaleUnitService extends GenericService<SaleUnit, Long> {
 
 	public Object findByProduct(Long productId) {
 		return repsitory.findByProductId(productId);
-	}
-
-	public Collection<SaleUnit> findBySaleable(Boolean saleable) {
-		return repsitory.findBySaleable(saleable);
 	}
 }

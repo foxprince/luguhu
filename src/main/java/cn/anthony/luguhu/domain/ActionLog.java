@@ -44,5 +44,4 @@ public class ActionLog extends GenericEntity {
 	public String getSelfDescription() {
 		return "操作日志";
 	}
-
 }

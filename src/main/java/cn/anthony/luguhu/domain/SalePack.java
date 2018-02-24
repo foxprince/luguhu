@@ -23,9 +23,8 @@ import lombok.ToString;
 @ToString(exclude = "product,operator,saleUnits")
 @QueryEntity
 @Entity
-public class SalePack extends GenericEntity implements Saleable {
+public class SalePack extends GenericEntity {
 	private static final long serialVersionUID = -934407005154746958L;
-
 	/*
 	 * `id` bigint NOT NULL primary key AUTO_INCREMENT, title varchar(50) not
 	 * null comment '产品标题', price float not null comment '价格', amount integer
@@ -34,12 +33,18 @@ public class SalePack extends GenericEntity implements Saleable {
 	 * operator_id bigint default 0 null, ctime timestamp not null
 	 */
 	@ManyToMany(targetEntity = SaleUnit.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
-	@JoinTable(name="sale_pack_unit")
+	@JoinTable(name="sale_pack_unit",
+	    joinColumns=
+	        @JoinColumn(name="pack_id", referencedColumnName="ID"),
+	    inverseJoinColumns=
+	        @JoinColumn(name="unit_id", referencedColumnName="ID")
+    )
 	private List<SaleUnit> saleUnits;
-	private String title, intro,content;
-	private Float price;
+	private String title, intro, content;
+	private Byte packType, priceType;
+	private Integer price;
 	private Integer amount;
-	private Short minBatch;// 最小起售数量
+	private Integer minBatch, maxBatch, minPrice;// 最小起售数量
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:SS")
 	private Date saleBegin, saleEnd;
 	@ManyToOne
@@ -65,17 +70,5 @@ public class SalePack extends GenericEntity implements Saleable {
 
 	public String getFormatSaleEnd() {
 		return DateFormatUtils.format(getSaleEnd(), "yyyy-MM-dd HH:mm:ss");
-	}
-
-	@Override
-	public Boolean isPack() {
-		return true;
-	}
-
-	@Override
-	public String getImg() {
-		if(asset!=null)
-			return asset.getLocation();
-		return null;
 	}
 }

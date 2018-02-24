@@ -6,5 +6,5 @@ public interface Saleable {
 	public String getContent();
 	public String getImg();
 	public Boolean isPack();
-	public Float getPrice();
+	public Integer getPrice();
 }

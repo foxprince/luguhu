@@ -38,11 +38,19 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public final StringPath intro = createString("intro");
 
-    public final NumberPath<Short> minBatch = createNumber("minBatch", Short.class);
+    public final NumberPath<Integer> maxBatch = createNumber("maxBatch", Integer.class);
+
+    public final NumberPath<Integer> minBatch = createNumber("minBatch", Integer.class);
+
+    public final NumberPath<Integer> minPrice = createNumber("minPrice", Integer.class);
 
     public final QUser operator;
 
-    public final NumberPath<Float> price = createNumber("price", Float.class);
+    public final NumberPath<Byte> packType = createNumber("packType", Byte.class);
+
+    public final NumberPath<Integer> price = createNumber("price", Integer.class);
+
+    public final NumberPath<Byte> priceType = createNumber("priceType", Byte.class);
 
     public final DateTimePath<java.util.Date> saleBegin = createDateTime("saleBegin", java.util.Date.class);
 

@@ -34,11 +34,9 @@ public class QSaleUnit extends EntityPathBase<SaleUnit> {
     //inherited
     public final NumberPath<Long> id = _super.id;
 
-    public final NumberPath<Short> minBatch = createNumber("minBatch", Short.class);
-
     public final QUser operator;
 
-    public final NumberPath<Float> price = createNumber("price", Float.class);
+    public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
     public final QProduct product;
 

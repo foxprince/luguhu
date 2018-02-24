@@ -10,6 +10,7 @@ ALTER DATABASE luguhu CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
 ALTER TABLE wx_user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 ALTER TABLE wx_user CHANGE nickname column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 /*用户信息表*/
+drop table user;
 create table user (
 	id bigint not null primary key auto_increment,
 	email varchar(64),
@@ -22,14 +23,35 @@ create table user (
 	phone varchar(11),
 	adress varchar(100),
 	level tinyint default 0 comment '0-普通用户，1：份额用户,2：股东用户',
-	origin varchar(32) comment 'WECHAT,CMCC,QQ,WEB',
+	origin varchar(32) comment '用户来源WECHAT,CMCC,QQ,WEB',
 	active boolean default true comment '激活状态',
 	verified boolean default false comment '审核状态',
 	ctime timestamp not null,
-	last_login_time datetime,
-	primary key (id)
+	`wx_user_id` bigint(20)  NULL,//微信用户id
+	last_login datetime
 );
 alter table user_info comment '用户信息表';
+CREATE TABLE `wx_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `ctime` datetime NOT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `country` varchar(255) DEFAULT NULL,
+  `group_id` int(11) DEFAULT NULL,
+  `head_img_url` varchar(255) DEFAULT NULL,
+  `language` varchar(255) DEFAULT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
+  `open_id` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  `sex` varchar(255) DEFAULT NULL,
+  `sex_id` int(11) DEFAULT NULL,
+  `subscribe` bit(1) DEFAULT NULL,
+  `subscribe_time` datetime DEFAULT NULL,
+  `union_id` varchar(255) DEFAULT NULL,
+  `level` smallint(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4
+
 create table action_log (
 	id bigint not null primary key auto_increment,	
 	operator_id bigint not null comment '操作者',
@@ -52,13 +74,20 @@ create table user_thirdparty (
 	primary key (user_id)
 );
 alter table user_thirdparty comment '第三方登录信息表';
-
-/*用户充值纪录*/
-create table user_deposit (
+/*用户账户*/
+create table account (
 	id bigint not null primary key auto_increment,	
 	user_id bigint not null,
-	amount float not null comment '充值金额',
-	balance	float	null comment '充值前账户余额',
+	balance	int	null comment '账户余额',
+	pre_paied int null,/*预付费金额*/
+	status	int(1) default 0 comment '账户状态，1：正常',
+)
+/*用户充值纪录*/
+create table user_deposit ( 
+	id bigint not null primary key auto_increment,	
+	user_id bigint not null,
+	amount int not null comment '充值金额，分',
+	balance	int	null comment '充值前账户余额，分',
 	entry	int(3)	null comment '充值方式',
 	status	int(1) default 0 comment '充值状态，0：成功',
 	ctime timestamp not null
@@ -68,8 +97,8 @@ alter table user_deposit comment '用户充值纪录表';
 create table user_purchase (
 	id bigint not null primary key auto_increment,
 	user_id bigint not null,
-	pack_id bigint not null comment '产品销售包id',
-	price float not null comment '消费金额',
+	pack_id bigint null comment '产品销售包id',
+	price int not null comment '消费金额，分',
 	order_time timestamp not null,
 	express_time timestamp not null,
 	status	int(1) default 0 comment '消费状态，0：成功',
@@ -93,29 +122,39 @@ CREATE TABLE `single_product` (
    ctime timestamp not null
 );
 /*产品规格定价*/
+drop table sale_unit;
 create table sale_unit (
 	`id` bigint NOT NULL primary key AUTO_INCREMENT,
 	product_id  bigint  not null,
 	title varchar(50) not null comment '规格标题，如一级骏枣，个重70-90克猕猴桃',
 	unit varchar(6) not null comment '规格，斤、克、公斤、箱、打、个、头',
-	price float null comment '单价，可以为空',
+	price int null comment '单价，可以为空，分',
 	amount integer null comment '库存总数',
+	saleable boolean not null default true ,/*是否可单独销售*/
+	asset_id		int null,
 	operator_id bigint default 0  null,/*操作员*/ 
 	ctime timestamp not null
 );
 
 /*产品销售包，直接面对最终用户的销售包*/
+drop table sale_pack;
 create table sale_pack (
 	`id` bigint NOT NULL primary key AUTO_INCREMENT,
+	ctime timestamp not null,
+	pack_type	int(1) not null default 0,/*包类型，1:单品，2:组合包*/
+	price_type	int(1) not null default 1,/*价格类型，1:固定价格，2:不定价格*/
 	title varchar(50) not null comment '产品标题',
-	price float not null comment '价格',
+	price int  null comment '单价，可以为空，分',
 	amount integer null comment '库存总数',
 	min_batch integer null comment '最小起售数量',
-	sale_begin timestamp not null comment '开始销售日期',
+	max_batch integer null,/*最大数量*/
+	min_price integer null comment '最小金额',
+	sale_begin timestamp  null comment '开始销售日期',
 	sale_end timestamp null comment '截止销售日期',
-	content text null,
-	operator_id bigint default 0  null,/*操作员*/ 
-	ctime timestamp not null
+	asset_id		int null,
+	intro	varchar(255) null,/*简介*/
+	content text null,/*详情*/
+	operator_id bigint default 0  null/*操作员*/ 
 );
 /*产品销售包与产品规格的关联关系*/
 create table sale_pack_unit (
