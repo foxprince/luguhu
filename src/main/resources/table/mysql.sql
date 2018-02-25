@@ -28,6 +28,7 @@ create table user (
 	verified boolean default false comment '审核状态',
 	ctime timestamp not null,
 	`wx_user_id` bigint(20)  NULL,//微信用户id
+	`account_id` bigint(20)  NULL,//账户id
 	last_login datetime
 );
 alter table user_info comment '用户信息表';
@@ -75,23 +76,57 @@ create table user_thirdparty (
 );
 alter table user_thirdparty comment '第三方登录信息表';
 /*用户账户*/
+drop table account;
 create table account (
 	id bigint not null primary key auto_increment,	
-	user_id bigint not null,
+	main_user_id bigint not null,
 	balance	int	null comment '账户余额',
 	pre_paied int null,/*预付费金额*/
-	status	int(1) default 0 comment '账户状态，1：正常',
-)
+	status	int(1) default 0 comment '账户状态，0：正常',
+	ctime timestamp not null
+);
+
 /*用户充值纪录*/
+drop table user_deposit;
 create table user_deposit ( 
 	id bigint not null primary key auto_increment,	
 	user_id bigint not null,
+	account_id bigint not null,
 	amount int not null comment '充值金额，分',
 	balance	int	null comment '充值前账户余额，分',
 	entry	int(3)	null comment '充值方式',
-	status	int(1) default 0 comment '充值状态，0：成功',
+	relate_id	bigint  null,/*根据充值方式不同关联不同对象*/
+	status	int(1) default 0 comment '充值状态，0：成功,1:超时失败，2:接口失败，3:用户取消',
+	notes	varchar(100) null,
 	ctime timestamp not null
 );
+/*微信支付订单纪录*/
+drop table wx_pay_order;
+create table wx_pay_order (
+	id bigint not null primary key auto_increment,
+	user_id bigint not null,
+	account_id bigint not null,
+	open_id varchar(32) null,
+	trade_no varchar(32) null,
+	body varchar(255) null,
+	device_info varchar(50) null,
+	fee int null,
+	trade_type varchar(10) null,
+	client_ip varchar(15) null,
+	attach varchar(255) null,
+	return_code varchar(16) null,/*SUCCESS/FAIL 此字段是通信标识，非交易标识，交易是否成功需要查看result_code来判断*/
+	result_code varchar(16) null,
+	err_code varchar(32) null,
+	prepay_id varchar(64) null,/*微信生成的预支付会话标识，用于后续接口调用中使用，该值有效期为2小时*/
+	order_time timestamp  null,
+	notify_result varchar(16) null,
+	notify_err_code varchar(16) null,
+	transaction_id varchar(32) null,/*微信支付订单号*/
+	time_end varchar(14) null,/*支付完成时间，格式为yyyyMMddHHmmss*/
+	notify_time timestamp  null,
+	ctime timestamp not null
+);
+
 alter table user_deposit comment '用户充值纪录表';
 /*用户消费纪录*/
 create table user_purchase (

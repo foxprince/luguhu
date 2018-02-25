@@ -150,7 +150,7 @@
 	var signType;
 	function callPay() {
 		// 调用后台支付
-		$.get(window.ApiDomian + "/pay/mpCreateOrder?openId=" + getCookie('wxOpenId'), function(json) {
+		$.get(window.ApiDomian + "/api/pay/mpCreateOrder?fee=1&openId=" + getCookie('wxOpenId'), function(json) {
 			if (json.code == 0) {
 				console.log(json.data);
 				appId = json.data.appId;

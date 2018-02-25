@@ -24,6 +24,8 @@ public class QUser extends EntityPathBase<User> {
 
     public final QGenericEntity _super = new QGenericEntity(this);
 
+    public final QUserAccount account;
+
     public final BooleanPath active = createBoolean("active");
 
     public final ListPath<Address, QAddress> addresses = this.<Address, QAddress>createList("addresses", Address.class, QAddress.class, PathInits.DIRECT2);
@@ -78,6 +80,7 @@ public class QUser extends EntityPathBase<User> {
 
     public QUser(Class<? extends User> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.account = inits.isInitialized("account") ? new QUserAccount(forProperty("account"), inits.get("account")) : null;
         this.wxUser = inits.isInitialized("wxUser") ? new QWxUser(forProperty("wxUser")) : null;
     }
 

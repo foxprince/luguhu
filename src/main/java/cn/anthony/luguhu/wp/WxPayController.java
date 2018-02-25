@@ -1,8 +1,15 @@
 package cn.anthony.luguhu.wp;
 
 import java.io.File;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +27,7 @@ import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendRequest;
 import com.github.binarywang.wxpay.bean.coupon.WxPayCouponSendResult;
 import com.github.binarywang.wxpay.bean.coupon.WxPayCouponStockQueryRequest;
 import com.github.binarywang.wxpay.bean.coupon.WxPayCouponStockQueryResult;
+import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
 import com.github.binarywang.wxpay.bean.request.WxEntPayRequest;
@@ -47,6 +55,16 @@ import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 
 import cn.anthony.luguhu.api.JsonResponse;
+import cn.anthony.luguhu.domain.User;
+import cn.anthony.luguhu.domain.UserAccount;
+import cn.anthony.luguhu.domain.UserDeposit;
+import cn.anthony.luguhu.domain.WxPayOrder;
+import cn.anthony.luguhu.repository.UserAccountRepository;
+import cn.anthony.luguhu.repository.UserDepositRepository;
+import cn.anthony.luguhu.repository.UserRepository;
+import cn.anthony.luguhu.repository.WxPayOrderRepository;
+import cn.anthony.luguhu.repository.WxUserRepository;
+import cn.anthony.luguhu.util.ControllerUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 
 /**
@@ -58,13 +76,19 @@ import me.chanjar.weixin.mp.api.WxMpService;
  * @author Binary Wang
  */
 @RestController
-@RequestMapping("/pay")
+@RequestMapping("/api/pay")
 public class WxPayController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private WxMpService wxService;//注意，此类的bean声明是通过WechatMpConfiguration实现的@Resource
 	@Autowired
 	private WxPayService wxPayService;
+	@Autowired
+	private WxPayOrderRepository wpoRepo;
+	@Autowired private WxUserRepository wxUserRepo;
+	@Autowired private UserRepository userRepo;
+	@Autowired private UserAccountRepository accountRepo;
+	@Autowired private UserDepositRepository depositRepo;
 
 	@RequestMapping("/test")
 	public Object test() throws WxPayException {
@@ -72,7 +96,7 @@ public class WxPayController {
 		String openId = "o6AWbjpi4e7MRmXP4qYQpN5zSoIM";
 		orderRequest.setBody("fcwwww");
 		orderRequest.setDeviceInfo("WEB");
-		orderRequest.setOutTradeNo("fcw00001");
+		orderRequest.setOutTradeNo("fcw00003");
 		orderRequest.setTotalFee(1);// 元转成分
 		orderRequest.setOpenid(openId);
 		orderRequest.setTradeType("JSAPI");
@@ -82,17 +106,108 @@ public class WxPayController {
 	}
 
 	@RequestMapping("/mpCreateOrder")
-	public JsonResponse pay(String openId) throws WxPayException {
-		System.out.println("openid:"+openId);
+	public JsonResponse pay(String openId,int fee, HttpServletRequest request) throws WxPayException {
+		String body = "翡翠湾-食品";
+		String attach = "attach";
+		String deviceInfo = "WEB";
+		String tradeNo = createTradeNo();
+		String tradeType = "JSAPI";
+		String clientIp = ControllerUtil.getClientIpAddress(request);
+		User user = userRepo.findByWxUserOpenId(openId);
+		UserAccount account = accountRepo.findByUser(user);
 		WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
-		orderRequest.setBody("fcwwww");
-		orderRequest.setDeviceInfo("WEB");
-		orderRequest.setOutTradeNo("fcw00002");
-		orderRequest.setTotalFee(1);// 元转成分
+		orderRequest.setBody(body);//微信浏览器	公众号支付	商家名称-销售商品类目	腾讯-游戏	线上电商，商家名称必须为实际销售商品的商家
+		orderRequest.setDeviceInfo(deviceInfo);//自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
+		orderRequest.setOutTradeNo(tradeNo);//商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。建议根据当前系统时间加随机序列来生成订单号
+		orderRequest.setTotalFee(fee);// 元转成分
 		orderRequest.setOpenid(openId);
-		orderRequest.setTradeType("JSAPI");
-		orderRequest.setSpbillCreateIp("123.123.11.22");
-		return new JsonResponse(0,"SUCCESS",this.wxPayService.createOrder(orderRequest));
+		orderRequest.setTradeType(tradeType);//JSAPI 公众号支付
+		orderRequest.setSpbillCreateIp(clientIp);//APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
+		orderRequest.setAttach(attach);//附加数据，在查询API和支付通知中原样返回，可作为自定义参数使用。
+		WxPayUnifiedOrderResult payResult = wxPayService.unifiedOrder(orderRequest);
+		WxPayOrder payOrder = new WxPayOrder();
+		payOrder.setAttach(attach);
+		payOrder.setBody(body);
+		payOrder.setClientIp(clientIp);
+		payOrder.setDeviceInfo(deviceInfo);
+		payOrder.setErrCode(payResult.getErrCode());
+		payOrder.setFee(fee);
+		payOrder.setOpenId(openId);
+		payOrder.setOrderTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		payOrder.setPrepayId(payResult.getPrepayId());
+		payOrder.setResultCode(payResult.getResultCode());
+		payOrder.setReturnCode(payResult.getReturnCode());
+		payOrder.setTradeNo(tradeNo);
+		payOrder.setTradeType(tradeType);
+		payOrder.setUser(user);
+		payOrder.setAccount(account);
+		wpoRepo.save(payOrder);
+		return new JsonResponse(0,"SUCCESS",payResult);
+	}
+	
+	private String createTradeNo() {
+		return DateFormatUtils.format(Calendar.getInstance(), "yyyyMMddHHmmss")+((int)(Math.random()*900)+100);
+	}
+
+	/**
+	 * 支付完成后，微信会把相关支付结果和用户信息发送给商户，商户需要接收处理，并返回应答。
+
+对后台通知交互时，如果微信收到商户的应答不是成功或超时，微信认为通知失败，微信会通过一定的策略定期重新发起通知，尽可能提高通知的成功率，但微信不保证通知最终能成功。 （通知频率为15/15/30/180/1800/1800/1800/1800/3600，单位：秒）
+
+注意：同样的通知可能会多次发送给商户系统。商户系统必须能够正确处理重复的通知。
+推荐的做法是，当收到通知进行处理时，首先检查对应业务数据的状态，判断该通知是否已经处理过，如果没有处理过再进行处理，如果处理过直接返回结果成功。在对业务数据进行状态检查和处理之前，要采用数据锁进行并发控制，以避免函数重入造成的数据混乱。
+
+特别提醒：商户系统对于支付结果通知的内容一定要做签名验证,并校验返回的订单金额是否与商户侧的订单金额一致，防止数据泄漏导致出现“假通知”，造成资金损失。
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping("/notify")
+	public String payNotify(HttpServletRequest request, HttpServletResponse response) {
+	  try {
+	    String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
+	    WxPayOrderNotifyResult result = wxPayService.parseOrderNotifyResult(xmlResult);
+	    // 结果正确
+	    String tradeNo = result.getOutTradeNo();
+	    String transactionId = result.getTransactionId();
+	    WxPayOrder payOrder = wpoRepo.findByTradeNo(tradeNo);
+	    if(result.getTotalFee()==payOrder.getFee()) {
+		    payOrder.setNotifyResult(result.getResultCode());
+		    payOrder.setNotifyErrCode(result.getErrCode());
+		    payOrder.setNotifyTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		    payOrder.setTransactionId(transactionId);
+		    payOrder.setTimeEnd(result.getTimeEnd());
+		    wpoRepo.save(payOrder);
+		    if(payOrder.getAccount()==null){
+		    		UserAccount account = new UserAccount();
+		    		account.setBalance(payOrder.getFee());
+		    		account.setUser(payOrder.getUser());
+		    		payOrder.setAccount(account);
+		    		accountRepo.save(account);
+		    		payOrder.getUser().setAccount(account);
+		    		userRepo.save(payOrder.getUser());
+		    }
+		    else {
+		    		payOrder.getAccount().setBalance(payOrder.getFee()+payOrder.getAccount().getBalance());
+		    }
+		    UserDeposit deposit = new UserDeposit();
+		    deposit.setAccount(payOrder.getAccount());
+		    deposit.setAmount(payOrder.getFee());
+		    deposit.setEntry(1);
+		    deposit.setNotes("");
+		    deposit.setRelateId(payOrder.getId());
+		    deposit.setUser(payOrder.getUser());
+		    deposit.setStatus(0);
+		    depositRepo.save(deposit);
+	    }
+	    else
+	    		logger.warn("微信支付通知异常，tradeNo:"+tradeNo+",respons fee:"+result.getTotalFee(),"request fee:"+payOrder.getFee());
+	    //自己处理订单的业务逻辑，需要判断订单是否已经支付过，否则可能会重复调用
+	    return WxPayNotifyResponse.success("处理成功!");
+	  } catch (Exception e) {
+	    logger.error("微信回调结果异常,异常原因{}", e.getMessage());
+	    return WxPayNotifyResponse.fail(e.getMessage());
+	  }
 	}
 	
 	/**

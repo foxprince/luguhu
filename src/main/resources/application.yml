@@ -56,7 +56,7 @@ wechat:
         mchId: 1448996602
         mchKey: rszsyqcchbgfyyrsdczhsysfhtxn1234
         keyPath:
-        notifyUrl: http://www.shianca.com/paycallback
+        notifyUrl: http://www.shianca.com/api/pay/notify
 hibernate:
     jdbc:
         batch_size: 10

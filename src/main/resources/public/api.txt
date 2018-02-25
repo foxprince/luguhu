@@ -243,6 +243,12 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	DELETE {url}
 	
 	15:) 充值
+	POST  /rest/userAccounts/
+	{
+	"balance":1234,//充值金额
+	"prePaid":0,//预付费金额	
+	"user":"http://localhost:9009/rest/users/7"
+	}
 	
 	
 	

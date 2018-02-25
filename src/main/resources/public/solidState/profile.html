@@ -68,6 +68,7 @@
 								<!-- <a id="inline" data-fancybox data-src="#hidden-content" href="javascript:;" class="button special small">fancy test</a> -->
 								</div>
 							</form>
+							<i class='fa fa-cny'></i><button onclick='callPay()'>充值测试</button>
 						</div></section>
 					</div></div>
 					<!-- <div style="display:none" id="hidden-content" >更新成功。</div> -->
@@ -96,6 +97,21 @@
 			$(document).ready(function() {
 				loadUserFromSession();
 			});
+			function callPay() {
+				// 调用后台支付
+				$.get(window.ApiDomian + "/api/pay/mpCreateOrder?fee=1&openId=" + getCookie('wxOpenId'), function(json) {
+					if (json.code == 0) {
+						console.log(json.data);
+						appId = json.data.appId;
+						paySign = json.data.paySign;
+						timeStamp = json.data.timeStamp;
+						nonceStr = json.data.nonceStr;
+						packageStr = json.data.packageValue;
+						signType = json.data.signType;
+						callWxPay();
+					}
+				});
+			}
 			</script>
 	</body>
 </html>
