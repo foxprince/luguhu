@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.Transactional;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -183,6 +184,7 @@ public class WxPayController {
 	 * @return
 	 */
 	@RequestMapping("/notify")
+	@Transactional
 	public String payNotify(HttpServletRequest request, HttpServletResponse response) {
 	  try {
 	    String xmlResult = IOUtils.toString(request.getInputStream(), request.getCharacterEncoding());
@@ -192,13 +194,15 @@ public class WxPayController {
 	    String transactionId = result.getTransactionId();
 	    WxPayOrder payOrder = wpoRepo.findByTradeNo(tradeNo);
 	    if(result.getTotalFee().intValue()==payOrder.getFee().intValue()) {
-		    payOrder.setNotifyResult(result.getResultCode());
+		    logger.info("微信支付结果通知："+tradeNo+","+result.getResultCode()+",account:"+payOrder.getAction());
+	    		payOrder.setNotifyResult(result.getResultCode());
 		    payOrder.setNotifyErrCode(result.getErrCode());
 		    payOrder.setNotifyTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
 		    payOrder.setTransactionId(transactionId);
 		    payOrder.setTimeEnd(result.getTimeEnd());
 		    wpoRepo.save(payOrder);
 		    if(payOrder.getAccount()==null){
+		    		logger.info("new account:");
 		    		UserAccount account = new UserAccount();
 		    		account.setBalance(payOrder.getFee());
 		    		account.setUser(payOrder.getUser());
