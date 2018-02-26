@@ -203,7 +203,7 @@ public class WxPayController {
 		    		account.setBalance(payOrder.getFee());
 		    		account.setUser(payOrder.getUser());
 		    		payOrder.setAccount(account);
-		    		accountRepo.save(account);
+		    		accountRepo.saveAndFlush(account);
 		    		payOrder.getUser().setAccount(account);
 		    		userRepo.save(payOrder.getUser());
 		    }
