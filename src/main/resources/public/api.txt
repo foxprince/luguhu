@@ -259,10 +259,64 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	        "paySign": "2E4A6A17D86FF1457CEA2C04738EBED8"
 	    }
 	}
+	
 	16:）微信支付
 	参考：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6
 	根据上一步返回的参数调用微信支付接口
 	
+	17:）查看账户
+	GET {url}
+	url 为用户json结构里account部分href的值
+	"account" : {
+      "href" : "http://www.shianca.com:9009/rest/users/12/account"
+    }
+    返回：
+    {
+	  "balance": 3,//余额，分
+	  "prePaied": null,//预付费金额，分
+	  "status": 1,//状态，1:正常
+	}
+	
+	18:）充值纪录
+	GET /rest/userDeposits/search/findByUser?user={url}&size={size}&page={page}&sort=ctime,desc
+	url 为用户json结构里self部分href的值，如http://www.shianca.com:9009/rest/user/12
+	返回：
+	{
+	  "_embedded" : {
+	    "userDeposits" : [ {
+	      "ctime" : "2018-02-26 22:56:38",//充值时间
+	      "amount" : 1, //充值金额，分
+	      "balance" : null,
+	      "entry" : 1,//充值方式，1:微信
+	      "notes" : "",//备注
+	      "_links" : {
+	        "self" : {
+	          "href" : "http://www.shianca.com:9009/rest/userDeposits/63"
+	        },
+	        "userDeposit" : {
+	          "href" : "http://www.shianca.com:9009/rest/userDeposits/63"
+	        },
+	        "user" : {
+	          "href" : "http://www.shianca.com:9009/rest/userDeposits/63/user"
+	        },
+	        "account" : {
+	          "href" : "http://www.shianca.com:9009/rest/userDeposits/63/account"
+	        }
+	      }
+	    } ]
+	  },
+	  "_links" : {
+	    "self" : {
+	      "href" : "http://www.shianca.com:9009/rest/userDeposits/search/findByUser?user=http://www.shianca.com:9009/rest/user/12&page=0&size=20&sort=ctime,desc"
+	    }
+	  },
+	  "page" : {
+	    "size" : 20,
+	    "totalElements" : 3,
+	    "totalPages" : 1,
+	    "number" : 0
+	  }
+	}
 	
 	
 	
