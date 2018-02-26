@@ -221,7 +221,7 @@ public class WxPayController {
 		    depositRepo.save(deposit);
 	    }
 	    else
-	    		logger.warn("微信支付通知异常，tradeNo:"+tradeNo+",respons fee:"+result.getTotalFee(),"request fee:"+payOrder.getFee());
+	    		logger.warn("微信支付通知异常，tradeNo:"+tradeNo+",respons fee:"+result.getTotalFee()+",request fee:"+payOrder.getFee());
 	    //自己处理订单的业务逻辑，需要判断订单是否已经支付过，否则可能会重复调用
 	    return WxPayNotifyResponse.success("处理成功!");
 	  } catch (Exception e) {
