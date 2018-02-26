@@ -57,8 +57,7 @@ public class User extends GenericEntity {
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	@RestResource(path = "addresses", rel = "addresses")
 	private List<Address> addresses;
-	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-	@RestResource(path = "addresses", rel = "addresses")
+	@OneToMany(targetEntity = UserDeposit.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<UserDeposit> depositList;
 	public User() {
 	}
