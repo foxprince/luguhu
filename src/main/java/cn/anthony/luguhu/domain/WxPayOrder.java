@@ -9,9 +9,11 @@ import javax.persistence.ManyToOne;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
+@ToString(exclude = "user,account")
 @QueryEntity
 public class WxPayOrder extends GenericEntity {
 	private Integer fee;

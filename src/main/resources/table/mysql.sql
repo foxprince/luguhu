@@ -76,8 +76,8 @@ create table user_thirdparty (
 );
 alter table user_thirdparty comment '第三方登录信息表';
 /*用户账户*/
-drop table account;
-create table account (
+drop table user_account;
+create table user_account (
 	id bigint not null primary key auto_increment,	
 	main_user_id bigint not null,
 	balance	int	null comment '账户余额',
@@ -94,8 +94,8 @@ create table user_deposit (
 	account_id bigint not null,
 	amount int not null comment '充值金额，分',
 	balance	int	null comment '充值前账户余额，分',
-	entry	int(3)	null comment '充值方式',
-	relate_id	bigint  null,/*根据充值方式不同关联不同对象*/
+	entry	int(3)	null comment '充值方式,1:微信',
+	relate_id	bigint  null,/*根据充值方式不同关联不同对象，1:wx_pay_order*/
 	status	int(1) default 0 comment '充值状态，0：成功,1:超时失败，2:接口失败，3:用户取消',
 	notes	varchar(100) null,
 	ctime timestamp not null

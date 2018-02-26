@@ -7,9 +7,11 @@ import javax.persistence.ManyToOne;
 import com.querydsl.core.annotations.QueryEntity;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
+@ToString(exclude = "user,account")
 @QueryEntity
 public class UserDeposit extends GenericEntity {
 	private static final long serialVersionUID = -3926203739654212938L;

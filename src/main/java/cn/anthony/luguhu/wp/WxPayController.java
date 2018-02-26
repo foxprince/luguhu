@@ -119,7 +119,6 @@ public class WxPayController {
 		String clientIp = ControllerUtil.getClientIpAddress(request);
 		User user = userRepo.findByWxUserOpenId(openId);
 		UserAccount account = accountRepo.findByUser(user);
-		logger.info("find account:"+account);
 		WxPayUnifiedOrderRequest orderRequest = new WxPayUnifiedOrderRequest();
 		orderRequest.setBody(body);//微信浏览器	公众号支付	商家名称-销售商品类目	腾讯-游戏	线上电商，商家名称必须为实际销售商品的商家
 		orderRequest.setDeviceInfo(deviceInfo);//自定义参数，可以为终端设备号(门店号或收银设备ID)，PC网页或公众号内支付可以传"WEB"
@@ -204,7 +203,6 @@ public class WxPayController {
 		    payOrder.setTimeEnd(result.getTimeEnd());
 		    wpoRepo.save(payOrder);
 		    if(payOrder.getAccount()==null){
-		    		logger.info("new account:");
 		    		UserAccount account = new UserAccount();
 		    		account.setBalance(payOrder.getFee());
 		    		account.setUser(payOrder.getUser());

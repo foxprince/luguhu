@@ -22,7 +22,7 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = "products")
+@ToString(exclude = "products,depositList")
 @QueryEntity
 @Entity
 @Table
@@ -57,7 +57,9 @@ public class User extends GenericEntity {
 	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	@RestResource(path = "addresses", rel = "addresses")
 	private List<Address> addresses;
-
+	@OneToMany(targetEntity = Address.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	@RestResource(path = "addresses", rel = "addresses")
+	private List<UserDeposit> depositList;
 	public User() {
 	}
 

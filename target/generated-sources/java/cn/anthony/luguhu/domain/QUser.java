@@ -35,6 +35,8 @@ public class QUser extends EntityPathBase<User> {
     //inherited
     public final DateTimePath<java.sql.Timestamp> ctime = _super.ctime;
 
+    public final ListPath<Address, QAddress> depositList = this.<Address, QAddress>createList("depositList", Address.class, QAddress.class, PathInits.DIRECT2);
+
     public final StringPath email = createString("email");
 
     //inherited
