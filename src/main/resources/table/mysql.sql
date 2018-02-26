@@ -105,7 +105,7 @@ drop table wx_pay_order;
 create table wx_pay_order (
 	id bigint not null primary key auto_increment,
 	user_id bigint not null,
-	account_id bigint not null,
+	account_id bigint null,
 	open_id varchar(32) null,
 	trade_no varchar(32) null,
 	body varchar(255) null,

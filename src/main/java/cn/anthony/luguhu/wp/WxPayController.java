@@ -30,6 +30,7 @@ import com.github.binarywang.wxpay.bean.coupon.WxPayCouponStockQueryResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayNotifyResponse;
 import com.github.binarywang.wxpay.bean.notify.WxPayOrderNotifyResult;
 import com.github.binarywang.wxpay.bean.notify.WxPayRefundNotifyResult;
+import com.github.binarywang.wxpay.bean.order.WxPayMpOrderResult;
 import com.github.binarywang.wxpay.bean.request.WxEntPayRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayAuthcode2OpenidRequest;
 import com.github.binarywang.wxpay.bean.request.WxPayMicropayRequest;
@@ -51,8 +52,10 @@ import com.github.binarywang.wxpay.bean.result.WxPayRefundQueryResult;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
 import com.github.binarywang.wxpay.bean.result.WxPaySendRedpackResult;
 import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
+import com.github.binarywang.wxpay.constant.WxPayConstants.SignType;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.util.SignUtils;
 
 import cn.anthony.luguhu.api.JsonResponse;
 import cn.anthony.luguhu.domain.User;
@@ -124,24 +127,41 @@ public class WxPayController {
 		orderRequest.setTradeType(tradeType);//JSAPI 公众号支付
 		orderRequest.setSpbillCreateIp(clientIp);//APP和网页支付提交用户端ip，Native支付填调用微信支付API的机器IP
 		orderRequest.setAttach(attach);//附加数据，在查询API和支付通知中原样返回，可作为自定义参数使用。
-		WxPayUnifiedOrderResult payResult = wxPayService.unifiedOrder(orderRequest);
+		WxPayUnifiedOrderResult unifiedOrderResult = wxPayService.unifiedOrder(orderRequest);
 		WxPayOrder payOrder = new WxPayOrder();
 		payOrder.setAttach(attach);
 		payOrder.setBody(body);
 		payOrder.setClientIp(clientIp);
 		payOrder.setDeviceInfo(deviceInfo);
-		payOrder.setErrCode(payResult.getErrCode());
+		payOrder.setErrCode(unifiedOrderResult.getErrCode());
 		payOrder.setFee(fee);
 		payOrder.setOpenId(openId);
 		payOrder.setOrderTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-		payOrder.setPrepayId(payResult.getPrepayId());
-		payOrder.setResultCode(payResult.getResultCode());
-		payOrder.setReturnCode(payResult.getReturnCode());
+		payOrder.setPrepayId(unifiedOrderResult.getPrepayId());
+		payOrder.setResultCode(unifiedOrderResult.getResultCode());
+		payOrder.setReturnCode(unifiedOrderResult.getReturnCode());
 		payOrder.setTradeNo(tradeNo);
 		payOrder.setTradeType(tradeType);
 		payOrder.setUser(user);
 		payOrder.setAccount(account);
 		wpoRepo.save(payOrder);
+		String signType = SignType.MD5;
+		String timestamp = String.valueOf(System.currentTimeMillis() / 1000);
+	    String nonceStr = String.valueOf(System.currentTimeMillis());
+	    WxPayMpOrderResult payResult = WxPayMpOrderResult.builder()
+          .appId(unifiedOrderResult.getAppid())
+          .timeStamp(timestamp)
+          .nonceStr(nonceStr)
+          .packageValue("prepay_id=" + unifiedOrderResult.getPrepayId())
+          .signType(signType)
+          .build();
+        payResult.setPaySign(
+          SignUtils.createSign(
+            payResult,
+            signType,
+            wxPayService.getConfig().getMchKey(),
+            false)
+        );
 		return new JsonResponse(0,"SUCCESS",payResult);
 	}
 	

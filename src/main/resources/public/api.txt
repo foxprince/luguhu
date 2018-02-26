@@ -251,23 +251,13 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	    "code": 0,
 	    "msg": "SUCCESS",
 	    "data": {
-	        "returnCode": "SUCCESS",
-	        "returnMsg": "OK",
-	        "resultCode": "SUCCESS",
-	        "errCode": null,
-	        "errCodeDes": null,
-	        "appid": "wx7a058c81272e3cef",
-	        "mchId": "1448996602",
-	        "subAppId": null,
-	        "subMchId": null,
-	        "nonceStr": "Abm6CI3pgddJLVLw",
-	        "sign": "538DC78E41FF3168DFF02B58E2AFC444",
-	        "xmlString": "<xml><return_code><![CDATA[SUCCESS]]></return_code>\n<return_msg><![CDATA[OK]]></return_msg>\n<appid><![CDATA[wx7a058c81272e3cef]]></appid>\n<mch_id><![CDATA[1448996602]]></mch_id>\n<device_info><![CDATA[WEB]]></device_info>\n<nonce_str><![CDATA[Abm6CI3pgddJLVLw]]></nonce_str>\n<sign><![CDATA[538DC78E41FF3168DFF02B58E2AFC444]]></sign>\n<result_code><![CDATA[SUCCESS]]></result_code>\n<prepay_id><![CDATA[wx20180226102503f3ced2e79e0225031932]]></prepay_id>\n<trade_type><![CDATA[JSAPI]]></trade_type>\n</xml>",
-	        "prepayId": "wx20180226102503f3ced2e79e0225031932",
-	        "tradeType": "JSAPI",
-	        "mwebUrl": null,
-	        "codeURL": null
-    		}
+	        "appId": "wx7a058c81272e3cef",
+	        "timeStamp": "1519627099",
+	        "nonceStr": "1519627099572",
+	        "packageValue": "prepay_id=wx20180226143816b1a8683c3b0815777358",
+	        "signType": "MD5",
+	        "paySign": "2E4A6A17D86FF1457CEA2C04738EBED8"
+	    }
 	}
 	16:）微信支付
 	参考：https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=7_7&index=6
