@@ -194,7 +194,7 @@ public class WxPayController {
 	    String transactionId = result.getTransactionId();
 	    WxPayOrder payOrder = wpoRepo.findByTradeNo(tradeNo);
 	    if(result.getTotalFee().intValue()==payOrder.getFee().intValue()) {
-		    logger.info("微信支付结果通知："+tradeNo+","+result.getResultCode()+",account:"+payOrder.getAction());
+		    logger.info("微信支付结果通知："+tradeNo+","+result.getResultCode()+",account:"+payOrder.getAccount());
 	    		payOrder.setNotifyResult(result.getResultCode());
 		    payOrder.setNotifyErrCode(result.getErrCode());
 		    payOrder.setNotifyTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
@@ -206,10 +206,10 @@ public class WxPayController {
 		    		UserAccount account = new UserAccount();
 		    		account.setBalance(payOrder.getFee());
 		    		account.setUser(payOrder.getUser());
-		    		payOrder.setAccount(account);
 		    		accountRepo.saveAndFlush(account);
 		    		payOrder.getUser().setAccount(account);
 		    		userRepo.save(payOrder.getUser());
+		    		payOrder.setAccount(account);
 		    }
 		    else {
 		    		payOrder.getAccount().setBalance(payOrder.getFee()+payOrder.getAccount().getBalance());
