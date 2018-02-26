@@ -191,7 +191,7 @@ public class WxPayController {
 	    String tradeNo = result.getOutTradeNo();
 	    String transactionId = result.getTransactionId();
 	    WxPayOrder payOrder = wpoRepo.findByTradeNo(tradeNo);
-	    if(result.getTotalFee()==payOrder.getFee()) {
+	    if(result.getTotalFee().intValue()==payOrder.getFee().intValue()) {
 		    payOrder.setNotifyResult(result.getResultCode());
 		    payOrder.setNotifyErrCode(result.getErrCode());
 		    payOrder.setNotifyTime(new Timestamp(Calendar.getInstance().getTimeInMillis()));
