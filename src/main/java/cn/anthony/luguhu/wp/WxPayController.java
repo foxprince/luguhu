@@ -217,11 +217,10 @@ public class WxPayController {
 		    UserDeposit deposit = new UserDeposit();
 		    deposit.setAccount(payOrder.getAccount());
 		    deposit.setAmount(payOrder.getFee());
-		    deposit.setEntry(1);
+		    deposit.setEntry("微信");
 		    deposit.setNotes("");
 		    deposit.setRelateId(payOrder.getId());
 		    deposit.setUser(payOrder.getUser());
-		    deposit.setStatus(0);
 		    depositRepo.save(deposit);
 	    }
 	    else

@@ -279,7 +279,7 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	
 	18:）充值纪录
 	GET /rest/userDeposits/search/findByUser?user={url}&size={size}&page={page}&sort=ctime,desc
-	url 为用户json结构里self部分href的值，如http://www.shianca.com:9009/rest/user/12
+	url 为用户json结构里self部分href的值，如http://www.shianca.com:9009/rest/users/12
 	返回：
 	{
 	  "_embedded" : {
@@ -318,6 +318,10 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	  }
 	}
 	
+	19:）图片查看/预览
+	GET /api/asset/preview?fileName={fileName}&size={size}
+	fileName 为接口6返回的location值
+	size取值small、medium或large，如果上传的图片尺寸不需更改，则此参数可以为空。
 	
 	
 	

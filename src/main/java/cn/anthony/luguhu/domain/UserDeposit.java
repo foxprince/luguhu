@@ -15,7 +15,8 @@ import lombok.ToString;
 @QueryEntity
 public class UserDeposit extends GenericEntity {
 	private static final long serialVersionUID = -3926203739654212938L;
-	private Integer amount,balance,entry,status = 0;
+	private Integer amount,balance;
+	private String entry,status = "正常";
 	private Long relateId;
 	private String notes;
 	@ManyToOne
