@@ -307,7 +307,7 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	  },
 	  "_links" : {
 	    "self" : {
-	      "href" : "http://www.shianca.com:9009/rest/userDeposits/search/findByUser?user=http://www.shianca.com:9009/rest/user/12&page=0&size=20&sort=ctime,desc"
+	      "href" : "http://www.shianca.com:9009/rest/userDeposits/search/findByUser?user=http://www.shianca.com:9009/rest/users/12&page=0&size=20&sort=ctime,desc"
 	    }
 	  },
 	  "page" : {
