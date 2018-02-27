@@ -26,7 +26,7 @@ create table user (
 	origin varchar(32) comment '用户来源WECHAT,CMCC,QQ,WEB',
 	active boolean default true comment '激活状态',
 	verified boolean default false comment '审核状态',
-	ctime timestamp not null,
+	ctime timestamp not null default current_timestamp() on update current_timestamp(),
 	`wx_user_id` bigint(20)  NULL,//微信用户id
 	`account_id` bigint(20)  NULL,//账户id
 	last_login datetime
@@ -61,7 +61,7 @@ create table action_log (
 	action	varchar(20)	not null comment '动作',
 	title	varchar(30)	not null comment '动作名称',
 	description	varchar(100)	null comment '操作说明',
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 alter table action_log modify action varchar(20) not null comment '动作';
 create table user_thirdparty (
@@ -83,7 +83,7 @@ create table user_account (
 	balance	int	null comment '账户余额',
 	pre_paied int null,/*预付费金额*/
 	status	int(1) default 0 comment '账户状态，0：正常',
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 
 /*用户充值纪录*/
@@ -98,7 +98,7 @@ create table user_deposit (
 	relate_id	bigint  null,/*根据充值方式不同关联不同对象，1:wx_pay_order*/
 	status	int(1) default 0 comment '充值状态，0：成功,1:超时失败，2:接口失败，3:用户取消',
 	notes	varchar(100) null,
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 /*微信支付订单纪录*/
 drop table wx_pay_order;
@@ -124,7 +124,7 @@ create table wx_pay_order (
 	transaction_id varchar(32) null,/*微信支付订单号*/
 	time_end varchar(14) null,/*支付完成时间，格式为yyyyMMddHHmmss*/
 	notify_time timestamp  null,
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 
 alter table user_deposit comment '用户充值纪录表';
@@ -137,7 +137,7 @@ create table user_purchase (
 	order_time timestamp not null,
 	express_time timestamp not null,
 	status	int(1) default 0 comment '消费状态，0：成功',
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 create table purchase_unit (
 	purchase_id bigint not null,
@@ -154,7 +154,7 @@ CREATE TABLE `single_product` (
    place varchar(50)	NULL, /*产地*/
   `content` text DEFAULT NULL,	/*说明信息*/
    operator_id bigint default 0  null,/*操作员*/ 
-   ctime timestamp not null
+   ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 /*产品规格定价*/
 drop table sale_unit;
@@ -168,14 +168,14 @@ create table sale_unit (
 	saleable boolean not null default true ,/*是否可单独销售*/
 	asset_id		int null,
 	operator_id bigint default 0  null,/*操作员*/ 
-	ctime timestamp not null
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 
 /*产品销售包，直接面对最终用户的销售包*/
 drop table sale_pack;
 create table sale_pack (
 	`id` bigint NOT NULL primary key AUTO_INCREMENT,
-	ctime timestamp not null,
+	ctime timestamp not null default current_timestamp() on update current_timestamp(),
 	pack_type	int(1) not null default 0,/*包类型，1:单品，2:组合包*/
 	price_type	int(1) not null default 1,/*价格类型，1:固定价格，2:不定价格*/
 	title varchar(50) not null comment '产品标题',
@@ -206,7 +206,7 @@ CREATE TABLE product_article (
  logo varchar(100) null,
  content  text  not null,
  admin_id integer(11)  null,/*操作员*/
- ctime timestamp not null
+ ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 
 

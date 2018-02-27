@@ -12,6 +12,10 @@ public class JsonResponse {
 		return new JsonResponse(0,"success",null);
 	}
 	
+	public static JsonResponse success(Object data) {
+		return new JsonResponse(0,"success",data);
+	}
+	
 	public static JsonResponse fail(Integer code,String msg) {
 		return new JsonResponse(code,msg,null);
 	}
