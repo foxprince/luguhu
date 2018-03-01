@@ -48,7 +48,7 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 	public JsonResponse validCode(String phone,String code) {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.MINUTE, -10);
-		SmsLog smsLog = smsLogRepo.findByPhoneAndCodeAndUsedAndCtimeGt(phone, code,false,new Timestamp(cal.getTimeInMillis()));
+		SmsLog smsLog = smsLogRepo.findByPhoneAndCodeAndUsedAndCtimeGreaterThan(phone, code,false,new Timestamp(cal.getTimeInMillis()));
 		if(smsLog!=null){
 			smsLog.setUsed(true);
 			smsLogRepo.save(smsLog);

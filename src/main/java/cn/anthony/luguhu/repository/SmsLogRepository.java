@@ -10,6 +10,6 @@ import cn.anthony.luguhu.domain.SmsLog;
 
 public interface SmsLogRepository extends BaseRepository<SmsLog, QSmsLog, Long> {
 	public SmsLog findByPhone(String s);
-	public SmsLog findByPhoneAndCodeAndUsedAndCtimeGt(String phone,String code,boolean used,Timestamp validTime);
+	public SmsLog findByPhoneAndCodeAndUsedAndCtimeGreaterThan(String phone,String code,boolean used,Timestamp validTime);
 	public List<SmsLog> findByPhone(String phone,Pageable pageable);
 }
