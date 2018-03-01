@@ -43,6 +43,8 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 			smsLog.setMsgId(result.substring(8));
 			ret = "success";
 		}
+		smsLogRepo.saveAndFlush(smsLog);
+		logger.info(smsLog.toString());
 		return new JsonResponse(ret);
 	}
 	
