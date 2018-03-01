@@ -323,5 +323,10 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	fileName 为接口6返回的location值
 	size取值small、medium或large，如果上传的图片尺寸不需更改，则此参数可以为空。
 	
+	20:) 短信验证码
+	GET /api/sms/code?mobile={mobile}
+	
+	21:) 校验短信验证码
+	GET /api/sms/validCode?phone={phone}&code={code}
 	
 	

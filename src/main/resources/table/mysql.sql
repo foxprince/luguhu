@@ -1,9 +1,12 @@
 drop database luguhu;
-create database luguhu default charset utf8mb4 COLLATE utf8mb4_general_ci;
+create database luguhu default charset utf8mb4 COLLATE utf8mb4;
 grant all on luguhu.* to 'lghuser'@'localhost' identified by 'pwd4lgh';
 grant all on luguhu.* to 'lghuser'@'%' identified by 'pwd4lgh';
 create database happytimecn DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
 grant all on happytimecn.* to 'happytimecn_f'@'%' identified by '20080501';
+create database zc DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+grant all on zc.* to 'zcuser'@'%' identified by '123456zc';
+grant all on zc.* to 'zcuser'@'localhost' identified by '123456zc';
 flush privileges;
 
 ALTER DATABASE luguhu CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
@@ -52,6 +55,22 @@ CREATE TABLE `wx_user` (
   `level` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4
+
+drop table sms_log;
+create table sms_log (
+	id bigint not null primary key auto_increment,	
+	channel varchar(20) null,
+	msg_id	varchar(32) null,
+	phone varchar(21) null,
+	code  varchar(6)	 null ,
+	msg 	varchar(160)	 null ,
+	used boolean 	null ,
+	send_time timestamp null,
+	send_status varchar(32) null,
+	report_status varchar(6) null,
+	report_time timestamp null,
+	ctime timestamp not null default current_timestamp() on update current_timestamp()
+);
 
 create table action_log (
 	id bigint not null primary key auto_increment,	

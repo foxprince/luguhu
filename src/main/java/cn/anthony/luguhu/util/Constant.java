@@ -25,6 +25,14 @@ public class Constant {
 	private String uploadTmpDir;
 	private String uploadDir;
 
+	public static void main(String[] args) {
+		for(int i=0;i<1000000; i++){
+			int r = (int) ((Math.random()*9000)+1000);
+			if(r<1000||r>=10000)
+				System.out.println(String.valueOf(r));
+		}
+		System.out.println("=======");
+	}
 	public String getUploadAbsoluteDir() {
 		return env.getProperty("HOME") + FILE_SEPA + getUploadDir();
 	}
