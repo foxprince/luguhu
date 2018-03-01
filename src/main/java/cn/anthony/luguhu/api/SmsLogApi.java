@@ -29,7 +29,7 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 		String ret = "fail";
 		//生成验证码
 		String code = createCode();
-		String content = "[翡翠湾]您的验证码是"+code+",10分钟内输入有效。";
+		String content = "【翡翠湾】您的验证码是"+code+",10分钟内输入有效。";
 		SmsLog smsLog = new SmsLog();
 		smsLog.setChannel("美联软通");
 		smsLog.setCode(code);
@@ -39,8 +39,10 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 		//发送
 		String result = MLRTSms.send(phone, content);
 		smsLog.setSendStatus(result);
-		if(result.startsWith("success"))
+		if(result.startsWith("success")) {
+			smsLog.setMsgId(result.substring(8));
 			ret = "success";
+		}
 		return new JsonResponse(ret);
 	}
 	
