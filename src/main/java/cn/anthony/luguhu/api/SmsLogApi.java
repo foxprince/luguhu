@@ -25,7 +25,7 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 	}
 	
 	@RequestMapping("/code")
-	public JsonResponse send(String phone) {
+	public JsonResponse send(String mobile) {
 		String ret = "fail";
 		//生成验证码
 		String code = createCode();
@@ -34,10 +34,10 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 		smsLog.setChannel("美联软通");
 		smsLog.setCode(code);
 		smsLog.setMsg(content);
-		smsLog.setPhone(phone);
+		smsLog.setPhone(mobile);
 		smsLog.setUsed(false);
 		//发送
-		String result = MLRTSms.send(phone, content);
+		String result = MLRTSms.send(mobile, content);
 		smsLog.setSendStatus(result);
 		if(result.startsWith("success")) {
 			smsLog.setMsgId(result.substring(8));
