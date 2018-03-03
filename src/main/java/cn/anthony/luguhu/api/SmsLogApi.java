@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aliyuncs.exceptions.ClientException;
+
 import cn.anthony.luguhu.domain.SmsLog;
 import cn.anthony.luguhu.repository.SmsLogRepository;
 import cn.anthony.luguhu.service.GenericService;
-import cn.anthony.luguhu.util.MLRTSms;
+import cn.anthony.luguhu.util.AliSms;
+import cn.anthony.luguhu.util.SmsResult;
 import cn.anthony.luguhu.web.GenericRestController;
 
 @RestController
@@ -26,26 +29,33 @@ public class SmsLogApi extends GenericRestController<SmsLog, Long> {
 	
 	@RequestMapping("/code")
 	public JsonResponse send(String mobile) {
-		String ret = "fail";
+		boolean ret = false;
 		//生成验证码
 		String code = createCode();
-		String content = "【翡翠湾】您的验证码是"+code+",10分钟内输入有效。";
+		String content = "验证码"+code+"，您正在尝试变更重要信息，请妥善保管账户信息。";
 		SmsLog smsLog = new SmsLog();
-		smsLog.setChannel("美联软通");
+		smsLog.setChannel("阿里云短信");
 		smsLog.setCode(code);
 		smsLog.setMsg(content);
 		smsLog.setPhone(mobile);
 		smsLog.setUsed(false);
-		//发送
-		String result = MLRTSms.send(mobile, content);
-		smsLog.setSendStatus(result);
-		if(result.startsWith("success")) {
-			smsLog.setMsgId(result.substring(8));
-			ret = "success";
+		try {
+			//发送
+			SmsResult result = AliSms.sendCode(mobile, code);
+			logger.info(result.toString());
+			smsLog.setSendStatus(result.isResult()+"");
+			smsLog.setMsgId(result.getReturnId());
+			if(result.isResult())
+				ret = true;
+		} catch (ClientException e) {
+			e.printStackTrace();
 		}
 		smsLogRepo.saveAndFlush(smsLog);
 		logger.info(smsLog.toString());
-		return new JsonResponse(ret);
+		if(ret)
+			return new JsonResponse(ret);
+		else
+			return JsonResponse.fail(5, "发送失败");
 	}
 	
 	@RequestMapping("/validCode")
