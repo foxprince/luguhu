@@ -1,3 +1,16 @@
 set CLASSPATH=%CLASSPATH%;d:tmp\jooq-3.7.2.jar;d:tmp\jooq-meta-3.7.2.jar;d:tmp\jooq-codegen-3.7.2.jar;d:tmp\mysql-connector-java-5.1.38-bin.jar
 java org.jooq.util.GenerationTool d:tmp\jooq.xml
 java -classpath jooq-3.7.2.jar;jooq-meta-3.7.2.jar;jooq-codegen-3.7.2.jar;mysql-connector-java-5.1.38.jar org.jooq.util.GenerationTool jooq.xml
+
+后台管理页面放到mng目录下
+登录暂时不做
+后台管理员功能
+1:用户管理
+	用户列表，对应的微信账户，用户账户查看、充值纪录查看、地址查看
+2:单品管理
+	单品基本信息（增删改查）、单品销售规格（增删改查）
+3:商品管理
+	商品包信息（增删改查）
+4:资源管理（主要是图片管理）
+5:文章管理（增删改查）
+6:订单管理

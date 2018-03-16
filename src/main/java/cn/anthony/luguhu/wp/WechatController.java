@@ -150,7 +150,7 @@ public class WechatController {
 		User user = userRepo.findByWxUserOpenId(wxUser.getOpenId());
 		if(user==null)
 			user = new User();
-		user.setLoginType((byte) 4);
+		user.setLoginType("微信");
 		user.setWxUser(wuser);
 		userRepo.save(user);
 		//根据state的不同导向到不同页面，带参数openId
@@ -245,7 +245,7 @@ public class WechatController {
 			wxUserRepo.save(wxUser);
 			User user = userRepo.findByWxUserOpenId(openId);
 			if(user==null)
-				user = new User(Byte.valueOf((byte) 4));
+				user = new User("微信");
 			user.setWxUser(wxUser);
 			userRepo.save(user);
 			return new JsonResponse(user);

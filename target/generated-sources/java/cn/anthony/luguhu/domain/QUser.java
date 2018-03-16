@@ -44,9 +44,9 @@ public class QUser extends EntityPathBase<User> {
 
     public final DateTimePath<java.util.Date> lastLogin = createDateTime("lastLogin", java.util.Date.class);
 
-    public final NumberPath<Byte> level = createNumber("level", Byte.class);
+    public final StringPath level = createString("level");
 
-    public final NumberPath<Byte> loginType = createNumber("loginType", Byte.class);
+    public final StringPath loginType = createString("loginType");
 
     public final StringPath name = createString("name");
 
@@ -58,7 +58,7 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath phone = createString("phone");
 
-    public final NumberPath<Byte> sex = createNumber("sex", Byte.class);
+    public final StringPath sex = createString("sex");
 
     public final BooleanPath verified = createBoolean("verified");
 

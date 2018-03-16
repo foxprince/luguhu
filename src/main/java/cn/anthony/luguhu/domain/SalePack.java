@@ -24,24 +24,7 @@ import lombok.ToString;
 @QueryEntity
 @Entity
 public class SalePack extends GenericEntity {
-	private static final long serialVersionUID = -934407005154746958L;
-	/*
-	 * `id` bigint NOT NULL primary key AUTO_INCREMENT, title varchar(50) not
-	 * null comment '产品标题', price float not null comment '价格', amount integer
-	 * null comment '库存总数', sale_begin timestamp not null comment '开始销售日期',
-	 * sale_end timestamp null comment '截止销售日期', description text null,
-	 * operator_id bigint default 0 null, ctime timestamp not null
-	 */
-	@ManyToMany(targetEntity = SaleUnit.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
-	@JoinTable(name="sale_pack_unit",
-	    joinColumns=
-	        @JoinColumn(name="pack_id", referencedColumnName="ID"),
-	    inverseJoinColumns=
-	        @JoinColumn(name="unit_id", referencedColumnName="ID")
-    )
-	private List<SaleUnit> saleUnits;
-	private String title, intro, content;
-	private Byte packType, priceType;
+	private String title, intro, content,packType,priceType,visitLevel,shipPlace;
 	private Integer price;
 	private Integer amount;
 	private Integer minBatch, maxBatch, minPrice;// 最小起售数量
@@ -54,6 +37,15 @@ public class SalePack extends GenericEntity {
 	@JoinColumn(name = "operator_id")
 	private User operator;
 
+	@ManyToMany(targetEntity = SaleUnit.class, cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+	@JoinTable(name="sale_pack_unit",
+	    joinColumns=
+	        @JoinColumn(name="pack_id", referencedColumnName="ID"),
+	    inverseJoinColumns=
+	        @JoinColumn(name="unit_id", referencedColumnName="ID")
+    )
+	private List<SaleUnit> saleUnits;
+	
 	@Override
 	public String getSelfIntro() {
 		return "产品销售包";

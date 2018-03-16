@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,18 +27,15 @@ import lombok.ToString;
 @Table
 public class User extends GenericEntity {
 	private static final long serialVersionUID = 2614801674646477358L;
-	// @NotNull
-	// @NotEmpty
-	@Column(nullable = false, length = 64)
 	private String email;
-	private Byte loginType;// '1:手机号码，2：邮箱，3：自定义用户名',4:微信
+	private String loginType;// '1:手机号码，2：邮箱，3：自定义用户名',4:微信
 	@Size(min = 6, max = 30)
 	@RestResource(exported = false)
 	private String password;
 	private String name;
-	private String nickname;
-	private Byte sex, age;
-	private Byte level = 0;// '0-普通用户，1：份额用户,2：股东用户',
+	private String nickname,sex;
+	private Byte age;
+	private String level = "普通用户";// '0-普通用户，1：份额用户,2：股东用户',
 	private String phone;
 	private String origin = "web";
 	private Date lastLogin;
@@ -62,7 +58,7 @@ public class User extends GenericEntity {
 	public User() {
 	}
 
-	public User(Byte loginType) {
+	public User(String loginType) {
 		this.loginType = loginType;
 	}
 
@@ -91,37 +87,9 @@ public class User extends GenericEntity {
 			return "停用";
 	}
 
-	public String getLevelDesc() {
-		if (level == null)
-			return null;
-		switch (level) {
-		case 1:
-			return "份额用户";
-		case 2:
-			return "股东用户";
-		case 3:
-			return "生产者";
-		default:
-			return "普通用户";
-		}
-	}
-
-	public String getSexDesc() {
-		if (sex == null)
-			return null;
-		switch (sex) {
-		case 1:
-			return "男";
-		case 2:
-			return "女";
-		default:
-			return "未知";
-		}
-	}
-
 	@Override
 	public String getSelfIntro() {
-		return getLevelDesc();
+		return getLevel();
 	}
 
 	@Override

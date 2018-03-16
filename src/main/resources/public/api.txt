@@ -329,4 +329,7 @@ REST请求的前缀都是/rest，以此开头的请求严格遵循REST风格规�
 	21:) 校验短信验证码
 	GET /api/sms/validCode?phone={phone}&code={code}
 	
+	22:）用户列表
+	GET /rest/users?size={size}&page={page}&sort=ctime,desc
+	
 	

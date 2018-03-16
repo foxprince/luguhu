@@ -1,5 +1,5 @@
 drop database luguhu;
-create database luguhu default charset utf8mb4 COLLATE utf8mb4;
+create database luguhu default charset utf8mb4 COLLATE utf8mb4_general_ci;
 grant all on luguhu.* to 'lghuser'@'localhost' identified by 'pwd4lgh';
 grant all on luguhu.* to 'lghuser'@'%' identified by 'pwd4lgh';
 create database happytimecn DEFAULT CHARACTER SET gbk COLLATE gbk_chinese_ci;
@@ -17,7 +17,7 @@ drop table user;
 create table user (
 	id bigint not null primary key auto_increment,
 	email varchar(64),
-	login_type tinyint comment '1:手机号码，2：邮箱，3：自定义用户名',
+	login_type tinyint comment '1:手机号码，2：邮箱，3：自定义用户名,微信',
 	password varchar(32),
 	name varchar(32),
 	nickname varchar(32),
@@ -195,10 +195,12 @@ drop table sale_pack;
 create table sale_pack (
 	`id` bigint NOT NULL primary key AUTO_INCREMENT,
 	ctime timestamp not null default current_timestamp() on update current_timestamp(),
-	pack_type	int(1) not null default 0,/*包类型，1:单品，2:组合包*/
-	price_type	int(1) not null default 1,/*价格类型，1:固定价格，2:不定价格*/
+	pack_type	varchar(8) not null default 0,/*包类型，1:单品，2:组合包*/
+	price_type	varchar(8) not null default 1,/*价格类型，1:固定价格，2:不定价格*/
 	title varchar(50) not null comment '产品标题',
 	price int  null comment '单价，可以为空，分',
+	visit_level varchar(10) null,/*如，橙子等等等100个单品都是股东登陆才能看见的，桃花石计划的朋友可能能看见33个单品，但，普通消费者只能看见10个单品*/
+	ship_place varchar(20) null,/*原产地发货，或者顺义总部发货，不同发货地址价格会不同吗*/
 	amount integer null comment '库存总数',
 	min_batch integer null comment '最小起售数量',
 	max_batch integer null,/*最大数量*/

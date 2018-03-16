@@ -46,11 +46,11 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public final QUser operator;
 
-    public final NumberPath<Byte> packType = createNumber("packType", Byte.class);
+    public final StringPath packType = createString("packType");
 
     public final NumberPath<Integer> price = createNumber("price", Integer.class);
 
-    public final NumberPath<Byte> priceType = createNumber("priceType", Byte.class);
+    public final StringPath priceType = createString("priceType");
 
     public final DateTimePath<java.util.Date> saleBegin = createDateTime("saleBegin", java.util.Date.class);
 
@@ -58,7 +58,11 @@ public class QSalePack extends EntityPathBase<SalePack> {
 
     public final ListPath<SaleUnit, QSaleUnit> saleUnits = this.<SaleUnit, QSaleUnit>createList("saleUnits", SaleUnit.class, QSaleUnit.class, PathInits.DIRECT2);
 
+    public final StringPath shipPlace = createString("shipPlace");
+
     public final StringPath title = createString("title");
+
+    public final StringPath visitLevel = createString("visitLevel");
 
     public QSalePack(String variable) {
         this(SalePack.class, forVariable(variable), INITS);
