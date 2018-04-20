@@ -32,7 +32,11 @@ spring:
         hibernate:
             dialect: org.hibernate.dialect.MySQLInnoDBDialect
             ddl-auto: none
-            naming_strategy: org.hibernate.cfg.ImprovedNamingStrategy
+            naming_strategy: cn.anthony.luguhu.config.TableNaming
+            #org.hibernate.cfg.ImprovedNamingStrategy
+            naming:
+                physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+                implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
         database: mysql
         show-sql: false
     messages:

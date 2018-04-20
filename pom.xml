@@ -17,29 +17,11 @@
 		<version>2.0.0.RELEASE</version>
 	</parent>
 	<!-- (you don't need this if you are using a .RELEASE version) -->
-	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-snapshots</id>
-			<url>http://repo.spring.io/snapshot</url>
-		</pluginRepository>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<url>http://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
+	<!-- <repositories> <repository> <id>spring-snapshots</id> <url>http://repo.spring.io/snapshot</url> <snapshots> <enabled>true</enabled> 
+		</snapshots> </repository> <repository> <id>spring-milestones</id> <url>http://repo.spring.io/milestone</url> </repository> 
+		</repositories> -->
+	<!-- <pluginRepositories> <pluginRepository> <id>spring-snapshots</id> <url>http://repo.spring.io/snapshot</url> </pluginRepository> 
+		<pluginRepository> <id>spring-milestones</id> <url>http://repo.spring.io/milestone</url> </pluginRepository> </pluginRepositories> -->
 	<!-- Add Spring repositories -->
 	<dependencies>
 		<dependency>
@@ -176,6 +158,12 @@
 			<groupId>com.aliyun</groupId>
 			<artifactId>aliyun-java-sdk-dysmsapi</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/asm/asm -->
+		<dependency>
+			<groupId>asm</groupId>
+			<artifactId>asm</artifactId>
+			<version>3.3.1</version>
 		</dependency>
 	</dependencies>
 	<build>

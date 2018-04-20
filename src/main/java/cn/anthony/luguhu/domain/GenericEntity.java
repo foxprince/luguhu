@@ -23,12 +23,12 @@ import lombok.Data;
 public abstract class GenericEntity implements Serializable {
 	private static final long serialVersionUID = 4365837246243902781L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected Long id;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	@Column(name = "ctime", nullable = false)
 	protected Timestamp ctime;
-
+	
 	@JsonIgnore@RestResource(exported = false)
 	transient protected String action;
 	@JsonIgnore@RestResource(exported = false)
@@ -61,7 +61,7 @@ public abstract class GenericEntity implements Serializable {
 	}
 
 	public String getFormatCtime() {
-		return DateUtil.format(getCtime(), "yyyy-MM-dd HH:mm");
+		return DateUtil.format(getCtime(), "yyyy-MM-dd-HH:mm");
 	}
 	@RestResource(exported = false)
 	public boolean isAdd() {

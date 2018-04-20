@@ -30,8 +30,8 @@ create table user (
 	active boolean default true comment '激活状态',
 	verified boolean default false comment '审核状态',
 	ctime timestamp not null default current_timestamp() on update current_timestamp(),
-	`wx_user_id` bigint(20)  NULL,//微信用户id
-	`account_id` bigint(20)  NULL,//账户id
+	`wx_user_id` bigint(20)  NULL comment '微信用户id',
+	`account_id` bigint(20)  NULL comment '账户id',
 	last_login datetime
 );
 alter table user_info comment '用户信息表';
@@ -54,7 +54,7 @@ CREATE TABLE `wx_user` (
   `union_id` varchar(255) DEFAULT NULL,
   `level` smallint(6) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=177 DEFAULT CHARSET=utf8mb4;
 
 drop table sms_log;
 create table sms_log (
@@ -82,7 +82,6 @@ create table action_log (
 	description	varchar(100)	null comment '操作说明',
 	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
-alter table action_log modify action varchar(20) not null comment '动作';
 create table user_thirdparty (
 	user_id bigint not null,
 	origin_code varchar(10) not null comment 'CMCC,WECHAT,QQ',
@@ -104,7 +103,6 @@ create table user_account (
 	status	varchar(10) default '正常' comment '账户状态，0：正常',
 	ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
-alter table user_deposit modify entry varchar(10); default '正常';
 /*用户充值纪录*/
 drop table user_deposit;
 create table user_deposit ( 
@@ -161,7 +159,7 @@ create table user_purchase (
 create table purchase_unit (
 	purchase_id bigint not null,
 	unit_id bigint not null,
-	amount short not null
+	amount tinyint not null
 ); 
 alter table user_purchase comment '用户消费纪录表';
 /*单品信息*/
@@ -215,7 +213,7 @@ create table sale_pack (
 /*产品销售包与产品规格的关联关系*/
 create table sale_pack_unit (
 	pack_id bigint NOT NULL comment '产品销售包id',
-	unit_id bigint NOT NULL comment '产品规格id',
+	unit_id bigint NOT NULL comment '产品规格id'
 );
 
 /*单品文章*/
@@ -230,4 +228,29 @@ CREATE TABLE product_article (
  ctime timestamp not null default current_timestamp() on update current_timestamp()
 );
 
+CREATE TABLE `asset` (
+  `id` bigint(20) NOT NULL,
+  `ctime` datetime NOT NULL default current_timestamp() on update current_timestamp(),
+  `create_from` varchar(10) DEFAULT NULL,
+  `location` varchar(100) DEFAULT NULL,
+  `open` bit(1) DEFAULT NULL,
+  `source_name` varchar(50) DEFAULT NULL,
+  `title` varchar(100) DEFAULT NULL,
+  `type` varchar(10) DEFAULT NULL,
+  `operator_id` bigint(20) DEFAULT NULL,
+  `wx_user_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `asset_tag` (
+  `asset_id` bigint(20) NOT NULL,
+  `tags_id` bigint(20) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `tag` (
+  `id` bigint(20) NOT NULL,
+  `ctime` datetime NOT NULL default current_timestamp() on update current_timestamp(),
+  `label` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;
 
