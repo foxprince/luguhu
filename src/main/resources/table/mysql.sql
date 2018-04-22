@@ -9,9 +9,11 @@ grant all on zc.* to 'zcuser'@'%' identified by '123456zc';
 grant all on zc.* to 'zcuser'@'localhost' identified by '123456zc';
 flush privileges;
 
-ALTER DATABASE luguhu CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci;
-ALTER TABLE wx_user CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-ALTER TABLE wx_user CHANGE nickname column_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE TABLE `hibernate_sequence` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4
+insert into hibernate_sequence values (0);
+
 /*用户信息表*/
 drop table user;
 create table user (
